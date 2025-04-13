@@ -1,0 +1,1273 @@
+"award_date","publish_date","title","award","authors","abstract"
+"2024","ASIACRYPT 2009","Fiat-Shamir with Aborts: Applications to Lattice and
+            Factoring-Based Signatures","IACR Test of Time Award: For
+            inventing the abort technique in the Fiat-Shamir transformation, which became the foundation of the
+            NIST-standardized Dilithium lattice-based signature scheme.","Vadim
+              Lyubashevsky",""
+"2024","ASIACRYPT 2009","Efficient Public Key Encryption Based on Ideal
+            Lattices","IACR Test of Time Award: For
+            introducing the first efficient public-key encryption scheme with security based on the worst-case hardness
+            of the approximate Shortest Vector Problem in structured ideal lattices.","Damien
+              Stehlé, Ron Steinfeld, Keisuke Tanaka, Keita Xagawa",""
+"2024","CRYPTO 2024","Space-Efficient and Noise-Robust Quantum
+            Factoring","Best paper award","Seyoon
+              Ragavan, Vinod Vaikuntanathan","We provide two improvements to Regev's recent
+          quantum factoring algorithm (arXiv:2308.06572), addressing its space efficiency and its noise-tolerance.
+
+          Our first contribution is to improve the quantum space efficiency of Regev's algorithm while keeping the
+          circuit size the same. Our main result constructs a quantum factoring circuit using $O(n \log n)$ qubits and
+          $O(n^{3/2} \log n)$ gates. We achieve the best of Shor and Regev (upto a logarithmic factor in the space
+          complexity): on the one hand, Regev's circuit requires $O(n^{3/2})$ qubits and $O(n^{3/2} \log n)$ gates,
+          while Shor's circuit requires $O(n^2 \log n)$ gates but only $O(n)$ qubits. As with Regev, to factor an
+          $n$-bit integer $N$, we run our circuit independently $\approx \sqrt{n}$ times and apply Regev's
+          classical postprocessing procedure.
+
+          Our optimization is achieved by implementing efficient and reversible exponentiation with Fibonacci numbers in
+          the exponent, rather than the usual powers of 2, adapting work by Kaliski (arXiv:1711.02491) from the
+          classical reversible setting to the quantum setting. This technique also allows us to perform quantum modular
+          exponentiation that is efficient in both space and size without requiring significant precomputation, a result
+          that may be useful for other quantum algorithms. A key ingredient of our exponentiation implementation is an
+          efficient circuit for a function resembling \emph{in-place} quantum-quantum modular multiplication. This
+          implementation works with only black-box access to any quantum circuit for \emph{out-of-place} modular
+          multiplication, which we believe is yet another result of potentially broader interest.
+
+          Our second contribution is to show that Regev's classical postprocessing procedure can be modified to
+          tolerate a constant fraction of the quantum circuit runs being corrupted by errors. In contrast, Regev's
+          analysis of his classical postprocessing procedure requires all $\approx \sqrt{n}$ runs to be successful. In a
+          nutshell, we achieve this using lattice reduction techniques to detect and filter out corrupt samples."
+"2024","CRYPTO 2024","STIR: Reed–Solomon Proximity Testing with Fewer
+            Queries","Best paper award","Gal
+              Arnon, Alessandro Chiesa, Giacomo Fenzi, Eylon Yogev","We present STIR (Shift To Improve Rate), a concretely
+          efficient interactive oracle proof of proximity (IOPP) for Reed--Solomon codes that achieves the best known
+          query complexity of any concretely efficient IOPP for this problem. Roughly, in order to achieve $\lambda$
+          bits of security, STIR has query complexity $O(\log d + \lambda \cdot \loglog d )$, while the popular FRI
+          protocol (including variants based on conjectured security assumptions) has query complexity $O(\lambda \cdot
+          \log d )$. STIR relies on a new technique for recursively reducing the degree of the function being tested
+          while simultaneously improving the rate.
+
+          We provide an implementation of STIR compiled to a SNARK. Compared to FRI, our implementation achieves an
+          improvement in argument size that ranges from $1.25\times$ to $2.46\times$ depending on the chosen parameters.
+          For example, in order to achieve 128 bits of security for degree $2^{26}$ and rate $1/4$, STIR has argument
+          size $114$~KiB, compared to $211$~KiB for FRI."
+"2024","CRYPTO 2024","Lossy Cryptography from Code-Based
+            Assumptions","Best Paper Authored by Early Career
+            Researchers","Quang
+              Dao, Aayush Jain","Over the past few decades, we have seen a proliferation
+          of advanced cryptographic primitives with lossy or homomorphic properties built from various assumptions such
+          as Quadratic Residuosity, Decisional Diffie-Hellman, and Learning with Errors. These primitives imply hard
+          problems in the complexity class $\mathcal{SZK}$ (statistical zero-knowledge); as a consequence, they can only
+          be based on assumptions that are broken in $\mathcal{BPP}^{\mathcal{SZK}}$.
+          This poses a barrier for building advanced cryptography from code-based assumptions such as Learning Parity
+          with Noise (LPN), as LPN is only known to be in $\mathcal{BPP}^{\mathcal{SZK}}$ under an extremely low noise
+          rate $\frac{\log^2 n}{n}$, for which it is broken in quasi-polynomial time.
+
+          In this work, we propose a new code-based assumption: Dense-Sparse LPN, that falls in the complexity class
+          $\mathcal{BPP}^{\mathcal{SZK}}$ and is conjectured to be secure against subexponential time adversaries. Our
+          assumption is a variant of LPN that is inspired by McEliece's cryptosystem and random $k\mbox{-}$XOR in
+          average-case complexity. Roughly, the assumption states that
+          \[(\mathbf{T}\, \mathbf{M}, \mathbf{s} \,\mathbf{T}\, \mathbf{M} + \mathbf{e}) \quad \text{is
+          indistinguishable from}\quad (\mathbf{T} \,\mathbf{M}, \mathbf{u}),\]
+          for a random (dense) matrix $\mathbf{T}$, random sparse matrix $\mathbf{M}$, and sparse noise vector
+          $\mathbf{e}$ drawn from the Bernoulli distribution with inverse polynomial noise probability.
+
+          We leverage our assumption to build lossy trapdoor functions (Peikert-Waters STOC 08). This gives the first
+          post-quantum alternative to the lattice-based construction in the original paper. Lossy trapdoor functions,
+          being a fundamental cryptographic tool, are known to enable a broad spectrum of both lossy and non-lossy
+          cryptographic primitives; our construction thus implies these primitives in a generic manner. In particular,
+          we achieve collision-resistant hash functions with plausible subexponential security, improving over a prior
+          construction from LPN with noise rate $\frac{\log^2 n}{n}$ that is only quasi-polynomially secure."
+"2024","CRYPTO 2009","Reconstructing RSA Private Keys from Random Key
+            Bits","IACR Test of Time Award: For
+            introducing the go-to tool for side channel attacks on CRT-RSA that played a pivotal role in helping secure
+            the Internet.","Nadia
+              Heninger, Hovav Shacham",""
+"2024","CRYPTO 2009","Dual System Encryption: Realizing Fully Secure IBE and
+            HIBE under Simple Assumptions","IACR Test of Time Award: For
+            introducing the dual-system technique, breaking through the partitioning-reductions barrier of pairing-based
+            cryptography and enabling new and improved pairing-based cryptosystems.","Brent
+              Waters",""
+"2024","EUROCRYPT 2009","A Unified Framework for the Analysis of Side-Channel
+            Key Recovery Attacks","IACR Test of Time Award: For
+            introducing a structured approach for evaluation of side-channel attacks and countermeasures","François-Xavier
+              Standaert, Tal Malkin, Moti Yung",""
+"2024","PKC 2007","Traceable Ring Signature","PKC Test-of-time award","Eiichiro
+              Fujisaki, Koutarou Suzuki",""
+"2024","TOSC 2023","Cryptanalysis of HALFLOOP Block Ciphers: Destroying
+            HALFLOOP-24","FSE 2024 best paper award","Gregor
+              Leander, Shahram Rasoolzadeh, Lukas Stennes","HALFLOOP is a family of tweakable block ciphers that are
+          used for encrypting automatic link establishment (ALE) messages in high frequency radio, a technology commonly
+          used by the military, other government agencies and industries which require high robustness in long-distance
+          communications. Recently, it was shown in [DDLS22] that the smallest version of the cipher, HALFLOOP-24, can
+          be attacked within a practical time and memory complexity. However, in the real-word ALE setting, it turns out
+          that this attack require to wait more than 500 years to collect the necessary amount of
+          plaintext-tweak-ciphertext pairs fulfilling the conditions of the attack.In this paper, we present real-world
+          practical attacks against HALFLOOP-24 which are based on a probability-one differential distinguisher. In our
+          attacks, we significantly reduce the data complexity to three differential pairs in the chosen-plaintext (CPA)
+          setting which is optimal in the sense that even a brute force attack needs at least six
+          plaintext-tweak-ciphertext pairs to uniquely identify the correct key. Considering the same ALE setting as
+          [DDLS22], this translates to a reduction from 541 years to 2 hours worth of intercepted traffic.Besides, we
+          provide the first, non generic, public cryptanalysis of HALFLOOP-48 and HALFLOOP-96. More precisely, we
+          present Demirci-Selçuk meet-in-the-middle attacks against full-round HALFLOOP-48 and round-reduced HALFLOOP-96
+          to recover the complete master key in a CPA setting. However, unlike the attacks on HALFLOOP-24, our attacks
+          on the larger versions are only theoretical. Moreover for HALFLOOP-96 the known generic time-memory trade-off
+          attack, based on a flawed tweak handling, remains the strongest attack vector.In conclusion, we iterate what
+          was already stated in [DDLS22]: HALFLOOP does not provide adequate protection and should not be used."
+"2024","TOSC 2023","Propagation of Subspaces in Primitives with Monomial
+            Sboxes: Applications to Rescue and Variants of the AES","FSE 2024 best paper award","Aurélien
+              Boeuf, Anne Canteaut, Léo Perrin","Motivated by progress in the field of zero-knowledge
+          proofs, so-called Arithmetization-Oriented (AO) symmetric primitives have started to appear in the literature,
+          such as MiMC, Poseidon or Rescue. Due to the design constraints implied by this setting, these algorithms are
+          defined using simple operations over large (possibly prime) fields. In particular, many rely on simple
+          low-degree monomials for their non-linear layers, essentially using x ↦ x3 as an S-box.In this paper, we show
+          that the structure of the material injected in each round (be it subkeys in a block cipher or round constants
+          in a public permutation) could allow a specific pattern, whereby a well-defined affine space is mapped to
+          another by the round function, and then to another, etc. Such chains of one-dimensional subspaces always exist
+          over 2 rounds, and they can be extended to an arbitrary number of rounds, for any linear layer, provided that
+          the round-constants are well chosen.As a consequence, for several ciphers like Rescue, or a variant of AES
+          with a monomial Sbox, there exist some round-key sequences for which the cipher has an abnormally high
+          differential uniformity, exceeding the size of the Sbox alphabet.Well-known security arguments, in particular
+          based on the wide-trail strategy, have been reused in the AO setting by many designers. Unfortunately, our
+          results show that such a traditional study may not be sufficient to guarantee security. To illustrate this, we
+          present two new primitives (the tweakable block cipher Snare and the permutation-based hash function Stir)
+          that are built using state-of-the-art security arguments, but which are actually deeply flawed. Indeed, the
+          key schedule of Snare ensures the presence of a subspace chain that significantly simplifies an algebraic
+          attack against it, and the round constants of Stir force the presence of a subspace chain aligned with the
+          rate and capacity of the permutation. This in turns implies the existence of many easy-to-find solutions to
+          the so-called CICO problem."
+"2024","FSE 2009","The Rebound Attack: Cryptanalysis of Reduced Whirlpool
+            and Grøstl","FSE 2024 test-of-time award","Florian
+              Mendel, Christian Rechberger, Martin Schläffer, Søren S. Thomsen",""
+"2023","TCC 2023","Memory Checking for Parallel RAMs","TCC Best Young Researcher
+            Award","Surya
+              Mathialagan","When outsourcing a database to an untrusted remote
+          server, one might want to verify the integrity of contents while accessing it. To solve this, Blum et al.
+          [FOCS `91] propose the notion of \emph{memory checking}. Memory checking allows a user to run a RAM program on
+          a remote server, with the ability to verify integrity of the storage with small private storage.
+
+          In this work, we define and initiate the formal study of memory checking for \emph{Parallel RAMs} (PRAMs). The
+          parallel RAM model is very expressive and captures many modern architectures such as multi-core architectures
+          and cloud clusters. When multiple clients run a PRAM algorithm on a shared remote server, it is possible that
+          there are concurrency issues that cause inconsistencies. Therefore, integrity verification is also a desirable
+          property in this setting.
+
+          We construct an online memory checker (one that reports faults as soon as they occur) for PRAMs with $O(\log
+          N)$ simulation overhead in both work and depth. Moreover, we construct an offline memory checker (one that
+          reports faults only after a long sequence of operations) with amortized $O(1)$ simulation overhead in both
+          work and depth. As an application of our parallel memory checking constructions, we construct a
+          \emph{maliciously secure oblivious parallel RAM} (OPRAM) with polylogarithmic overhead."
+"2023","TCC 2007","Multi-authority Attribute Based Encryption","TCC Test-of-time award","Melissa
+              Chase",""
+"2023","CRYPTO 2023","Fast Practical Lattice Reduction through Iterated
+            Compression","Best Paper Award","Keegan
+              Ryan, Nadia Heninger","We introduce a new lattice basis reduction algorithm
+          with approximation guarantees analogous to the LLL algorithm and practical performance that far exceeds the
+          current state of the art. We achieve these results by iteratively applying precision management techniques
+          within a recursive algorithm structure and show the stability of this approach. We analyze the asymptotic
+          behavior of our algorithm, and show that the heuristic running time is $O(n^{\omega}(C+n)^{1+\varepsilon})$
+          for lattices of dimension $n$, $\omega\in (2,3]$ bounding the cost of size reduction, matrix multiplication,
+          and QR factorization, and $C$ bounding the log of the condition number of the input basis $B$. This yields a
+          running time of $O\left(n^\omega (p + n)^{1 + \varepsilon}\right)$ for precision $p = O(\log \|B\|_{max})$ in
+          common applications. Our algorithm is fully practical, and we have published our implementation. We
+          experimentally validate our heuristic, give extensive benchmarks against numerous classes of cryptographic
+          lattices, and show that our algorithm significantly outperforms existing implementations."
+"2023","CRYPTO 2023","Fully Adaptive Schnorr Threshold Signatures","Best Early Career Paper","Elizabeth
+              Crites, Chelsea Komlo, Mary Maller","We prove adaptive security of a simple three-round
+          threshold
+          Schnorr signature scheme, which we call Sparkle. The standard notion of
+          security for threshold signatures considers a static adversary - one who
+          must declare which parties are corrupt at the beginning of the protocol.
+          The stronger adaptive adversary can at any time corrupt parties and
+          learn their state. This notion is natural and practical, yet not proven to
+          be met by most schemes in the literature.
+
+          In this paper, we demonstrate that Sparkle achieves several levels of
+          security based on different corruption models and assumptions. To begin
+          with, Sparkle is statically secure under minimal assumptions: the discrete
+          logarithm assumption (DL) and the random oracle model (ROM). If an
+          adaptive adversary corrupts fewer than t/2 out of a threshold of t+1
+          signers, then Sparkle is adaptively secure under a weaker variant of the
+          one-more discrete logarithm assumption (AOMDL) in the ROM. Finally,
+          we prove that Sparkle achieves full adaptive security, with a corruption
+          threshold of t, under AOMDL in the algebraic group model (AGM) with
+          random oracles. Importantly, we show adaptive security without requiring
+          secure erasures. Ours is the first proof achieving full adaptive security
+          without exponential tightness loss for any threshold Schnorr signature
+          scheme; moreover, the reduction is tight."
+"2023","PKC 2008","Unidirectional Chosen-Ciphertext Secure Proxy
+            Re-encryption","PKC Test-of-time award","Benoît
+              Libert, Damien Vergnaud",""
+"2023","PKC 2023","Post-Quantum Anonymity of Kyber","Best paper award","Varun
+              Maram, Keita Xagawa","Kyber is a key-encapsulation mechanism (KEM) that was
+          recently selected by NIST in its PQC standardization process; it is also the only scheme to be selected in the
+          context of public-key encryption (PKE) and key establishment. The main security target for KEMs, and their
+          associated PKE schemes, in the NIST PQC context has been IND-CCA security. However, some important modern
+          applications also require their underlying KEMs/PKE schemes to provide anonymity (Bellare et al., ASIACRYPT
+          2001). Examples of such applications include anonymous credential systems, cryptocurrencies, broadcast
+          encryption schemes, authenticated key exchange, and auction protocols. It is hence important to analyze the
+          compatibility of NIST's new PQC standard in such ""beyond IND-CCA"" applications.
+
+          Some starting steps were taken by Grubbs et al. (EUROCRYPT 2022) and Xagawa (EUROCRYPT 2022) wherein they
+          studied the anonymity properties of most NIST PQC third round candidate KEMs. Unfortunately, they were unable
+          to show the anonymity of Kyber because of certain technical barriers.
+
+          In this paper, we overcome said barriers and resolve the open problems posed by Grubbs et al.(EUROCRYPT 2022)
+          and Xagawa (EUROCRYPT 2022) by establishing the anonymity of Kyber, and the (hybrid) PKE schemes derived from
+          it, in a post-quantum setting. Along the way, we also provide an approach to obtain tight IND-CCA security
+          proofs for Kyber with concrete bounds; this resolves another issue identified by the aforementioned works
+          related to the post-quantum IND-CCA security claims of Kyber from a provable security point-of-view. Our
+          results also extend to Saber, a NIST PQC third round finalist, in a similar fashion."
+"2023","PKC 2023","The Hidden Number Problem with Small Unknown
+            Multipliers: Cryptanalyzing MEGA in Six Queries and Other Applications","Best paper award","Nadia
+              Heninger, Keegan Ryan","In recent work, Backendal, Haller, and Paterson
+          identified several exploitable vulnerabilities in the cloud storage provider MEGA. They demonstrated an RSA
+          key recovery attack in which a malicious server could recover a client's private RSA key after 512 client
+          login attempts. We show how to exploit additional information revealed by MEGA's protocol vulnerabilities
+          to give an attack that requires only six client logins to recover the secret key.
+
+          Our optimized attack combines several cryptanalytic techniques. In particular, we formulate and give a
+          solution to a variant of the hidden number problem with small unknown multipliers, which may be of independent
+          interest. We show that our lattice construction for this problem can be used to give improved results for the
+          implicit factorization problem of May and Ritzenhofen."
+"2023","EUROCRYPT 2023","A Direct Key Recovery Attack on SIDH","Best Paper Honorable Mention","Luciano
+              Maino, Chloe Martindale, Lorenz Panny, Giacomo Pope, Benjamin Wesolowski","We present an attack on SIDH utilising isogenies between
+          polarized products of two supersingular elliptic curves. In the case of arbitrary starting curve, our attack
+          (discovered independently from [8]) has subexponential complexity, thus significantly reducing the security of
+          SIDH and SIKE. When the endomorphism ring of the starting curve is known, our attack (here derived from [8])
+          has polynomial-time complexity assuming the generalised Riemann hypothesis. Our attack applies to any
+          isogeny-based cryptosystem that publishes the images of points under the secret isogeny, for example Séta [13]
+          and B-SIDH [11]. It does not apply to CSIDH [9], CSI-FiSh [3], or SQISign [14]."
+"2023","EUROCRYPT 2023","Worst-Case Subexponential Attacks on PRGs of Constant
+            Degree or Constant Locality","Early Career Best Paper
+            Award","Akın
+              Ünal","In this work, we will give new attacks
+          on the pseudorandomness of algebraic pseudorandom number generators (PRGs)
+          of polynomial stretch.
+          Our algorithms apply to a broad class of PRGs
+          and are in the case of general local PRGs faster than currently known attacks.
+          At the same time, in contrast to most algebraic attacks,
+          subexponential time and space bounds will be proven for our attacks
+          without making any assumptions of the PRGs or assuming any further conjectures.
+          Therefore, we yield in this text the first subexponential distinguishing attacks on PRGs
+          from constant-degree polynomials and close current gaps in the
+          subexponential cryptoanalysis of lightweight PRGs.
+
+          Concretely, against PRGs $F : \mathbb{Z}_q^{n} \rightarrow \mathbb{Z}_q^{m}$
+          that are computed by polynomials of degree $d$ over a field $\mathbb{Z}_q$
+          and have a stretch of $m = n^{1+e}$
+          we give an attack with space and time complexities
+          $n^{O(n^{1 - \frac{e}{d-1}})}$ and noticeable advantage
+          $1 - {O(n^{1 - \frac{e}{d-1}}/{q})}$.
+          If $q$ lies in $O(n^{1 - \frac{e}{d-1}})$, we give a second attack with
+          the same space and time complexities
+          whose advantage is at least $q^{-O(n^{1 - \frac{e}{d-1}})}$.
+          If $F$ is of constant \emph{locality} $d$ and $q$ is constant,
+          we construct a third attack that has a space and time complexity of
+          $\exp(O(n^{1 - \frac{e'}{(q-1)d-1}}))$ and noticeable advantage
+          $1-O(n^{-\frac{e'}{(q-1)d-1}})$ for every constant $e' < e$."
+"2023","EUROCRYPT 2023","An efficient key recovery attack on SIDH","Best Paper Award","Wouter
+              Castryck, Thomas Decru","We present an efficient key recovery attack on the
+          Supersingular Isogeny Diffie-Hellman protocol (SIDH). The attack is based on Kani's ""reducibility
+          criterion"" for isogenies from products of elliptic curves and strongly relies on the torsion point images
+          that Alice and Bob exchange during the protocol. If we assume knowledge of the endomorphism ring of the
+          starting curve then the classical running time is polynomial in the input size (heuristically), apart from the
+          factorization of a small number of integers that only depend on the system parameters. The attack is
+          particularly fast and easy to implement if one of the parties uses 2-isogenies and the starting curve comes
+          equipped with a non-scalar endomorphism of very small degree; this is the case for SIKE, the instantiation of
+          SIDH that recently advanced to the fourth round of NIST's standardization effort for post-quantum
+          cryptography. Our Magma implementation breaks SIKEp434, which aims at security level 1, in about ten minutes
+          on a single core."
+"2023","EUROCRYPT 2023","Breaking SIDH in Polynomial Time","Best Paper Honorable Mention","Damien
+              Robert","We show that we can break SIDH in (classical) polynomial
+          time, even with a random starting curve~$E_0$."
+"2022","ASIACRYPT 2022","Full Quantum Equivalence of Group Action DLog and CDH,
+            and More","Best Paper Award","Hart
+              Montgomery, Mark Zhandry","Cryptographic group actions are a relaxation of standard
+          cryptographic groups that have less structure. This lack of structure allows them to be plausibly quantum
+          resistant despite Shor's algorithm, while still having a number of applications. The most famous example
+          of group actions are built from isogenies on elliptic curves.
+
+          Our main result is that CDH for abelian group actions is quantumly equivalent to discrete log. Galbraith et
+          al. (Mathematical Cryptology) previously showed perfectly solving CDH to be equivalent to discrete log
+          quantumly; our result works for any non-negligible advantage. We also explore several other questions about
+          group action and isogeny protocols."
+"2022","ASIACRYPT 2022","SwiftEC: Shallue--van de Woestijne Indifferentiable
+            Function to Elliptic Curves","Runner up Best Paper","Jorge
+              Chavez-Saab, Francisco Rodriguez-Henriquez, Mehdi Tibouchi","Hashing arbitrary values to points on an elliptic curve
+          is a required
+          step in many cryptographic constructions, and a number of techniques have
+          been proposed to do so over the years. One of the first ones was due to
+          Shallue and van de Woestijne (ANTS-VII), and it had the interesting
+          property of applying to essentially all elliptic curves over finite
+          fields. It did not, however, have the desirable property of being
+          *indifferentiable from a random oracle* when composed with a random
+          oracle to the base field.
+
+          Various approaches have since been considered to overcome this
+          limitation, starting with the foundational work of Brier et al. (CRYPTO
+          2011). For example, if f: F_q→E(F_q) is the Shallue--van de
+          Woestijne (SW) map and H, H' are *two* independent random oracles,
+          we now know that m↦f(H(m))+f(H'(m)) is
+          indifferentiable from a random oracle. Unfortunately, this approach has
+          the drawback of being twice as expensive to compute than the
+          straightforward, but not indifferentiable, m↦f(H(m)).
+          Most other solutions so far have had the same issue: they are at least as
+          costly as two base field exponentiations, whereas plain encoding maps
+          like f cost only one exponentiation. Recently, Koshelev (DCC 2022)
+          provided the first construction of indifferentiable hashing at the cost
+          of one exponentiation, but only for a very specific class of curves
+          (some of those with j-invariant 0), and using techniques that are unlikely to
+          apply more broadly.
+
+          In this work, we revisit this long-standing open problem, and observe
+          that the SW map actually fits in a one-parameter family (f_u)_{u∈F_q}
+          of encodings, such that for independent random oracles H, H',
+          F: m↦f_{H'(m)}(H(m)) is indifferentiable. Moreover, on a
+          very large class of curves (essentially those that are either of odd
+          order or of order divisible by 4), the one-parameter family admits a
+          rational parametrization, which lets us compute F at almost the same
+          cost as small f, and finally achieve indifferentiable hashing to most
+          curves with a single exponentiation.
+
+          Our new approach also yields an improved variant of the Elligator Squared
+          technique of Tibouchi (FC 2014) that represents points of arbitrary
+          elliptic curves as close-to-uniform random strings."
+"2022","ASIACRYPT 2022","Cryptographic Primitives with Hinting
+            Property","Best Paper by Early Career Researcher
+            Award","Navid
+              Alamati, Sikhar Patranabis","A hinting PRG is a (potentially) stronger variant of PRG
+          with a ""deterministic"" form of circular security with respect to the seed of the PRG (Koppula and
+          Waters, CRYPTO 2019). Hinting PRGs enable many cryptographic applications, most notably CCA-secure public-key
+          encryption and trapdoor functions. In this paper, we study cryptographic primitives with the hinting property,
+          yielding the following results:
+
+          - We present a novel and conceptually simpler approach for designing hinting PRGs from certain decisional
+          assumptions over cyclic groups or isogeny-based group actions, which enables simpler security proofs as
+          compared to the existing approaches for designing such primitives.
+
+          - We introduce hinting weak PRFs, a natural extension of the hinting property to weak PRFs, and show how to
+          realize circular/KDM-secure symmetric-key encryption from any hinting weak PRF. We demonstrate that our simple
+          approach for building hinting PRGs can be extended to realize hinting weak PRFs from the same set of
+          decisional assumptions.
+
+          - We propose a stronger version of the hinting property, which we call the functional hinting property, that
+          guarantees security even in the presence of hints about functions of the secret seed/key. We show how to
+          instantiate functional hinting PRGs and functional hinting weak PRFs for certain (families of) functions by
+          building upon our simple techniques for realizing plain hinting PRGs/weak PRFs. We also demonstrate the
+          applicability of a functional hinting weak PRF with certain algebraic properties in realizing KDM-secure
+          public-key encryption in a black-box manner.
+
+          - Finally, we show the first black-box separation between hinting weak PRFs (and hinting PRGs) from public-key
+          encryption using simple realizations of these primitives given only a random oracle."
+"2022","TCC 2011","Perfectly Secure Oblivious RAM Without Random
+            Oracles","TCC Test of Time Award","Ivan
+              Damgård, Sigurd Meldgaard, Jesper Buus Nielsen",""
+"2022","TCC 2022","A Tight Computational Indistinguishability Bound of
+            Product Distributions","Best Young Researcher Award","Nathan
+              Geier","Assume that distributions X_0,X_1 (respectively Y_0,Y_1)
+          are d_X (respectively d_Y) indistinguishable for circuits of a given size. It is well known that the product
+          distributions X_0Y_0,X_1Y_1 are d_X+d_Y indistinguishable for slightly smaller circuits. However, in
+          probability theory where unbounded adversaries are considered through statistical distance, it is folklore
+          knowledge that in fact X_0Y_0 and X_1Y_1 are d_x+d_y-d_x*d_y indistinguishable, and also that this bound is
+          tight.
+
+          We formulate and prove the computational analog of this tight bound. Our proof is entirely different from the
+          proof in the statistical case, which is non-constructive. As a corollary, we show that if X and Y are d
+          indistinguishable, then k independent copies of X and k independent copies of Y are almost 1-(1-d)^k
+          indistinguishable for smaller circuits, as against d*k using the looser bound. Our bounds are useful in
+          settings where only weak (i.e. non-negligible) indistinguishability is guaranteed. We demonstrate this in the
+          context of cryptography, showing that our bounds yield simple analysis for amplification of weak oblivious
+          transfer protocols."
+"2022","CRYPTO 2022","Batch Arguments for NP and More from Standard Bilinear
+            Group Assumptions","Best Paper Award","Brent
+              Waters, David J. Wu","Non-interactive batch arguments for NP provide a way to
+          amortize the cost of NP verification across multiple instances. They enable a prover to convince a verifier of
+          multiple NP statements with communication much smaller than the total witness length and verification time
+          much smaller than individually checking each instance.
+
+          In this work, we give the first construction of a non-interactive batch argument for NP from standard
+          assumptions on groups with bilinear maps (specifically, from either the subgroup decision assumption in
+          composite-order groups or from the k-Lin assumption in prime-order groups for any k >= 1). Previously,
+          batch arguments for NP were only known from LWE, or a combination of multiple assumptions, or from
+          non-standard/non-falsifiable assumptions. Moreover, our work introduces a new direct approach for batch
+          verification and avoids heavy tools like correlation-intractable hash functions or probabilistically-checkable
+          proofs common to previous approaches.
+
+          As corollaries to our main construction, we obtain the first publicly-verifiable non-interactive delegation
+          scheme for RAM programs (i.e., a succinct non-interactive argument (SNARG) for P) with a CRS of sublinear size
+          (in the running time of the RAM program), as well as the first aggregate signature scheme (supporting bounded
+          aggregation) from standard assumptions on bilinear maps."
+"2022","CRYPTO 2022","Some Easy Instances of Ideal-SVP and Implications to
+            the Partial Vandermonde Knapsack Problem","Best Paper by Early Career Researcher
+            Award","Katharina
+              Boudgoust, Erell Gachon, Alice Pellet-Mary","In this article, we generalize the works of Pan et al.
+          (Eurocrypt'21) and Porter et al. (ArXiv'21) and provide a simple condition under which an ideal
+          lattice defines an easy instance of the shortest vector problem. Namely, we show that the more automorphisms
+          stabilize the ideal, the easier it is to find a short vector in it. This observation was already made for
+          prime ideals in Galois fields, and we generalize it to any ideal (whose prime factors are not ramified) of any
+          number field.
+
+          We then provide a cryptographic application of this result by showing that particular instances of the partial
+          Vandermonde knapsack problem, also known as partial Fourier recovery problem, can be solved classically in
+          polynomial time. As a proof of concept, we implemented our attack and managed to solve those particular
+          instances for concrete parameter settings proposed in the literature. For random instances, we can halve the
+          lattice dimension with non-negligible probability."
+"2022","CRYPTO 2022","Breaking Rainbow Takes a Weekend on a Laptop","Best Paper by Early Career Researcher
+            Award","Ward
+              Beullens","This work introduces new key recovery attacks against
+          the Rainbow signature scheme, which is one of the three finalist signature schemes still in the NIST
+          Post-Quantum Cryptography standardization project. The new attacks dramatically outperform previously known
+          attacks for all the parameter sets submitted to NIST and make a key-recovery practical for the SL 1
+          parameters. Concretely, given a Rainbow public key for the SL 1 parameters of the second-round submission, our
+          attack returns the corresponding public key after on average 53 hours (one weekend) of computation time on a
+          standard laptop."
+"2022","EUROCRYPT 2022","EpiGRAM: Practical Garbled RAM","Best Paper Award","David
+              Heath, Vladimir Kolesnikov, Rafail Ostrovsky","Garbled RAM (GRAM) is a powerful technique introduced by
+          Lu and Ostrovsky that equips Garbled Circuit (GC) with a sublinear cost RAM without adding rounds of
+          interaction. While multiple GRAM constructions are known, none are suitable for practice, due to costs that
+          have high constants and poor scaling.
+
+          We present the first GRAM suitable for practice. For computational security parameter $\kappa$ and for a
+          size-$n$ RAM that stores blocks of size $w = \Omega(\log^2 n)$ bits, our GRAM incurs only amortized $O(w \cdot
+          \log^2 n \cdot \kappa)$ communication and computation per access. We evaluate the concrete cost of our GRAM;
+          our approach outperforms trivial linear-scan-based RAM for as few as $512$ $128$-bit elements."
+"2022","PKC 2006","Curve25519: New Diffie-Hellman Speed Records","PKC Test of Time Award","Daniel J.
+              Bernstein",""
+"2022","PKC 2005","Password-Based Authenticated Key Exchange in the
+            Three-Party Setting","PKC Test of Time Award","Michel
+              Abdalla, Pierre-Alain Fouque, David Pointcheval",""
+"2021","TCC 2005","Keyword Search and Oblivious Pseudorandom
+            Functions","TCC Test-of-Time Award","Michael J.
+              Freedman, Yuval Ishai, Benny Pinkas, Omer Reingold",""
+"2021","TCHES 2021","My other car is your car: compromising the Tesla Model
+            X keyless entry system","CHES 2021 Best Paper Award","Lennert
+              Wouters, Benedikt Gierlichs, Bart Preneel","This paper documents a practical security evaluation of
+          the Tesla Model X keyless entry system. In contrast to other works, the keyless entry system analysed in this
+          paper employs secure symmetric-key and public-key cryptographic primitives implemented by a Common Criteria
+          certified Secure Element. We document the internal workings of this system, covering the key fob, the body
+          control module and the pairing protocol. Additionally, we detail our reverse engineering techniques and
+          document several security issues. The identified issues in the key fob firmware update mechanism and the key
+          fob pairing protocol allow us to bypass all of the cryptographic security measures put in place. To
+          demonstrate the practical impact of our research we develop a fully remote Proof-of-Concept attack that allows
+          to gain access to the vehicle’s interior in a matter of minutes and pair a modified key fob, allowing to drive
+          off. Our attack is not a relay attack, as our new key fob allows us to start the car anytime anywhere.
+          Finally, we provide an analysis of the update performed by Tesla to mitigate our findings. Our work highlights
+          how the increased complexity and connectivity of vehicular systems can result in a larger and easier to
+          exploit attack surface."
+"2021","CHES 2001","A Sound Method for Switching between Boolean and
+            Arithmetic Masking","CHES Test of Time Award","Louis
+              Goubin",""
+"2021","CRYPTO 2021","Three Halves Make a Whole? Beating the Half-Gates Lower
+            Bound for Garbled Circuits","Honorable mention for best
+            paper","Mike
+              Rosulek, Lawrence Roy","We describe a garbling scheme for boolean circuits, in
+          which XOR gates are free and AND gates require communication of $1.5\kappa + 5$ bits. This improves over the
+          state-of-the-art ``half-gates'' scheme of Zahur, Rosulek, and Evans (Eurocrypt 2015), in which XOR
+          gates are free and AND gates cost $2\kappa$ bits. The half-gates paper proved a lower bound of $2\kappa$ bits
+          per AND gate, in a model that captured all known garbling techniques at the time. We bypass this lower bound
+          with a novel technique that we call \textbf{slicing and dicing}, which involves slicing wire labels in half
+          and operating separately on those halves. Ours is the first to bypass the lower bound while being fully
+          compatible with free-XOR, making it a drop-in replacement for half-gates. Our construction is proven secure
+          from a similar assumption to prior free-XOR garbling (circular correlation-robust hash), and uses only
+          slightly more computation than half-gates."
+"2021","CRYPTO 2021","Linear Cryptanalysis of FF3-1 and FEA","Best Paper by Early Career
+            Researchers Award, Honorable mention for best paper","Tim
+              Beyne","Improved attacks on generic small-domain Feistel ciphers
+          with alternating round tweaks are obtained using linear cryptanalysis. This results in practical
+          distinguishing and message-recovery attacks on the United States format-preserving encryption standard FF3-1
+          and the South-Korean standards FEA-1 and FEA-2. The data-complexity of the proposed attacks on FF3-1 and FEA-1
+          is $O(N^{r/2 - 1.5})$, where $N^2$ is the domain size and $r$ is the number of rounds. For example, FF3-1 with
+          $N = 10^3$ can be distinguished from an ideal tweakable block cipher with advantage $\ge 1/10$ using $2^{23}$
+          encryption queries. Recovering the left half of a message with similar advantage requires $2^{24}$ data. The
+          analysis of FF3-1 serves as an interesting real-world application of (generalized) linear cryptanalysis over
+          the group $\mathbb{Z}/N\mathbb{Z}$."
+"2021","CRYPTO 2021","On the Possibility of Basing Cryptography on $\EXP \neq
+            \BPP$","Best Paper","Yanyi
+              Liu, Rafael Pass","Liu and Pass (FOCS'20) recently demonstrated an
+          equivalence between the
+          existence of one-way
+          functions and mild average-case hardness of the time-bounded
+          Kolmogorov complexity problem. In this work, we establish a similar
+          equivalence but to a different form of time-bounded Kolmogorov
+          Complexity---namely, Levin's notion of Kolmogorov Complexity---whose
+          hardness is closely related to the problem of whether $\EXP \neq
+          \BPP$. In more detail, let $Kt(x)$ denote the Levin-Kolmogorov Complexity of the string $x$;
+          that is, $Kt(x) = \min_{\desc \in \bitset^*, t \in \N}\{|\desc| +
+          \lceil \log t \rceil: U(\desc, 1^t) = x\}$, where $U$ is a universal
+          Turing machine, and let $\mktp$ denote the language of pairs $(x,k)$ having
+          the property that $Kt(x) \leq k$.
+          We demonstrate that:
+          - $\mktp$ is \emph{two-sided error} mildly average-case hard (i.e., $\mktp
+          \notin \HeurpBPP$) iff infinititely-often one-way
+          functions exist.
+          - $\mktp$ is \emph{errorless} mildly average-case hard (i.e., $\mktp
+          \notin \AvgpBPP$) iff $\EXP \neq \BPP$.
+          Thus, the only ``gap'' towards getting (infinitely-often) one-way
+          functions from the assumption that $\EXP \neq \BPP$ is the
+          seemingly ``minor'' technical gap
+          between two-sided error and errorless average-case hardness of the
+          $\mktp$ problem.
+
+          As a corollary of this result, we additionally demonstrate that
+          any reduction from errorless to two-sided error average-case
+          hardness for $\mktp$ implies (unconditionally) that $\NP \neq \P$.
+
+          We finally consider other alternative notions of Kolmogorov
+          complexity---including space-bounded Kolmogorov complexity and
+          conditional Kolmogorov complexity---and show how average-case
+          hardness of problems related to them characterize log-space
+          computable one-way functions, or one-way functions in $\NC^0$."
+"2021","CRYPTO 2021","Efficient Key Recovery for all HFE Signature
+            Variants","Honorable mention for best
+            paper","Chengdong
+              Tao, Albrecht Petzoldt, Jintai Ding","The HFE cryptosystem is one of the best known
+          multivariate schemes. Especially in the area of digital signatures, the HFEv- variant offers short signatures
+          and high performance. Recently, an instance of the HFEv- signature scheme called GeMSS was elected as one of
+          the alternative candidates for signature schemes in the third round of the NIST Post Quantum Crypto (PQC)
+          Standardization Project. In this paper, we propose a new key recovery attack on the HFEv- signature scheme.
+          Our attack shows that both the Minus and the Vinegar modifi- cation do not enhance the security of the basic
+          HFE scheme significantly. This shows that it is very difficult to build a secure and efficient signature
+          scheme on the basis of HFE.
+          In particular, we use our attack to show that the proposed parameters of the GeMSS scheme are not as secure as
+          claimed."
+"2021","PKC 2005","A Verifiable Random Function with Short Proofs and
+            Keys","PKC Test-Of-Time Award","Yevgeniy
+              Dodis, Aleksandr Yampolskiy",""
+"2021","PKC 2004","An Efficient Signature Scheme from Bilinear Pairings and
+            Its Applications","PKC Test-Of-Time Award","Fangguo
+              Zhang, Reihaneh Safavi-Naini, Willy Susilo",""
+"2021","PKC 2003","An Identity-Based Signature from Gap Diffie-Hellman
+            Groups","PKC Test-Of-Time Award","Jae Choon
+              Cha, Jung Hee Cheon",""
+"2021","EUROCRYPT 2021","New Representations of the AES Key Schedule","Best Paper Award","Gaëtan
+              Leurent, Clara Pernot","In this paper we present a new representation of the AES
+          key schedule, with some implications to the security of AES-based schemes. In particular, we show that the
+          AES-128 key schedule can be split into four independent parallel computations operating on 32 bits chunks, up
+          to linear transformation. Surprisingly, this property has not been described in the literature after more than
+          20 years of analysis of AES. We show two consequences of our new representation, improving previous
+          cryptanalysis results of AES-based schemes.
+          First, we observe that iterating an odd number of key schedule rounds results in a function with short cycles.
+          This explains an observation of Khairallah on mixFeed, a second-round candidate in the NIST lightweight
+          competition. Our analysis actually shows that his forgery attack on mixFeed succeeds with probability 0.44
+          (with data complexity 220GB), breaking the scheme in practice. The same observation also leads to a novel
+          attack on ALE, another AES-based AEAD scheme.
+          Our new representation also gives efficient ways to combine information from the first sub-keys and
+          information from the last sub-keys, in order to reconstruct the corresponding master keys. In particular we
+          improve previous impossible-differential attacks against AES-128."
+"2021","EUROCRYPT 2021","Non-Interactive Zero Knowledge from Sub-exponential
+            DDH","Best Paper Award","Abhishek
+              Jain, Zhengzhong Jin","We provide the first constructions of non-interactive
+          zero-knowledge and Zap arguments for NP based on the sub-exponential hardness of Decisional Diffie-Hellman
+          against polynomial time adversaries (without use of groups with pairings).
+
+          Central to our results, and of independent interest, is a new notion of interactive trapdoor hashing
+          protocols."
+"2021","EUROCRYPT 2021","On the (in)security of ROS","Best Paper Award","Fabrice
+              Benhamouda, Tancrède Lepoint, Julian Loss, Michele Orrù, Mariana Raykova","We present an algorithm solving the ROS (Random
+          inhomogeneities in a Overdetermined Solvable system of linear equations) problem mod p in polynomial time for
+          $l > log p$ dimensions. Our algorithm can be combined with Wagner's attack, and leads to a
+          sub-exponential solution for any dimension $l$ with best complexity known so far.
+          When concurrent executions are allowed, our algorithm leads to practical attacks against unforgeability of
+          blind signature schemes such as Schnorr and Okamoto--Schnorr blind signatures, threshold signatures such as
+          GJKR and the original version of FROST, multisignatures such as CoSI and the two-round version of MuSig,
+          partially blind signatures such as Abe--Okamoto, and conditional blind signatures such as ZGP17. Schemes for
+          e-cash and anonymous credentials (such as Anonymous Credentials Light) inspired from the above are also
+          affected."
+"2021","ASIACRYPT 2006","Simulation-Sound NIZK Proofs for a Practical Language and
+            Constant Size Group Signatures","IACR Test of Time Award","Jens Groth",""
+"2021","CRYPTO 2006","New Proofs for NMAC and HMAC: Security Without
+            Collision-Resistance","IACR Test of Time Award","Mihir
+              Bellare",""
+"2021","EUROCRYPT 2006","A Provable-Security Treatment of the Key-Wrap
+            Problem","IACR Test of Time Award","Phillip
+              Rogaway, Thomas Shrimpton",""
+"2020","ASIACRYPT 2020","Finding Collisions in a Quantum World: Quantum
+            Black-Box Separation of Collision-Resistance and One-Wayness","Best Paper Award","Akinori
+              Hosoyamada, Takashi Yamakawa","Since the celebrated work of Impagliazzo and Rudich
+          (STOC 1989), a number of black-box impossibility results have been established. However, these works only
+          ruled out classical black-box reductions among cryptographic primitives.
+          Therefore it may be possible to overcome these impossibility results by using quantum reductions.
+          To exclude such a possibility, we have to extend these impossibility results to the quantum setting.
+
+          In this paper, we study black-box impossibility in the quantum setting.
+          We first formalize a quantum counterpart of fully-black-box reduction following the formalization by Reingold,
+          Trevisan and Vadhan (TCC 2004).
+          Then we prove that there is no quantum fully-black-box reduction from collision-resistant hash functions to
+          one-way permutations (or even trapdoor permutations).
+          We take both of classical and quantum implementations of primitives into account.
+          This is an extension to the quantum setting of the work of Simon (Eurocrypt 1998) who showed a similar result
+          in the classical setting."
+"2020","ASIACRYPT 2020","New results on Gimli: full-permutation distinguishers
+            and improved collisions","Best Paper Award","Antonio Flórez
+              Gutiérrez, Gaëtan Leurent, María Naya-Plasencia, Léo Perrin, André Schrottenloher, Ferdinand Sibleyras","Gimli is a family of cryptographic primitives (both a
+          hash function and an AEAD scheme) that has been selected for the second round of the NIST competition for
+          standardizing new lightweight designs. The candidate Gimli is based on the permutation Gimli, which was
+          presented at CHES 2017. In this paper, we study the security of both the permutation and the constructions
+          that are based on it. We exploit the slow diffusion in Gimli and its internal symmetries to build, for the
+          first time, a distinguisher on the full permutation of complexity $2^{64}$. We also provide a practical
+          distinguisher on 23 out of the full 24 rounds of Gimli that has been implemented.
+
+          Next, we give (full state) collision and semi-free-start collision attacks on Gimli-Hash, reaching
+          respectively up to 12 and 18 rounds. On the practical side, we compute a collision on 8-round Gimli-Hash. In
+          the quantum setting, these attacks reach 2 more rounds. Finally, we perform the first study of linear trails
+          in the permutation, and we propose differential-linear cryptanalysis that reach up to 17 rounds of Gimli."
+"2020","ASIACRYPT 2020","SQISign: Compact Post-Quantum signatures from
+            Quaternions and Isogenies","Best Paper Award","Luca De
+              Feo, David Kohel, Antonin Leroux, Christophe Petit, Benjamin Wesolowski","We introduce a new signature scheme, \emph{SQISign},
+          (for \emph{Short Quaternion and Isogeny Signature}) from isogeny graphs of supersingular elliptic curves. The
+          signature scheme is derived from a new one-round, high soundness, interactive identification protocol.
+          Targeting the post-quantum NIST-1 level of security, our implementation results in signatures of $204$ bytes,
+          secret keys of $16$ bytes and public keys of $64$ bytes. In particular, the signature and public key sizes
+          combined are an order of magnitude smaller than all other post-quantum signature schemes. On a modern
+          workstation, our implementation in C takes 0.6s for key generation, 2.5s for signing, and 50ms for
+          verification.
+
+          While the soundness of the identification protocol follows from classical assumptions, the zero-knowledge
+          property relies on the second main contribution of this paper.
+          We introduce a new algorithm to find an isogeny path connecting two given supersingular elliptic curves of
+          known endomorphism rings.
+          A previous algorithm to solve this problem, due to Kohel, Lauter, Petit and Tignol, systematically reveals
+          paths from the input curves to a `special' curve. This leakage would break the zero-knowledge property of
+          the protocol. Our algorithm does not directly reveal such a path, and subject to a new computational
+          assumption, we prove that the resulting identification protocol is zero-knowledge."
+"2020","TOSC 2019","On Beyond-Birthday-Bound Security: Revisiting the
+            Development of ISO/IEC 9797-1 MACs","Best Paper FSE 2020","Yaobin
+              Shen, Lei Wang","ISO/IEC 9797-1 is an international standard for
+          block-cipher-based Message Authentication Code (MAC). The current version ISO/IEC 9797-1:2011 specifies six
+          single-pass CBC-like MAC structures that are capped at the birthday bound security. For a higher security that
+          is beyond-birthday bound, it recommends to use the concatenation combiner of two single-pass MACs. In this
+          paper, we reveal the invalidity of the suggestion, by presenting a birthday bound forgery attack on the
+          concatenation combiner, which is essentially based on Joux’s multi-collision. Notably, our new forgery attack
+          for the concatenation of two MAC Algorithm 1 with padding scheme 2 only requires 3 queries. Moreover, we look
+          for patches by revisiting the development of ISO/IEC 9797-1 with respect to the beyond-birthday bound
+          security. More specifically, we evaluate the XOR combiner of single-pass CBC-like MACs, which was used in
+          previous version of ISO/IEC 9797-1."
+"2020","TCC 2008","Perfectly-Secure MPC with Linear Communication
+            Complexity","TCC Test of Time Award","Zuzana
+              Beerliová-Trubíniová, Martin Hirt",""
+"2020","TCHES 2020","Minerva: The curse of ECDSA nonces Systematic analysis
+            of lattice attacks on noisy leakage of bit-length of ECDSA nonces","Best Paper CHES 2020","Jan
+              Jancar, Vladimir Sedlacek, Petr Svenda, Marek Sys","We present our discovery of a group of side-channel
+          vulnerabilities in implementations of the ECDSA signature algorithm in a widely used Atmel AT90SC FIPS 140-2
+          certified smartcard chip and five cryptographic libraries (libgcrypt, wolfSSL, MatrixSSL, SunEC/OpenJDK/Oracle
+          JDK, Crypto++). Vulnerable implementations leak the bit-length of the scalar used in scalar multiplication via
+          timing. Using leaked bit-length, we mount a lattice attack on a 256-bit curve, after observing enough signing
+          operations. We propose two new methods to recover the full private key requiring just 500 signatures for
+          simulated leakage data, 1200 for real cryptographic library data, and 2100 for smartcard data. The number of
+          signatures needed for a successful attack depends on the chosen method and its parameters as well as on the
+          noise profile, influenced by the type of leakage and used computation platform. We use the set of
+          vulnerabilities reported in this paper, together with the recently published TPM-FAIL vulnerability [MSE+20]
+          as a basis for real-world benchmark datasets to systematically compare our newly proposed methods and all
+          previously published applicable lattice-based key recovery methods. The resulting exhaustive comparison
+          highlights the methods’ sensitivity to its proper parametrization and demonstrates that our methods are more
+          efficient in most cases. For the TPM-FAIL dataset, we decreased the number of required signatures from
+          approximately 40 000 to mere 900."
+"2020","CHES 1999","Resistance against Differential Power Analysis for
+            Elliptic Curve Cryptosystems","CHES Test of Time Award","Jean-Sébastien
+              Coron",""
+"2020","CRYPTO 2020","Handling Adaptive Compromise for Practical Encryption
+            Schemes","Early Career Researcher
+            Award","Joseph
+              Jaeger, Nirvan Tyagi","We provide a new definitional framework capturing the
+          multi-user security of encryption schemes and pseudorandom functions in the face of adversaries that can
+          adaptively compromise users' keys. We provide a sequence of results establishing the security of
+          practical symmetric encryption schemes under adaptive compromise in the random oracle or ideal cipher model.
+          The bulk of analysis complexity for adaptive compromise security is relegated to the analysis of lower-level
+          primitives such as pseudorandom functions.
+
+          We apply our framework to give proofs of security for the BurnBox system for privacy in the face of border
+          searches and the in-use searchable symmetric encryption scheme due to Cash et al. In both cases, prior
+          analyses had bugs that our framework helps avoid."
+"2020","CRYPTO 2020","Improved Differential-Linear Attacks with Applications
+            to ARX Ciphers","Best Paper Award","Christof
+              Beierle, Gregor Leander, Yosuke Todo","We present several improvements to the framework of
+          differential-linear attacks with a special focus on ARX ciphers. As a demonstration of their impact, we apply
+          them to Chaskey and ChaCha and we are able to significantly improve upon the best attacks published so far."
+"2020","CRYPTO 2020","Chosen Ciphertext Security from Injective Trapdoor
+            Functions","Best Paper Award","Susan
+              Hohenberger, Venkata Koppula, Brent Waters","We provide a construction of chosen ciphertext secure
+          public-key encryption from (injective) trapdoor functions. Our construction is black box and assumes no
+          special properties (e.g. ``lossy'', ``correlated product secure'') of the trapdoor
+          function."
+"2020","CRYPTO 2020","Breaking the decisional Diffie-Hellman problem for
+            class group actions using genus theory","Best Paper Award","Wouter
+              Castryck, Jana Sotakova, Frederik Vercauteren","In this paper, we use genus theory to analyze the
+          hardness of the decisional Diffie--Hellman problem (DDH) for ideal class groups of imaginary quadratic orders,
+          acting on sets of elliptic curves through isogenies; such actions are used in the
+          Couveignes--Rostovtsev--Stolbunov protocol and in CSIDH. Concretely, genus theory equips every imaginary
+          quadratic order $\mathcal{O}$ with a set of assigned characters $\chi : \text{cl}(\mathcal{O}) \to \{ \pm 1
+          \}$, and for each such character and every secret ideal class $[\mathfrak{a}]$ connecting two public elliptic
+          curves $E$ and $E' = [\mathfrak{a}] \star E$, we show how to compute $\chi([\mathfrak{a}])$ given only
+          $E$ and $E'$, i.e., without knowledge of $[\mathfrak{a}]$. In practice, this breaks DDH as soon as the
+          class number is even, which is true for a density $1$ subset of all imaginary quadratic orders. For instance,
+          our attack works very efficiently for all supersingular elliptic curves over $\mathbb{F}_p$ with $p \equiv 1
+          \bmod 4$. Our method relies on computing Tate pairings and walking down isogeny volcanoes."
+"2020","PKC 2003","Threshold Signatures, Multisignatures and Blind
+            Signatures Based on the Gap-Diffie-Hellman-Group Signature Scheme","PKC Test-of-Time award","Alexandra
+              Boldyreva",""
+"2020","PKC 2001","A Generalisation, a Simplification and Some Applications
+            of Paillier's Probabilistic Public-Key System","PKC Test-of-Time award","Ivan
+              Damgård, Mads Jurik",""
+"2020","PKC 1998","On the Security of ElGamal Based Encryption","PKC Test-of-Time award","Yiannis
+              Tsiounis, Moti Yung",""
+"2020","EUROCRYPT 2020","Private Information Retrieval with Sublinear Online
+            Time","Best Young Researcher Award","Henry
+              Corrigan-Gibbs, Dmitry Kogan","We present the first protocols for private information
+          retrieval that allow fast (sublinear-time) database lookups without increasing the server-side storage
+          requirements. To achieve these efficiency goals, our protocols work in an offline/online model. In an offline
+          phase, which takes place before the client has decided which database bit it wants to read, the client fetches
+          a short string from the servers. In a subsequent online phase, the client can privately retrieve its desired
+          bit of the database by making a second query to the servers. By pushing the bulk of the server-side
+          computation into the offline phase (which is independent of the client’s query), our protocols allow the
+          online phase to complete very quickly—in time sublinear in the size of the database. Our protocols can provide
+          statistical security in the two-server setting and computational security in the single-server setting.
+          Finally, we prove that, in this model, our protocols are optimal in terms of the trade-off they achieve
+          between communication and running time."
+"2020","EUROCRYPT 2020","Optimal Broadcast Encryption from Pairings and
+            LWE","Best Paper Award","Shweta
+              Agrawal, Shota Yamada","Boneh, Waters and Zhandry (CRYPTO 2014) used multilinear
+          maps to provide a solution to the long-standing problem of public-key broadcast encryption (BE) where all
+          parameters in the system are small. In this work, we improve their result by providing a solution that uses
+          only {\it bilinear} maps and Learning With Errors (LWE). Our scheme is fully collusion-resistant against any
+          number of colluders, and can be generalized to an identity-based broadcast system with short parameters. Thus,
+          we reclaim the problem of optimal broadcast encryption from the land of ``Obfustopia''.
+
+          Our main technical contribution is a ciphertext policy attribute based encryption (CP-ABE) scheme which
+          achieves special efficiency properties -- its ciphertext size, secret key size, and public key size are all
+          independent of the size of the circuits supported by the scheme. We show that this special CP-ABE scheme
+          implies BE with optimal parameters; but it may also be of independent interest. Our constructions rely on a
+          novel interplay of bilinear maps and LWE, and are proven secure in the generic group model."
+"2020","ASIACRYPT 2005","Discrete-Log-Based Signatures May Not Be Equivalent to
+            Discrete Log","Best Paper and IACR Test of Time
+            Award: For developing a new meta-reduction approach in the security proof of cryptosystems","Pascal
+              Paillier, Damien Vergnaud",""
+"2020","CRYPTO 2005","Finding Collisions in the Full SHA-1","IACR Test of Time Award: For a
+            breakthrough in the cryptanalysis of hash functions","Xiaoyun
+              Wang, Yiqun Lisa Yin, Hongbo Yu",""
+"2020","EUROCRYPT 2005","Fuzzy Identity-Based Encryption","IACR Test of Time Award: For laying
+            the foundations of attribute-based encryption and other advanced notions of encryption","Amit Sahai, Brent Waters",""
+"2019","ASIACRYPT 2019","Wave: A New Family of Trapdoor One-Way Preimage
+            Sampleable Functions Based on Codes","Best Paper","Thomas
+              Debris-Alazard, Nicolas Sendrier, Jean-Pierre Tillich","We present here a new family of trapdoor one-way
+          functions that are Preimage Sampleable on Average (PSA) based on codes, the Wave-PSA family. The trapdoor
+          function is one-way under two computational assumptions: the hardness of generic decoding for high weights and
+          the indistinguishability of generalized $$(U,U+V)$$-codes. Our proof follows the GPV strategy [28]. By
+          including rejection sampling, we ensure the proper distribution for the trapdoor inverse output. The domain
+          sampling property of our family is ensured by using and proving a variant of the left-over hash lemma. We
+          instantiate the new Wave-PSA family with ternary generalized $$(U,U+V)$$-codes to design a “hash-and-sign”
+          signature scheme which achieves existential unforgeability under adaptive chosen message attacks (EUF-CMA) in
+          the random oracle model."
+"2019","TCC 2019","The Function-Inversion Problem: Barriers and
+            Opportunities","Best Young Researcher","Henry
+              Corrigan-Gibbs, Dmitry Kogan","The task of function inversion is central to
+          cryptanalysis: breaking block ciphers, forging signatures, and cracking password hashes are all special cases
+          of the function-inversion problem. In 1980, Hellman showed that it is possible to invert a random function
+          $$f{:}\,[N] \rightarrow [N]$$ in time $$T = \widetilde{O}(N^{2/3})$$ given only $$S = \widetilde{O}(N^{2/3})$$
+          bits of precomputed advice about f. Hellman’s algorithm is the basis for the popular “Rainbow Tables”
+          technique (Oechslin 2003), which achieves the same asymptotic cost and is widely used in practical
+          cryptanalysis.Is Hellman’s method the best possible algorithm for inverting functions with preprocessed
+          advice? The best known lower bound, due to Yao (1990), shows that $$ST = \widetilde{\Omega }(N)$$, which still
+          admits the possibility of an $$S = T = \widetilde{O}(N^{1/2})$$ attack. There remains a long-standing and
+          vexing gap between Hellman’s $$N^{2/3}$$ upper bound and Yao’s $$N^{1/2}$$ lower bound. Understanding the
+          feasibility of an $$S = T = N^{1/2}$$ algorithm is cryptanalytically relevant since such an algorithm could
+          perform a key-recovery attack on AES-128 in time $$2^{64}$$ using a precomputed table of size $$2^{64}$$.For
+          the past 29 years, there has been no progress either in improving Hellman’s algorithm or in strengthening
+          Yao’s lower bound. In this work, we connect function inversion to problems in other areas of theory to (1)
+          explain why progress may be difficult and (2) explore possible ways forward.Our results are as follows:We show
+          that any improvement on Yao’s lower bound on function-inversion algorithms will imply new lower bounds on
+          depth-two circuits with arbitrary gates. Further, we show that proving strong lower bounds on non-adaptive
+          function-inversion algorithms would imply breakthrough circuit lower bounds on linear-size log-depth
+          circuits.We take first steps towards the study of the injective function-inversion problem, which has manifold
+          cryptographic applications. In particular, we show that improved algorithms for breaking PRGs with
+          preprocessing would give improved algorithms for inverting injective functions with preprocessing.Finally, we
+          show that function inversion is closely related to well-studied problems in communication complexity and data
+          structures. Through these connections we immediately obtain the best known algorithms for problems in these
+          domains."
+"2019","TCC 2008","Incrementally Verifiable Computation or Proofs of
+            Knowledge Imply Time/Space Efficiency","TCC Test of Time Award","Paul
+              Valiant",""
+"2019","TCHES 2019","Glitch-Resistant Masking Revisited","Best paper award CHES 2019","Thorben
+              Moos, Amir Moradi, Tobias Schneider, François-Xavier Standaert","Implementing the masking countermeasure in hardware is a
+          delicate task. Various solutions have been proposed for this purpose over the last years: we focus on
+          Threshold Implementations (TIs), Domain-Oriented Masking (DOM), the Unified Masking Approach (UMA) and Generic
+          Low Latency Masking (GLM). The latter generally come with innovative ideas to cope with physical defaults such
+          as glitches. Yet, and in contrast to the situation in software-oriented masking, these schemes have not been
+          formally proven at arbitrary security orders and their composability properties were left unclear. So far,
+          only a 2-cycle implementation of the seminal masking scheme by Ishai, Sahai and Wagner has been shown secure
+          and composable in the robust probing model – a variation of the probing model aimed to capture physical
+          defaults such as glitches – for any number of shares.In this paper, we argue that this lack of proofs for TIs,
+          DOM, UMA and GLM makes the interpretation of their security guarantees difficult as the number of shares
+          increases. For this purpose, we first put forward that the higher-order variants of all these schemes are
+          affected by (local or composability) security flaws in the (robust) probing model, due to insufficient
+          refreshing. We then show that composability and robustness against glitches cannot be analyzed independently.
+          We finally detail how these abstract flaws translate into concrete (experimental) attacks, and discuss the
+          additional constraints robust probing security implies on the need of registers. Despite not systematically
+          leading to improved complexities at low security orders, e.g., with respect to the required number of
+          measurements for a successful attack, we argue that these weaknesses provide a case for the need of security
+          proofs in the robust probing model (or a similar abstraction) at higher security orders."
+"2019","CRYPTO 2019","Cryptanalysis of OCB2: Attacks on Authenticity and
+            Confidentiality","Best paper","Akiko
+              Inoue, Tetsu Iwata, Kazuhiko Minematsu, Bertram Poettering","We present practical attacks on OCB2. This mode of
+          operation of a blockcipher was designed with the aim to provide particularly efficient and provably-secure
+          authenticated encryption services, and since its proposal about 15 years ago it belongs to the top performers
+          in this realm. OCB2 was included in an ISO standard in 2009.An internal building block of OCB2 is the
+          tweakable blockcipher obtained by operating a regular blockcipher in $$ \text {XEX} ^*$$ mode. The latter
+          provides security only when evaluated in accordance with certain technical restrictions that, as we note, are
+          not always respected by OCB2. This leads to devastating attacks against OCB2’s security promises: We develop a
+          range of very practical attacks that, amongst others, demonstrate universal forgeries and full plaintext
+          recovery. We complete our report with proposals for (provably) repairing OCB2. To our understanding, as a
+          direct consequence of our findings, OCB2 is currently in a process of removal from ISO standards. Our attacks
+          do not apply to OCB1 and OCB3, and our privacy attacks on OCB2 require an active adversary."
+"2019","CRYPTO 2019","Quantum Cryptanalysis in the RAM Model: Claw-Finding
+            Attacks on SIKE","Best Young Researcher Paper","Samuel
+              Jaques, John M. Schanck","We introduce models of computation that enable direct
+          comparisons between classical and quantum algorithms. Incorporating previous work on quantum computation and
+          error correction, we justify the use of the gate-count and depth-times-width cost metrics for quantum
+          circuits. We demonstrate the relevance of these models to cryptanalysis by revisiting, and increasing, the
+          security estimates for the Supersingular Isogeny Diffie–Hellman (SIDH) and Supersingular Isogeny Key
+          Encapsulation (SIKE) schemes. Our models, analyses, and physical justifications have applications to a number
+          of memory intensive quantum algorithms."
+"2019","CRYPTO 2019","Fully Secure Attribute-Based Encryption for t-CNF from
+            LWE","Best young researcher","Rotem
+              Tsabary","Attribute-based Encryption (ABE), first introduced by
+          [SW05, GPSW06], is a public key encryption system that can support multiple users with varying decryption
+          permissions. One of the main properties of such schemes is the supported function class of policies. While
+          there are fully secure constructions from bilinear maps for a fairly large class of policies, the situation
+          with lattice-based constructions is less satisfactory and many efforts were made to close this gap. Prior to
+          this work the only known fully secure lattice construction was for the class of point functions (also known as
+          IBE).In this work we construct for the first time a lattice-based (ciphertext-policy) ABE scheme for the
+          function class t-CNF, which consists of CNF formulas where each clause depends on at most t bits of the input,
+          for any constant t. This class includes NP-verification policies, bit-fixing policies and t-threshold
+          policies. Towards this goal we also construct a fully secure single-key constrained PRF from OWF for the same
+          function class, which might be of independent interest."
+"2019","EUROCRYPT 2019","Efficient Verifiable Delay Functions","Best Young Researcher Paper","Benjamin
+              Wesolowski","We construct a verifiable delay function (VDF). A VDF is
+          a function whose evaluation requires running a given number of sequential steps, yet the result can be
+          efficiently verified. They have applications in decentralised systems, such as the generation of trustworthy
+          public randomness in a trustless environment, or resource-efficient blockchains. To construct our VDF, we
+          actually build a trapdoor VDF. A trapdoor VDF is essentially a VDF which can be evaluated efficiently by
+          parties who know a secret (the trapdoor). By setting up this scheme in a way that the trapdoor is unknown (not
+          even by the party running the setup, so that there is no need for a trusted setup environment), we obtain a
+          simple VDF. Our construction is based on groups of unknown order such as an RSA group, or the class group of
+          an imaginary quadratic field. The output of our construction is very short (the result and the proof of
+          correctness are each a single element of the group), and the verification of correctness is very efficient."
+"2019","EUROCRYPT 2019","Quantum Lightning Never Strikes the Same State
+            Twice","Best Paper","Mark
+              Zhandry","Public key quantum money can be seen as a version of the
+          quantum no-cloning theorem that holds even when the quantum states can be verified by the adversary. In this
+          work, we investigate quantum lightning where no-cloning holds even when the adversary herself generates the
+          quantum state to be cloned. We then study quantum money and quantum lightning, showing the following
+          results:We demonstrate the usefulness of quantum lightning beyond quantum money by showing several potential
+          applications, such as generating random strings with a proof of entropy, to completely decentralized
+          cryptocurrency without a block-chain, where transactions is instant and local.We give Either/Or results for
+          quantum money/lightning, showing that either signatures/hash functions/commitment schemes meet very strong
+          recently proposed notions of security, or they yield quantum money or lightning. Given the difficulty in
+          constructing public key quantum money, this suggests that natural schemes do attain strong security
+          guarantees.We show that instantiating the quantum money scheme of Aaronson and Christiano [STOC’12] with
+          indistinguishability obfuscation that is secure against quantum computers yields a secure quantum money
+          scheme. This construction can be seen as an instance of our Either/Or result for signatures, giving the first
+          separation between two security notions for signatures from the literature.Finally, we give a plausible
+          construction for quantum lightning, which we prove secure under an assumption related to the multi-collision
+          resistance of degree-2 hash functions. Our construction is inspired by our Either/Or result for hash
+          functions, and yields the first plausible standard model instantiation of a non-collapsing collision resistant
+          hash function. This improves on a result of Unruh [Eurocrypt’16] which is relative to a quantum oracle."
+"2019","ASIACRYPT 2004","How Far Can We Go Beyond Linear Cryptanalysis?","2019 IACR Test of Time Award","Thomas
+              Baignères, Pascal Junod, Serge Vaudenay",""
+"2019","CRYPTO 2004","Multicollisions in Iterated Hash Functions. Application
+            to Cascaded Constructions","2019 IACR Test of Time Award","Antoine
+              Joux",""
+"2019","EUROCRYPT 2004","Fuzzy Extractors: How to Generate Strong Keys from
+            Biometrics and Other Noisy Data","2019 IACR Test of Time Award","Yevgeniy
+              Dodis, Leonid Reyzin, Adam Smith",""
+"2019","JOFC 2001","Selecting Cryptographic Key Sizes","PKC Test of Time Award","Arjen K.
+              Lenstra, Eric R. Verheul",""
+"2019","PKC 2001","The Gap-Problems: A New Class of Problems for the
+            Security of Cryptographic Schemes","PKC Test of Time Award","Tatsuaki
+              Okamoto, David Pointcheval",""
+"2019","PKC 2000","Selecting Cryptographic Key Sizes","PKC Test of Time Award","Arjen K.
+              Lenstra, Eric R. Verheul",""
+"2019","PKC 1999","How to Enhance the Security of Public-Key Encryption at
+            Minimum Cost","PKC Test of Time Award","Eiichiro
+              Fujisaki, Tatsuaki Okamoto",""
+"2018","ASIACRYPT 2018","Block Cipher Invariants as Eigenvectors of Correlation
+            Matrices","Best Paper Award","Tim
+              Beyne","A new approach to invariant subspaces and nonlinear
+          invariants is developed. This results in both theoretical insights and practical attacks on block ciphers. It
+          is shown that, with minor modifications to some of the round constants, Midori-64 has a nonlinear invariant
+          with $$2^{96}$$ corresponding weak keys. Furthermore, this invariant corresponds to a linear hull with maximal
+          correlation. By combining the new invariant with integral cryptanalysis, a practical key-recovery attack on 10
+          rounds of unmodified Midori-64 is obtained. The attack works for $$2^{96}$$ weak keys and irrespective of the
+          choice of round constants. The data complexity is $$1.25 \cdot 2^{21}$$ chosen plaintexts and the
+          computational cost is dominated by $$2^{56}$$ block cipher calls. Finally, it is shown that similar techniques
+          lead to a practical key-recovery attack on MANTIS-4. The full key is recovered using 640 chosen plaintexts and
+          the attack requires about $$2^{56}$$ block cipher calls."
+"2018","TCC 2005","Evaluating 2-DNF Formulas on Ciphertexts","TCC Test of Time Award","Dan Boneh, Eu-Jin Goh, Kobbi Nissim",""
+"2018","CRYPTO 2018","Yes, There is an Oblivious RAM Lower Bound!","Best Paper Award","Kasper Green
+              Larsen, Jesper Buus Nielsen","An Oblivious RAM (ORAM) introduced by Goldreich and
+          Ostrovsky [JACM’96] is a (possibly randomized) RAM, for which the memory access pattern reveals no information
+          about the operations performed. The main performance metric of an ORAM is the bandwidth overhead, i.e., the
+          multiplicative factor extra memory blocks that must be accessed to hide the operation sequence. In their
+          seminal paper introducing the ORAM, Goldreich and Ostrovsky proved an amortized
+          $$\varOmega (\lg n)$$
+          bandwidth overhead lower bound for ORAMs with memory size n. Their lower bound is very strong in the sense
+          that it applies to the “offline” setting in which the ORAM knows the entire sequence of operations ahead of
+          time.However, as pointed out by Boyle and Naor [ITCS’16] in the paper “Is there an oblivious RAM lower
+          bound?”, there are two caveats with the lower bound of Goldreich and Ostrovsky: (1) it only applies to “balls
+          in bins” algorithms, i.e., algorithms where the ORAM may only shuffle blocks around and not apply any
+          sophisticated encoding of the data, and (2), it only applies to statistically secure constructions. Boyle and
+          Naor showed that removing the “balls in bins” assumption would result in super linear lower bounds for sorting
+          circuits, a long standing open problem in circuit complexity. As a way to circumventing this barrier, they
+          also proposed a notion of an “online” ORAM, which is an ORAM that remains secure even if the operations arrive
+          in an online manner. They argued that most known ORAM constructions work in the online setting as well.Our
+          contribution is an
+          $$\varOmega (\lg n)$$
+          lower bound on the bandwidth overhead of any online ORAM, even if we require only computational security and
+          allow arbitrary representations of data, thus greatly strengthening the lower bound of Goldreich and Ostrovsky
+          in the online setting. Our lower bound applies to ORAMs with memory size n and any word size
+          $$r \ge 1$$
+          . The bound therefore asymptotically matches the known upper bounds when
+          $$r = \varOmega (\lg ^2 n)$$
+          ."
+"2018","CRYPTO 2018","Multi-Theorem Preprocessing NIZKs from
+            Lattices","Best Young Researcher Paper","Sam Kim, David J. Wu","Non-interactive zero-knowledge (NIZK) proofs are
+          fundamental to modern cryptography. Numerous NIZK constructions are known in both the random oracle and the
+          common reference string (CRS) models. In the CRS model, there exist constructions from several classes of
+          cryptographic assumptions such as trapdoor permutations, pairings, and indistinguishability obfuscation.
+          Notably absent from this list, however, are constructions from standard lattice assumptions. While there has
+          been partial progress in realizing NIZKs from lattices for specific languages, constructing NIZK proofs (and
+          arguments) for all of $$\mathsf {NP}$$ from standard lattice assumptions remains open.   In this work, we make
+          progress on this problem by giving the first construction of a multi-theorem NIZK argument for $$\mathsf
+          {NP}$$ from standard lattice assumptions in the preprocessing model. In the preprocessing model, a (trusted)
+          setup algorithm generates proving and verification keys. The proving key is needed to construct proofs and the
+          verification key is needed to check proofs. In the multi-theorem setting, the proving and verification keys
+          should be reusable for an unbounded number of theorems without compromising soundness or zero-knowledge.
+          Existing constructions of NIZKs in the preprocessing model (or even the designated-verifier model) that rely
+          on weaker assumptions like one-way functions or oblivious transfer are only secure in a single-theorem
+          setting. Thus, constructing multi-theorem NIZKs in the preprocessing model does not seem to be inherently
+          easier than constructing them in the CRS model.   We begin by constructing a multi-theorem preprocessing NIZK
+          directly from context-hiding homomorphic signatures. Then, we show how to efficiently implement the
+          preprocessing step using a new cryptographic primitive called blind homomorphic signatures. This primitive may
+          be of independent interest. Finally, we show how to leverage our new lattice-based preprocessing NIZKs to
+          obtain new malicious-secure MPC protocols purely from standard lattice assumptions."
+"2018","EUROCRYPT 2018","Simple Proofs of Sequential Work","Best Paper","Bram
+              Cohen, Krzysztof Pietrzak",""
+"2018","EUROCRYPT 2018","k-Round Multiparty Computation from k-Round Oblivious
+            Transfer via Garbled Interactive Circuits","Best Paper","Fabrice
+              Benhamouda, Huijia Lin",""
+"2018","EUROCRYPT 2018","Two-Round Multiparty Secure Computation from Minimal
+            Assumptions","Best Paper","Sanjam
+              Garg, Akshayaram Srinivasan",""
+"2018","EUROCRYPT 2018","The Discrete-Logarithm Problem with
+            Preprocessing","Best Young Researcher","Henry
+              Corrigan-Gibbs, Dmitry Kogan",""
+"2018","TCC 2018","On Basing Search SIVP on NP-Hardness","Best Student Paper","Tianren
+              Liu","The possibility of basing cryptography on the minimal
+          assumption
+          $$\mathbf{NP }\nsubseteq \mathbf{BPP }$$
+          NP⊈BPP is at the very heart of complexity-theoretic cryptography. The closest we have gotten so far is
+          lattice-based cryptography whose average-case security is based on the worst-case hardness of approximate
+          shortest vector problems on integer lattices. The state-of-the-art is the construction of a one-way function
+          (and collision-resistant hash function) based on the hardness of the
+          $$\tilde{O}(n)$$
+          O~(n)-approximate shortest independent vector problem
+          $${\textsf {SIVP}}_{\tilde{O}(n)}$$
+          SIVPO~(n).Although
+          $${\textsf {SIVP}}$$
+          SIVP is NP-hard in its exact version, Guruswami et al. (CCC 2004) showed that
+          $${\textsf {gapSIVP}}_{\sqrt{n/\log n}}$$
+          gapSIVPn/logn is in
+          $$\mathbf{NP } \cap \mathbf{coAM }$$
+          NP∩coAM and thus unlikely to be
+          $$\mathbf{NP }$$
+          NP-hard. Indeed, any language that can be reduced to
+          $${\textsf {gapSIVP}}_{\tilde{O}(\sqrt{n})}$$
+          gapSIVPO~(n) (under general probabilistic polynomial-time adaptive reductions) is in
+          $$\mathbf{AM } \cap \mathbf{coAM }$$
+          AM∩coAM by the results of Peikert and Vaikuntanathan (CRYPTO 2008) and Mahmoody and Xiao (CCC 2010). However,
+          none of these results apply to reductions to search problems, still leaving open a ray of hope: can
+          $$\mathbf{NP }$$
+          NPbe reduced to solving search SIVP with approximation factor
+          $$\tilde{O}(n)$$
+          O~(n)?We eliminate such possibility, by showing that any language that can be reduced to solving search
+          $${\textsf {SIVP}}$$
+          SIVP with any approximation factor
+          $$\lambda (n) = \omega (n\log n)$$
+          λ(n)=ω(nlogn) lies in AM intersect coAM."
+"2018","TCHES 2018","Cold Boot Attacks on Ring and Module LWE Keys Under the
+            NTT","Best Paper at CHES 2019","Martin R.
+              Albrecht, Amit Deo, Kenneth G. Paterson","In this work, we consider the ring- and module- variants
+          of the LWE problem and investigate cold boot attacks on cryptographic schemes based on these problems, wherein
+          an attacker is faced with the problem of recovering a scheme’s secret key from a noisy version of that key.
+          The leakage resilience of cryptography based on the learning with errors (LWE) problem has been studied
+          before, but there are only limited results considering the parameters observed in cold boot attack scenarios.
+          There are two main encodings for storing ring- and module-LWE keys, and, as we show, the performance of cold
+          boot attacks can be highly sensitive to the exact encoding used. The first encoding stores polynomial
+          coefficients directly in memory. The second encoding performs a number theoretic transform (NTT) before
+          storing the key, a commonly used method leading to more efficient implementations. We first give estimates for
+          a cold boot attack complexity on the first encoding method based on standard algorithms; this analysis
+          confirms that this encoding method is vulnerable to cold boot attacks only at very low bit-flip rates. We then
+          show that, for the second encoding method, the structure introduced by using an NTT is exploitable in the cold
+          boot setting: we develop a bespoke attack strategy that is much cheaper than our estimates for the first
+          encoding when considering module-LWE keys. For example, at a 1% bit-flip rate (which corresponds roughly to
+          what can be achieved in practice for cold boot attacks when applying cooling), a cold boot attack on Kyber KEM
+          parameters has a cost of 243 operations when the second, NTT-based encoding is used for key storage, compared
+          to 270 operations with the first encoding. On the other hand, in the case of the ring-LWE-based KEM, New Hope,
+          the cold boot attack complexities are similar for both encoding methods."
+"2018","TOSC 2018","Key-Recovery Attacks on Full Kravatte","Best Paper FSE 2018","Colin
+              Chaigneau, Thomas Fuhr, Henri Gilbert, Jian Guo, Jérémy Jean, Jean-René Reinhard, Ling Song","This paper presents a cryptanalysis of full Kravatte, an
+          instantiation of the Farfalle construction of a pseudorandom function (PRF) with variable input and output
+          length. This new construction, proposed by Bertoni et al., introduces an efficiently parallelizable and
+          extremely versatile building block for the design of symmetric mechanisms, e.g. message authentication codes
+          or stream ciphers. It relies on a set of permutations and on so-called rolling functions: it can be split into
+          a compression layer followed by a two-step expansion layer. The key is expanded and used to mask the inputs
+          and outputs of the construction. Kravatte instantiates Farfalle using linear rolling functions and
+          permutations obtained by iterating the Keccak round function.We develop in this paper several attacks against
+          this PRF, based on three different attack strategies that bypass part of the construction and target a reduced
+          number of permutation rounds. A higher order differential distinguisher exploits the possibility to build an
+          affine space of values in the cipher state after the compression layer. An algebraic meet-in-the-middle attack
+          can be mounted on the second step of the expansion layer. Finally, due to the linearity of the rolling
+          function and the low algebraic degree of the Keccak round function, a linear recurrence distinguisher can be
+          found on intermediate states of the second step of the expansion layer. All the attacks rely on the ability to
+          invert a small number of the final rounds of the construction. In particular, the last two rounds of the
+          construction together with the final masking by the key can be algebraically inverted, which allows to recover
+          the key.The complexities of the devised attacks, applied to the Kravatte specifications published on the IACR
+          ePrint in July 2017, or the strengthened version of Kravatte recently presented at ECC 2017, are far below the
+          security claimed."
+"2017","ASIACRYPT 2017","Identification Protocols and Signature Schemes Based on
+            Supersingular Isogeny Problems","Best Paper","Steven D.
+              Galbraith, Christophe Petit, Javier Silva",""
+"2017","TCC 2006","Efficient Collision-Resistant Hashing from Worst-Case
+            Assumptions on Cyclic Lattices","TCC Test of Time Award","Chris
+              Peikert, Alon Rosen",""
+"2017","CRYPTO 2017","The First Collision for Full SHA-1","Best paper","Marc
+              Stevens, Elie Bursztein, Pierre Karpman, Ange Albertini, Yarik Markov",""
+"2017","CRYPTO 2017","Identity-Based Encryption from the Diffie-Hellman
+            Assumption","Best paper","Nico
+              Döttling, Sanjam Garg",""
+"2017","CRYPTO 2017","Watermarking Cryptographic Functionalities from
+            Standard Lattice Assumptions","Best young researcher paper","Sam Kim, David J. Wu",""
+"2017","EUROCRYPT 2017","Scrypt Is Maximally Memory-Hard","Best Paper","Joël
+              Alwen, Binyi Chen, Krzysztof Pietrzak, Leonid Reyzin, Stefano Tessaro",""
+"2017","CHES 2017","Nanofocused X-Ray Beam to Reprogram Secure
+            Circuits","Best Paper","Stéphanie
+              Anceau, Pierre Bleuet, Jessy Clédière, Laurent Maingault, Jean-luc Rainard, Rémi Tucoulou","Synchrotron-based X-ray nanobeams are investigated as a
+          tool to perturb microcontroller circuits. An intense hard X-ray focused beam of a few tens of nanometers is
+          used to target the flash, EEPROM and RAM memory of a circuit. The obtained results show that it is possible to
+          corrupt a single transistor in a semi-permanent state. A simple heat treatment can remove the induced effect,
+          thus making the corruption reversible. An attack on a code stored in flash demonstrates unambiguously that
+          this new technique can be a threat to the security of integrated circuits."
+"2016","ASIACRYPT 2016","Faster Fully Homomorphic Encryption: Bootstrapping in
+            Less Than 0.1 Seconds","Best Paper","Ilaria
+              Chillotti, Nicolas Gama, Mariya Georgieva, Malika Izabachène",""
+"2016","TCC 2006","Calibrating Noise to Sensitivity in Private Data
+            Analysis","TCC Test of Time Award","Cynthia
+              Dwork, Frank McSherry, Kobbi Nissim, Adam Smith",""
+"2016","TCC 2004","Indifferentiability, Impossibility Results on
+            Reductions, and Applications to the Random Oracle Methodology","TCC Test of Time Award","Ueli
+              Maurer, Renato Renner, Clemens Holenstein",""
+"2016","CRYPTO 2016","The Magic of ELFs","Early Career Award","Mark
+              Zhandry",""
+"2016","CRYPTO 2016","Breaking the Circuit Size Barrier for Secure
+            Computation Under DDH","Best Paper","Elette
+              Boyle, Niv Gilboa, Yuval Ishai",""
+"2016","EUROCRYPT 2016","Tightly CCA-Secure Encryption Without
+            Pairings","Best Paper","Romain
+              Gay, Dennis Hofheinz, Eike Kiltz, Hoeteck Wee",""
+"2016","CHES 2016","Differential Computation Analysis: Hiding Your
+            White-Box Designs is Not Enough","Best Paper","Joppe W.
+              Bos, Charles Hubain, Wil Michiels, Philippe Teuwen",""
+"2016","FSE 2016","Verifiable Side-Channel Security of Cryptographic
+            Implementations: Constant-Time MEE-CBC","Best Paper","José Bacelar
+              Almeida, Manuel Barbosa, Gilles Barthe, François Dupressoir",""
+"2015","ASIACRYPT 2015","Improved Security Proofs in Lattice-Based Cryptography:
+            Using the R&eacute;nyi Divergence Rather Than the Statistical Distance","Best Paper","Shi Bai, Adeline Roux-Langlois, Tancrède Lepoint, Damien Stehlé, Ron Steinfeld",""
+"2015","TCC 2004","Physically Observable Cryptography (Extended
+            Abstract)","TCC Test of Time Award","Silvio
+              Micali, Leonid Reyzin",""
+"2015","CRYPTO 2015","Integral Cryptanalysis on Full MISTY1","Best Paper","Yosuke
+              Todo",""
+"2015","EUROCRYPT 2015","Cryptanalysis of the Multilinear Map over the
+            Integers","Best Paper","Jung Hee
+              Cheon, Kyoohyung Han, Changmin Lee, Hansol Ryu, Damien Stehlé",""
+"2015","CHES 2015","A Physical Approach for Stochastic Modeling of
+            TERO-Based TRNG","Best Paper","Patrick
+              Haddad, Viktor Fischer, Florent Bernard, Jean Nicolai",""
+"2015","FSE 2015","GCM Security Bounds Reconsidered","Best Paper","Yuichi
+              Niwa, Keisuke Ohashi, Kazuhiko Minematsu, Tetsu Iwata",""
+"2014","ASIACRYPT 2014","Solving LPN Using Covering Codes","Best Paper","Qian Guo, Thomas Johansson, Carl Löndahl",""
+"2014","CRYPTO 2014","Revisiting the Gentry-Szydlo Algorithm","Best Paper","Hendrik W. Lenstra
+              Jr., Alice Silverberg",""
+"2014","EUROCRYPT 2014","Unifying Leakage Models: From Probing Attacks to Noisy
+            Leakage","Best Paper","Alexandre
+              Duc, Stefan Dziembowski, Sebastian Faust",""
+"2014","EUROCRYPT 2014","A Heuristic Quasi-Polynomial Algorithm for Discrete
+            Logarithm in Finite Fields of Small Characteristic","Best Paper","Razvan
+              Barbulescu, Pierrick Gaudry, Antoine Joux, Emmanuel Thomé",""
+"2014","CHES 2014","EM Attack Is Non-invasive? - Design Methodology and
+            Validity Verification of EM Attack Sensor","Best Paper","Naofumi
+              Homma, Yu-ichi Hayashi, Noriyuki Miura, Daisuke Fujimoto, Daichi Tanaka, Makoto Nagata, Takafumi Aoki",""
+"2014","FSE 2014","Differential-Linear Cryptanalysis Revisited","Best Paper","Céline
+              Blondeau, Gregor Leander, Kaisa Nyberg",""
+"2014","FSE 2014","Direct Construction of Recursive MDS Diffusion Layers
+            Using Shortened BCH Codes","Best Paper","Daniel
+              Augot, Matthieu Finiasz",""
+"2013","ASIACRYPT 2013","Shorter Quasi-Adaptive NIZK Proofs for Linear
+            Subspaces","Best Paper","Charanjit S.
+              Jutla, Arnab Roy",""
+"2013","CRYPTO 2013","On the Function Field Sieve and the Impact of Higher
+            Splitting Probabilities","Best Paper","Faruk
+              Göloglu, Robert Granger, Gary McGuire, Jens Zumbrägel",""
+"2013","CRYPTO 2013","Counter-cryptanalysis: reconstructing Flame's new
+            variant collision attack","Best Young-Author Paper","Marc
+              Stevens",""
+"2013","EUROCRYPT 2013","Candidate Multilinear Maps from Ideal
+            Lattices","Best Paper","Sanjam
+              Garg, Craig Gentry, Shai Halevi",""
+"2013","CHES 2013","Lambda Coordinates for Binary Elliptic
+            Curves","Best Paper","Thomaz
+              Oliveira, Julio López, Diego F. Aranha, Francisco Rodríguez-Henríquez",""
+"2012","CRYPTO 2012","Efficient Dissection of Composite Problems, with
+            Applications to Cryptanalysis, Knapsacks, and Combinatorial Search Problems","Best Paper","Itai
+              Dinur, Orr Dunkelman, Nathan Keller, Adi Shamir",""
+"2012","EUROCRYPT 2012","Cover and Decomposition Index Calculus on Elliptic
+            Curves Made Practical - Application to a Previously Unreachable Curve over $F_(p^6)$","Best Paper","Antoine
+              Joux, Vanessa Vitse",""
+"2012","CHES 2012","Compiler Assisted Masking","Best Paper","Andrew
+              Moss, Elisabeth Oswald, Daniel Page, Michael Tunstall",""
+"2012","FSE 2012","New Attacks on Keccak-224 and Keccak-256","Best Paper","Itai
+              Dinur, Orr Dunkelman, Adi Shamir",""
+"2012","FSE 2012","Recursive Diffusion Layers for Block Ciphers and Hash
+            Functions","Best Paper","Mahdi
+              Sajadieh, Mohammad Dakhilalian, Hamid Mala, Pouyan Sepehrdad",""
+"2012","FSE 2012","Improved Rebound Attack on the Finalist
+            Gr&oslash;stl","Best Paper","Jérémy
+              Jean, María Naya-Plasencia, Thomas Peyrin",""
+"2012","TCC 2012","Point Obfuscation and 3-Round Zero-Knowledge","Best Student Paper","Nir
+              Bitansky, Omer Paneth",""
+"2012","TCC 2012","Lower Bounds in Differential Privacy","Best Student Paper","Anindya
+              De",""
+"2011","ASIACRYPT 2011","Counting Points on Genus 2 Curves with Real
+            Multiplication","Best Paper","Pierrick
+              Gaudry, David Kohel, Benjamin A. Smith",""
+"2011","ASIACRYPT 2011","A Framework for Practical Universally Composable
+            Zero-Knowledge Protocols","Best Paper","Jan
+              Camenisch, Stephan Krenn, Victor Shoup",""
+"2011","CRYPTO 2011","Computer-Aided Security Proofs for the Working
+            Cryptographer","Best Paper","Gilles
+              Barthe, Benjamin Grégoire, Sylvain Heraud, Santiago Zanella-Béguelin",""
+"2011","EUROCRYPT 2011","Efficient Authentication from Hard Learning
+            Problems","Best paper","Eike Kiltz, Krzysztof Pietrzak, David Cash, Abhishek Jain, Daniele Venturi",""
+"2011","CHES 2011","Fast Multi-precision Multiplication for Public-Key
+            Cryptography on Embedded Microprocessors","Best Paper","Michael
+              Hutter, Erich Wenger",""
+"2011","FSE 2011","A Single-Key Attack on the Full GOST Block
+            Cipher","Best Paper","Takanori
+              Isobe",""
+"2011","TCC 2011","Security Amplification for the Cascade of Arbitrarily
+            Weak PRPs: Tight Bounds via the Interactive Hardcore Lemma","Best Student Paper","Stefano
+              Tessaro",""
+"2010","ASIACRYPT 2010","Rotational Rebound Attacks on Reduced Skein","Best Paper","Dmitry
+              Khovratovich, Ivica Nikolic, Christian Rechberger",""
+"2010","CRYPTO 2010","Toward Basing Fully Homomorphic Encryption on
+            Worst-Case Hardness","Best paper","Craig
+              Gentry",""
+"2010","EUROCRYPT 2010","Bonsai Trees, or How to Delegate a Lattice
+            Basis","Best Paper","David
+              Cash, Dennis Hofheinz, Eike Kiltz, Chris Peikert",""
+"2010","CHES 2010","Public Key Perturbation of Randomized RSA
+            Implementations","Best Paper","Alexandre
+              Berzati, Cécile Canovas-Dumas, Louis Goubin",""
+"2010","FSE 2010","Attacking the Knudsen-Preneel Compression
+            Functions","Best Paper","Onur Özen, Thomas Shrimpton, Martijn Stam",""
+"2010","PKC 2010","Chosen-Ciphertext Security from Slightly Lossy Trapdoor
+            Functions","Best Paper","Petros
+              Mol, Scott Yilek",""
+"2010","TCC 2010","Parallel Repetition Theorems for Interactive
+            Arguments","Best Student Paper","Kai-Min
+              Chung, Feng-Hao Liu",""
+"2009","ASIACRYPT 2009","Improved Generic Algorithms for 3-Collisions","Best Paper","Antoine
+              Joux, Stefan Lucks",""
+"2009","CRYPTO 2009","Short Chosen-Prefix Collisions for MD5 and the Creation
+            of a Rogue CA Certificate","Best paper","Marc
+              Stevens, Alexander Sotirov, Jacob Appelbaum, Arjen K. Lenstra, David Molnar, Dag Arne Osvik, Benne de Weger",""
+"2009","EUROCRYPT 2009","Practical Chosen Ciphertext Secure Encryption from
+            Factoring","Best paper","Dennis
+              Hofheinz, Eike Kiltz",""
+"2009","CHES 2009","Hardware Accelerator for the Tate Pairing in
+            Characteristic Three Based on Karatsuba-Ofman Multipliers","Best Paper","Jean-Luc
+              Beuchat, Jérémie Detrey, Nicolas Estibals, Eiji Okamoto, Francisco Rodríguez-Henríquez",""
+"2009","CHES 2009","A New Side-Channel Attack on RSA Prime
+            Generation","Best Paper","Thomas
+              Finke, Max Gebhardt, Werner Schindler",""
+"2009","CHES 2009","Faster and Timing-Attack Resistant AES-GCM","Best Paper","Emilia
+              Käsper, Peter Schwabe",""
+"2009","FSE 2009","Blockcipher-Based Hashing Revisited","Best Paper","Martijn
+              Stam",""
+"2009","PKC 2009","Implicit Factoring: On Polynomial Time Factoring Given
+            Only an Implicit Hint","Best Paper","Alexander
+              May, Maike Ritzenhofen",""
+"2008","ASIACRYPT 2008","Breaking the F-FCSR-H Stream Cipher in Real
+            Time","Best Paper","Martin
+              Hell, Thomas Johansson",""
+"2008","ASIACRYPT 2008","Speeding Up the Pollard Rho Method on Prime
+            Fields","Best Paper","Jung Hee
+              Cheon, Jin Hong, Minkyu Kim",""
+"2008","ASIACRYPT 2008","A Modular Security Analysis of the TLS Handshake
+            Protocol","Best Paper","Paul
+              Morrissey, Nigel P. Smart, Bogdan Warinschi",""
+"2008","CRYPTO 2008","The Random Oracle Model and the Ideal Cipher Model Are
+            Equivalent","Best Paper","Jean-Sébastien
+              Coron, Jacques Patarin, Yannick Seurin",""
+"2008","EUROCRYPT 2008","Isogenies and the Discrete Logarithm Problem in
+            Jacobians of Genus 3 Hyperelliptic Curves","Best Paper","Benjamin
+              Smith",""
+"2008","CHES 2008","Time-Area Optimized Public-Key Engines: -Cryptosystems
+            as Replacement for Elliptic Curves?","Best Paper","Andrey
+              Bogdanov, Thomas Eisenbarth, Andy Rupp, Christopher Wolf",""
+"2008","CHES 2008","Attack and Improvement of a Secure S-Box Calculation
+            Based on the Fourier Transform","Best Paper","Jean-Sébastien
+              Coron, Christophe Giraud, Emmanuel Prouff, Matthieu Rivain",""
+"2008","PKC 2008","Lattice-Based Identification Schemes Secure Under
+            Active Attacks","Best Paper","Vadim
+              Lyubashevsky",""
+"2007","ASIACRYPT 2007","Cryptanalysis of Grindahl","Best Paper","Thomas
+              Peyrin",""
+"2007","ASIACRYPT 2007","Faster Addition and Doubling on Elliptic
+            Curves","Best Paper","Daniel J.
+              Bernstein, Tanja Lange",""
+"2007","CRYPTO 2007","Cryptography with Constant Input Locality","Best paper","Benny
+              Applebaum, Yuval Ishai, Eyal Kushilevitz",""
+"2007","EUROCRYPT 2007","Zero Knowledge and Soundness Are Symmetric","Best Paper","Shien Jin
+              Ong, Salil P. Vadhan",""
+"2007","CHES 2007","Side Channel Cryptanalysis of a Higher Order Masking
+            Scheme","Best Paper","Jean-Sébastien
+              Coron, Emmanuel Prouff, Matthieu Rivain",""
+"2007","CHES 2007","Arithmetic Operators for Pairing-Based
+            Cryptography","Best Paper","Jean-Luc
+              Beuchat, Nicolas Brisebarre, Jérémie Detrey, Eiji Okamoto",""
+"2007","PKC 2007","Full-Domain Subgroup Hiding and Constant-Size Group
+            Signatures","Best paper","Xavier
+              Boyen, Brent Waters",""
+"2007","TCC 2007","Tackling Adaptive Corruptions in Multicast Encryption
+            Protocols","Best Student Paper","Saurabh
+              Panjwani",""
+"2006","ASIACRYPT 2006","Finding SHA-1 Characteristics: General Results and
+            Applications","Best Paper","Christophe De
+              Cannière, Christian Rechberger",""
+"2006","CRYPTO 2006","On the Power of the Randomized Iterate","Best paper","Iftach
+              Haitner, Danny Harnik, Omer Reingold",""
+"2006","EUROCRYPT 2006","Learning a Parallelepiped: Cryptanalysis of GGH and NTRU
+            Signatures","Best Paper","Phong Q.
+              Nguyen, Oded Regev",""
+"2006","PKC 2006","New Attacks on RSA with Small Secret
+            CRT-Exponents","Best Paper","Daniel
+              Bleichenbacher, Alexander May",""
+"2005","EUROCRYPT 2005","Cryptanalysis of the Hash Functions MD4 and
+            RIPEMD","Best Paper","Xiaoyun
+              Wang, Xuejia Lai, Dengguo Feng, Hui Chen, Xiuyuan Yu",""
+"2005","EUROCRYPT 2005","How to Break MD5 and Other Hash Functions","Best Paper","Xiaoyun
+              Wang, Hongbo Yu",""
+"2005","CHES 2005","Successfully Attacking Masked AES Hardware
+            Implementations","Best Paper","Stefan
+              Mangard, Norbert Pramstaller, Elisabeth Oswald",""
+"2004","ASIACRYPT 2004","The XL-Algorithm and a Conjecture from Commutative
+            Algebra","Best Paper","Claus Diem",""
