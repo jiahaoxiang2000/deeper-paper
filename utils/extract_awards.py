@@ -8,7 +8,7 @@ import re
 
 # Define the path to the HTML file
 HTML_FILE = '../temp/bestpapers.html'
-OUTPUT_CSV = '../awards.csv'
+OUTPUT_CSV = '../data/awards.csv'  # Updated path to match Makefile
 
 def extract_award_info():
     # Read the HTML file
