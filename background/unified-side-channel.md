@@ -72,3 +72,44 @@ The _guessing entropy_ of the side-channel key recovery adversary $A_{E_K,L}$ ag
 $$
 \mathsf{GE}^{\mathsf{sc\text{-}kr},S}_{A_{E_K,L}}(\tau, m, q) = \mathbb{E}[\mathsf{Exp}^{\mathsf{sc\text{-}kg}}_K]
 $$
+
+### 4.2 Information theoretic metrics
+
+Let $\mathbf{X}_q = [X_1, X_2, \ldots, X_q]$ be a vector of variables containing a sequence of _inputs_ to the target physical computer and $\mathbf{x}_q = [x_1, x_2, \ldots, x_q]$ be a _realization_ of this vector.
+
+Let $\mathbf{L}_q$ be a random vector denoting the side-channel observations _generated_ with $q$ queries to the target physical computer and $\mathbf{l}_q = [l_1, l_2, \ldots, l_q]$ be a _realization_ of this random vector,
+
+Let finally $\Pr[s \mid \mathbf{l}_q]$ be the conditional probability of a key class $s$ given a leakage $\mathbf{l}_q$.
+We define the conditional entropy matrix as:
+
+$$
+\begin{align}
+H^q_{s,s^*} = -\sum_{\mathbf{l}_q} \Pr[\mathbf{l}_q \mid s] \cdot \log_2 \Pr[s^* \mid \mathbf{l}_q],
+\end{align}
+$$
+
+where $s$ and $s^*$ respectively denote the correct key class and a candidate out of the $|S|$ possible ones.
+
+we derive Shannon’s conditional entropy:
+
+$$
+H[S \mid \mathbf{L}_q] = -\sum_{s} \Pr[s] \sum_{\mathbf{l}_q} \Pr[\mathbf{l}_q \mid s] \cdot \log_2 \Pr[s^* \mid \mathbf{l}_q] = \mathbb{E}_s \left[ H^q_{s,s^*} \right]
+$$
+
+Then, we define an entropy reduction matrix:
+
+$$
+\Delta H^q_{s,s^*} = H[S] - H^q_{s,s^*},
+$$
+
+where $H[S]$ is the entropy of the key class variable $S$ before any side-channel attack has been performed:
+
+$$
+H[S] = -\mathbb{E}_s \log_2 \Pr[s].
+$$
+
+It directly yields the mutual information:
+
+$$
+I(S; \mathbf{L}_q) = H[S] - H[S \mid \mathbf{L}_q] = \mathbb{E}_s \left[ \Delta H^q_{s,s} \right]
+$$
