@@ -1,13 +1,13 @@
 # Makefile for Awards Viewing System
 
 # Variables
-PYTHON = python3
+PYTHON = python
 BROWSER = open
 EXTRACT_SCRIPT = utils/extract_awards.py
 HTML_VIEWER = data/awards_viewer.html
 CSV_OUTPUT = data/awards.csv
 HTML_INPUT = temp/bestpapers.html
-PORT = 80
+PORT = 8080
 
 # Default target
 .PHONY: all
