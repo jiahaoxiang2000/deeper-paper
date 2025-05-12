@@ -1,9 +1,6 @@
 [submodule ".github/prompts"]
 	path = .github/prompts
 	url = git@github.com:jiahaoxiang2000/prompts.git
-[submodule "tex/cryptobib"]
-	path = tex/cryptobib
-	url = https://github.com/cryptobib/export
 [submodule "code"]
 	path = code
 	url = https://github.com/jiahaoxiang2000/powershorter.git
