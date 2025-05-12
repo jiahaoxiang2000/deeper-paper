@@ -31,7 +31,7 @@
 
 
 %%%% 4. TITLE %%%%
-\title{My New Paper}
+\title{Fault Attacks}
 %%%% NOTES:
 % - If the title is too long, or includes special macro, please
 %   provide a "running title" as optional argument: \title[Short]{Long}
@@ -43,13 +43,12 @@
 
 
 %%%% 5. KEYWORDS %%%%
-\keywords{Something \and Something else}
+\keywords{Fault attack }
 
 
 %%%% 6. ABSTRACT %%%%
 \begin{abstract}
-  In this paper we prove that the One-Time-Pad has perfect security.
-
+ TODO: Write an abstract
 \end{abstract}
 
 
@@ -58,7 +57,12 @@
 
 Widely used primitives like the AES~\cite{AES} do not have perfect
 security, and can be analysed with linear
-cryptanalysis~\cite{AC:DLNS20}, 
+cryptanalysis~\cite{AC:DLNS20}, differential cryptanalysis, and a variety of implementation attacks. 
+Among these, fault attacks have emerged as a powerful class of physical attacks that exploit hardware vulnerabilities to induce errors during cryptographic computations. 
+Since the first demonstration of fault attacks on AES, numerous techniques have been developed to recover secret keys by injecting faults and analyzing the resulting faulty ciphertexts~\cite{TCHES:ZZJZBZ20,EC:SBRPM20}. 
+Persistent fault attacks, for example, can compromise the security of AES implementations even in the presence of countermeasures~\cite{TCHES:ZZJZBZ20}. 
+To address these threats, researchers have proposed various protection mechanisms, such as statistical ineffective fault attack countermeasures~\cite{TCHES:DDEGMP20}. 
+Despite these advances, fault attacks remain a significant concern for the practical security of AES and other symmetric ciphers, motivating ongoing research into both new attack strategies and robust defenses. 
 
 \section{Main Result}
 \label{sec:main}
