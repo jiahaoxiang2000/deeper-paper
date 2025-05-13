@@ -35,3 +35,14 @@ Glitch timing (also glitch trigger or trigger) is usually calculated as _a delay
 
 MCUs integrate processor, flash memory and other peripherals in a single package.
 However, some microcontrollers also integrate a voltage regulator for providing a fixed and stable power supply to the internal processor and memory, independently from the actual input voltage.
+
+To reduce external interferences and minimize the power trace length, we directly soldered each MCU on a dedicated breakout board without decoupling capacitors; this PCB was then attached to the main glitch board through the pin header connector.
+
+> details of the setup are in the paper Figure 1c.
+> utils now, we find the major innovations use the DAC-based to replace MOS-FET-based glitch generator, which mean have one ability to generate arbitrary glitch waveforms.
+
+## Arbitrary Waveform Voltage Glitch
+
+Up to minor variations due to trace capacitance and impedance, the generated waveform is also repeatable and predictable and it is not influenced by the characteristics of the particular **MOS-FET transistor** in use, e.g., on-state _resistance, capacitance, rise and fall times_.
+
+### Parameter Search and Optimization
