@@ -26,3 +26,12 @@ In the former, the number of successful faults required is from low to moderate 
 - We investigate the effect of different glitch waveforms in the setting of voltage fault injection attacks and, in particular, we propose a new method for the generation of _arbitrary glitch waveforms_ using a low-cost and software-managed setup;
 - we report on unpublished vulnerabilities and weaknesses in six microcontrollers from three major manufacturers: STMicroelectronics, Texas Instruments and Renesas Electronics. We combine these vulnerabilities and describe the attacks for extracting the firmware from the internal read-protected flash memory.
 - we evaluate the attack performance of our method by comparing the speed, efficiency and reliability of our solution against two popular V-FI techniques.
+
+## Preliminaries
+
+**Voltage Fault Injection (V-FI).** The disturbances that are induced in the power supply line are called _voltage glitches or simply glitches_.
+A glitch is a transient voltage drop with a _duration typically in the ns to μs range_, that occurs at a specific instant of time.
+Glitch timing (also glitch trigger or trigger) is usually calculated as _a delay from a specific triggering event_ such as I/O activity or power-up.
+
+MCUs integrate processor, flash memory and other peripherals in a single package.
+However, some microcontrollers also integrate a voltage regulator for providing a fixed and stable power supply to the internal processor and memory, independently from the actual input voltage.
