@@ -1,6 +1,7 @@
 # Shaping the Glitch: Optimizing Voltage Fault Injection Attacks
 
 > The original paper on [here](./paper/Shaping%20the%20Glitch_%20Optimizing%20Voltage%20Fault%20Injection%20Attacks.pdf)
+> Bozzato C, Focardi R, Palmarini F. Shaping the glitch: optimizing voltage fault injection attacks[J]. IACR transactions on cryptographic hardware and embedded systems, 2019, 2019(2): 199-224.
 
 ## Abstract
 
@@ -46,3 +47,42 @@ To reduce external interferences and minimize the power trace length, we directl
 Up to minor variations due to trace capacitance and impedance, the generated waveform is also repeatable and predictable and it is not influenced by the characteristics of the particular **MOS-FET transistor** in use, e.g., on-state _resistance, capacitance, rise and fall times_.
 
 ### Parameter Search and Optimization
+
+The **search phase** is mandatory for designing and mounting an attack while the **optimization step** is subject to the specific requirements and complexity of the attack.
+In the following, we describe a _semi-automated supervised search_ (cf. Section 3.1.1) and a fully _automated unsupervised search_ based on genetic algorithms (cf., Section 3.1.2).
+
+#### Semi-Automated Supervised Search
+
+First, we randomly generate and interpolate the set of $(x, y)$ points describing the candidate arbitrary glitch waveform.
+Then, we iteratively select a random sample from each parameter interval and test the obtained combination.
+This process is repeated and the results are manually evaluated, reducing the parameter space accordingly until one solution is found.
+
+#### Fully Automated Unsupervised Search
+
+It is designed over a classic genetic algorithm (GA) structure, where an initial population of candidate solutions (the attack parameters) is randomly sampled and an iterative process is responsible for finding a solution that maximizes a _fitness value_ $F$.
+
+Specifically, the presented attacks exploit a single vulnerability, require a limited amount of glitches (≤ 100 k) and can be completed in a short time frame: from minutes to a few hours.
+
+## Scattered-glitch Attack
+
+**Attacker model.** We assume the attacker knows the MCU model under attack and has physical access to the target device.
+She has the ability to inspect the bootloader code in order to identify a suitable instruction to fault.
+
+### Case Study 1: STMicroelectronics
+
+#### STM32 F103xx
+
+**Attack.** We easily _bypass_ this protection mechanism by attacking the **Read Memory command**.
+After the user requests a read operation, the CPU checks the RDP value and returns the positive (ACK) or negative (NACK) response.
+By injecting a fault during the RDP checking phase, the bootloader can be deceived into returning an ACK despite the active read protection mechanism.
+Thus, it is enough to issue a Read Memory command over a memory block followed by a voltage glitch, and repeat this until an ACK is received and the content of the selected memory block is returned.
+The attack is then iterated over the subsequent memory blocks.
+
+### Experimental Results and Considerations
+
+| Device       | Extraction time | Total glitches | Successes | Parameter search | Repeatability |
+| ------------ | --------------- | -------------- | --------- | ---------------- | ------------- |
+| STM32F103    | 1 m (128 kB)    | 9k             | 5%        | 20 m             | High          |
+| STM32F373\*  | N/A             | ~25            | ~4%       | 2h               | Moderate      |
+| MSP430F5172  | 16 m (32 kB)    | 34k            | 98%       | 1h               | High          |
+| MSP430FR5725 | 50 m (8 kB)     | 100k           | 8%        | 3h               | Moderate      |
