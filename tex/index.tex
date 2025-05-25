@@ -31,7 +31,7 @@
 
 
 %%%% 4. TITLE %%%%
-\title{Fault Attacks}
+\title{ XXX for XXX Against Fault Attacks}
 %%%% NOTES:
 % - If the title is too long, or includes special macro, please
 %   provide a "running title" as optional argument: \title[Short]{Long}
@@ -43,30 +43,25 @@
 
 
 %%%% 5. KEYWORDS %%%%
-\keywords{Fault attack }
+\keywords{Fault attack \and countermeasures}
 
 
 %%%% 6. ABSTRACT %%%%
 \begin{abstract}
- TODO: Write an abstract
+
 \end{abstract}
 
 
 %%%% 7. PAPER CONTENT %%%%
 \section{Introduction}
 
-Widely used primitives like the AES~\cite{AES} do not have perfect
-security, and can be analysed with linear
-cryptanalysis~\cite{AC:DLNS20}, differential cryptanalysis, and a variety of implementation attacks. 
-Among these, fault attacks have emerged as a powerful class of physical attacks that exploit hardware vulnerabilities to induce errors during cryptographic computations. 
-Since the first demonstration of fault attacks on AES, numerous techniques have been developed to recover secret keys by injecting faults and analyzing the resulting faulty ciphertexts~\cite{TCHES:ZZJZBZ20,EC:SBRPM20}. 
-Persistent fault attacks, for example, can compromise the security of AES implementations even in the presence of countermeasures~\cite{TCHES:ZZJZBZ20}. 
-To address these threats, researchers have proposed various protection mechanisms, such as statistical ineffective fault attack countermeasures~\cite{TCHES:DDEGMP20}. 
-Despite these advances, fault attacks remain a significant concern for the practical security of AES and other symmetric ciphers, motivating ongoing research into both new attack strategies and robust defenses. 
+\subsection{Related Work}
 
-\section{Main Result}
-\label{sec:main}
-
+The \cite{TCHES:Genet23} shows both in theory and experimentally that the countermeasures based on \textit{caching the intermediate
+WOTS$^{+}$s} offer a marginally greater protection against unintentional faults. 
+For the \cite{AC:CorMan09} show that the Bellcore attack cannot be applied to the \textit{PSS encoding}; namely we show that PSS is provably secure against random fault attacks in the random oracle model, assuming that inverting RSA is hard. 
+The \cite{TCHES:THNABC24}  formalizes the \textit{k-fault-resistant partitioning} notion to solve the fault propagation problem when assessing \textit{redundancy-based hardware countermeasures} in a first step. Proven security guarantees can then reduce the remaining hardware attack surface when introducing the software in a second step. which combines the software and hardware countermeasures to provide a more robust solution against fault attacks. 
+The \cite{TCHES:DhoOvcTop24} propose a fault countermeasure, StaTI, based on threshold implementations and linear encoding techniques. The proposed countermeasure protects the implementations of cryptographic algorithms against both side-channel and fault adversaries in a non-combined attack setting.
 
 %%%% 8. BILBIOGRAPHY %%%%
 \bibliographystyle{alpha}
