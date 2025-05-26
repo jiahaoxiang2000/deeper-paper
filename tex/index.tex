@@ -63,6 +63,21 @@ For the \cite{AC:CorMan09} show that the Bellcore attack cannot be applied to th
 The \cite{TCHES:THNABC24}  formalizes the \textit{k-fault-resistant partitioning} notion to solve the fault propagation problem when assessing \textit{redundancy-based hardware countermeasures} in a first step. Proven security guarantees can then reduce the remaining hardware attack surface when introducing the software in a second step. which combines the software and hardware countermeasures to provide a more robust solution against fault attacks. 
 The \cite{TCHES:DhoOvcTop24} propose a fault countermeasure, StaTI, based on \textit{threshold implementations and linear encoding techniques}. The proposed countermeasure protects the implementations of cryptographic algorithms against both side-channel and fault adversaries in a non-combined attack setting.
 
+
+\section{Preliminary}
+
+\subsection{Fault Attack Model}
+
+Consider a cryptographic computation $\mathcal{C}: \mathcal{K} \times \mathcal{M} \rightarrow \mathcal{O}$ executing on a target device, where $\mathcal{K}$, $\mathcal{M}$, and $\mathcal{O}$ denote the key, message, and output spaces, respectively. Let $\mathcal{S} = \{s_0, s_1, \ldots, s_n\}$ represent the sequence of internal computational states during execution.
+
+\textbf{Attacker Model.} The adversary $\mathcal{A}$ controls a fault injection oracle $\mathcal{F}(t, \sigma, \phi, \alpha)$ parameterized by timing $t \in [0, T]$ within execution window $T$, target computational domain $\sigma \in \Sigma$ where $\Sigma = \{\text{ALU}, \dots, \text{control}\}$ represents functional units, injection mechanism $\phi \in \{\text{EM}, \dots, \text{voltage}\}$, and intensity $\alpha \in \mathbb{R}^+$. 
+The fault oracle induces state transitions $s_i \mapsto s_i^{\text{fault}}$ with probability $P_{\text{fault}}(t, \sigma, \phi, \alpha)$. The adversary observes output pairs $(o_{\text{clean}}, o_{\text{fault}})$ where $o_{\text{clean}} = \mathcal{C}(k, m)$ and $o_{\text{fault}} = \mathcal{C}^{\text{fault}}(k, m)$ represents computation under fault influence.
+
+\textbf{Security Assumptions.} The internal states $s_i \in \mathcal{S}$ remain opaque to $\mathcal{A}$, formally expressed as $\mathcal{A}(s_i) = \perp$ for all $i \in [0, n]$. Fault effects manifest probabilistically according to $P(\Delta | t, \sigma, \phi, \alpha)$ where $\Delta$ represents the computational deviation induced by the fault oracle. The adversary cannot deterministically control fault propagation through the computational pipeline, acknowledging stochastic fault models: transient bit corruption $\Delta_{\text{bit}} \sim \text{Bernoulli}(p_{\sigma})$, instruction disruption $\Delta_{\text{instr}} \sim \text{Geometric}(q_{\sigma})$, or data corruption $\Delta_{\text{data}} \sim \text{Uniform}(\mathbb{F}_2^w)$ for $w$-bit word operations, where success probabilities $p_{\sigma}, q_{\sigma}$ depend on the target domain $\sigma$.
+
+This attack model aligns with practical fault injection scenarios encountered in hardware security evaluations and provides a realistic framework for analyzing the effectiveness of proposed countermeasures.
+
+
 %%%% 8. BILBIOGRAPHY %%%%
 \bibliographystyle{alpha}
 \bibliography{abbrev3,crypto_custom,biblio}
