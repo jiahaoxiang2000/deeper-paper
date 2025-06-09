@@ -35,6 +35,6 @@ On the other hand, software-oriented fault injection frameworks [PMPD14, HSP21, 
 
 > here have hardware platform for verification the fault injections acttack. "FIVER - Robust Verification of Countermea- sures against Fault Injections. IACR Trans. Cryptogr. Hardw. Embed. Syst., 2021:447–473, 2021."
 
-In addition, we demonstrate the scalability of k-fault-resistant partitioning by analyzing the "3-fault security" of AES, which was not conducted by related work.
+In addition, we demonstrate the scalability of k-fault-resistant partitioning by analyzing the **3-fault security** of AES, which was not conducted by _related work_.
 
 ##
