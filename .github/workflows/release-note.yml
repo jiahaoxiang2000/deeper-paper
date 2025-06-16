@@ -44,6 +44,10 @@ jobs:
             echo "EOF" >> $GITHUB_ENV
           fi
 
+      - name: Rename PDF with version tag
+        run: |
+          cp tex/index.pdf tex/deeper-paper-${{ env.CURRENT_TAG }}.pdf
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
@@ -51,5 +55,7 @@ jobs:
           body: ${{ env.RELEASE_NOTES }}
           draft: false
           prerelease: false
+          files: |
+            tex/deeper-paper-${{ env.CURRENT_TAG }}.pdf
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
