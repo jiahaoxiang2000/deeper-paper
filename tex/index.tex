@@ -54,14 +54,23 @@
 %%%% 7. PAPER CONTENT %%%%
 \section{Introduction}
 
+\color{blue}
+
 \subsection{Related Work}
 
-The \cite{TCHES:Genet23} shows both in theory and experimentally that the countermeasures based on \textit{caching the intermediate
-WOTS$^{+}$s} offer a marginally greater protection against unintentional faults. 
-For the \cite{AC:CorMan09} show that the Bellcore attack cannot be applied to the \textit{PSS encoding}; namely we show that PSS is provably secure against random fault attacks in the random oracle model, assuming that inverting RSA is hard. 
-The \cite{TCHES:THNABC24}  formalizes the \textit{k-fault-resistant partitioning} notion to solve the fault propagation problem when assessing \textit{redundancy-based hardware countermeasures} in a first step. Proven security guarantees can then reduce the remaining hardware attack surface when introducing the software in a second step. which combines the software and hardware countermeasures to provide a more robust solution against fault attacks. 
-The \cite{TCHES:DhoOvcTop24} propose a fault countermeasure, StaTI, based on \textit{threshold implementations and linear encoding techniques}. The proposed countermeasure protects the implementations of cryptographic algorithms against both side-channel and fault adversaries in a non-combined attack setting.
+\textbf{Fault Injection Techniques and Models.} Recent advances in fault injection have led to sophisticated attack vectors including laser fault injection (LFI), electromagnetic fault injection (EMFI), and voltage glitching. \cite{TCHES:YamBurFu22} introduce \textit{Redshift}, demonstrating continuous-wave laser manipulation of signal propagation delays, enabling more precise fault injection than traditional pulsed techniques. \cite{ESORICS:KrcOrd24} propose diversity algorithms for optimizing laser fault injection parameters using machine learning approaches. The work by \cite{ESORICS:TopNikNik24} provides a systematic parameterization of fault adversary models, bridging theoretical assumptions with practical attack capabilities across different injection mechanisms.
 
+\textbf{Hardware Countermeasures and Redundancy Schemes.} The \cite{TCHES:THNABC24} formalizes the \textit{k-fault-resistant partitioning} notion to solve the fault propagation problem when assessing \textit{redundancy-based hardware countermeasures} in a first step. Proven security guarantees can then reduce the remaining hardware attack surface when introducing software countermeasures in a second step. \cite{TCHES:AskNikNik24} analyze attacks against glitch detection circuits, revealing vulnerabilities in hardware-based fault detection mechanisms. \cite{IEEE-TCAD:RamAmp20} propose RS-Mask, an integrated countermeasure combining random space masking against both power analysis and fault attacks using redundant computations.
+
+\textbf{Threshold Implementations and Masking Techniques.} The \cite{TCHES:DhoOvcTop24} propose StaTI, a fault countermeasure based on \textit{threshold implementations and linear encoding techniques} that protects against both side-channel and fault adversaries in non-combined attack settings. \cite{TCHES:FelRic24} introduce Combined Threshold Implementation, providing theoretical foundations for unified protection schemes.
+
+\textbf{Masking and Error Correction Integration.} \cite{ASIACRYPT:DobrEic18} demonstrate statistical ineffective fault attacks on masked AES implementations, highlighting the importance of proper integration between masking schemes and fault countermeasures. \cite{IEEE-TVLSI:MisKub21} present area-efficient architectures that combine masking with fault tolerance using reduced redundancy. \cite{TCHES:BelBugAzr22} propose RAMBAM (Redundancy AES Masking Basis for Attack Mitigation), combining multiplicative masking with redundancy for enhanced fault resistance.
+
+\textbf{Post-Quantum Cryptography and Modern Threats.} Recent work addresses fault attacks in post-quantum settings. \cite{IEEE-HOST:HowKhaMarNor19} develop specialized fault attack countermeasures for error samplers in lattice-based cryptography, addressing unique vulnerabilities in post-quantum constructions. The \cite{TCHES:Genet23} shows both theoretically and experimentally that countermeasures based on \textit{caching intermediate WOTS$^{+}$ signatures} offer enhanced protection against unintentional faults in hash-based signatures.
+
+\textbf{Formal Security Analysis.} Classical results include \cite{AC:CorMan09} proving that PSS encoding is secure against random fault attacks in the random oracle model. Modern approaches focus on combined security models: \cite{COSADE:SahBagJapMuk21} analyze SCA+SIFA countermeasures against enhanced fault template attacks, demonstrating the complexity of achieving security against multiple attack vectors simultaneously.
+
+\color{black}
 
 \section{Preliminary}
 
