@@ -6,7 +6,7 @@
       "args": [
         "run",
         "--directory",
-        "/home/isomo/tex/deeper-paper/.venv/lib/python3.12/site-packages/paper_search_mcp",
+        ".venv/lib/python3.12/site-packages/paper_search_mcp",
         "-m",
         "paper_search_mcp.server"
       ]
