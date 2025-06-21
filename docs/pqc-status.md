@@ -32,13 +32,6 @@ NIST has been conducting a multi-round standardization process for post-quantum 
 - **FIPS 206 (FN-DSA/Falcon)**: Under development, expected by summer 2025
 - **On-Ramp Signatures**: 14 second-round candidates selected from 50 submissions
 
-## References
-
-- [NIST Post-Quantum Cryptography Project](https://csrc.nist.gov/projects/post-quantum-cryptography)
-- [NIST IR 8545: Fourth Round Status Report](https://csrc.nist.gov/pubs/ir/8545/final)
-- FIPS 203, 204, 205 Standards (August 2024)
-- [Additional Digital Signature Schemes - Round 2](https://csrc.nist.gov/projects/pqc-dig-sig/round-2-additional-signatures)
-
 ## Complete PDF Analysis Summary
 
 **From Full Content Review of Both Presentations:**
@@ -165,7 +158,12 @@ Based on NIST's March 2025 presentation:
 - Notable candidates: Mayo, UOV, HAWK, SQIsign, FAEST
 - Focus on non-lattice alternatives to provide algorithmic diversity
 
-### Implementation Considerations
+## Implementation Considerations
+
+**Open Issues**
+
+- Transition & Migration
+  - Integration with existing cryptographic protocols (TLS, IPSec, etc.)
 
 **Standardization Approach**
 
@@ -180,3 +178,10 @@ Based on NIST's March 2025 presentation:
 - Higher-level protocol compatibility
 - Testing and validation procedures
 - Feedback incorporation from implementers
+
+## References
+
+- [NIST Post-Quantum Cryptography Project](https://csrc.nist.gov/projects/post-quantum-cryptography)
+- [NIST IR 8545: Fourth Round Status Report](https://csrc.nist.gov/pubs/ir/8545/final)
+- FIPS 203, 204, 205 Standards (August 2024)
+- [Additional Digital Signature Schemes - Round 2](https://csrc.nist.gov/projects/pqc-dig-sig/round-2-additional-signatures)
