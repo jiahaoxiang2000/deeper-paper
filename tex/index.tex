@@ -30,7 +30,7 @@
 
 
 %%%% 4. TITLE %%%%
-\title{ XXX for XXX Against Fault Attacks}
+\title{ Implementation}
 %%%% NOTES:
 % - If the title is too long, or includes special macro, please
 %   provide a "running title" as optional argument: \title[Short]{Long}
@@ -40,9 +40,8 @@
 
 \maketitle
 
-
 %%%% 5. KEYWORDS %%%%
-\keywords{Fault attack \and countermeasures}
+\keywords{Implementation \and Quantum Cryptography}
 
 
 %%%% 6. ABSTRACT %%%%
@@ -54,41 +53,12 @@
 %%%% 7. PAPER CONTENT %%%%
 \section{Introduction}
 
-\color{blue}
-
-\subsection{Related Work}
-
-\textbf{Fault Injection Techniques and Models.} Recent advances in fault injection have led to sophisticated attack vectors including laser fault injection (LFI), electromagnetic fault injection (EMFI), and voltage glitching. \cite{TCHES:YamBurFu22} introduce \textit{Redshift}, demonstrating continuous-wave laser manipulation of signal propagation delays, enabling more precise fault injection than traditional pulsed techniques. \cite{ESORICS:KrcOrd24} propose diversity algorithms for optimizing laser fault injection parameters using machine learning approaches. The work by \cite{ESORICS:TopNikNik24} provides a systematic parameterization of fault adversary models, bridging theoretical assumptions with practical attack capabilities across different injection mechanisms.
-
-\textbf{Hardware Countermeasures and Redundancy Schemes.} The \cite{TCHES:THNABC24} formalizes the \textit{k-fault-resistant partitioning} notion to solve the fault propagation problem when assessing \textit{redundancy-based hardware countermeasures} in a first step. Proven security guarantees can then reduce the remaining hardware attack surface when introducing software countermeasures in a second step. \cite{TCHES:AskNikNik24} analyze attacks against glitch detection circuits, revealing vulnerabilities in hardware-based fault detection mechanisms. \cite{IEEE-TCAD:RamAmp20} propose RS-Mask, an integrated countermeasure combining random space masking against both power analysis and fault attacks using redundant computations.
-
-\textbf{Threshold Implementations and Masking Techniques.} The \cite{TCHES:DhoOvcTop24} propose StaTI, a fault countermeasure based on \textit{threshold implementations and linear encoding techniques} that protects against both side-channel and fault adversaries in non-combined attack settings. \cite{TCHES:FelRic24} introduce Combined Threshold Implementation, providing theoretical foundations for unified protection schemes.
-
-\textbf{Masking and Error Correction Integration.} \cite{ASIACRYPT:DobrEic18} demonstrate statistical ineffective fault attacks on masked AES implementations, highlighting the importance of proper integration between masking schemes and fault countermeasures. \cite{IEEE-TVLSI:MisKub21} present area-efficient architectures that combine masking with fault tolerance using reduced redundancy. \cite{TCHES:BelBugAzr22} propose RAMBAM (Redundancy AES Masking Basis for Attack Mitigation), combining multiplicative masking with redundancy for enhanced fault resistance.
-
-\textbf{Post-Quantum Cryptography and Modern Threats.} Recent work addresses fault attacks in post-quantum settings. \cite{IEEE-HOST:HowKhaMarNor19} develop specialized fault attack countermeasures for error samplers in lattice-based cryptography, addressing unique vulnerabilities in post-quantum constructions. The \cite{TCHES:Genet23} shows both theoretically and experimentally that countermeasures based on \textit{caching intermediate WOTS$^{+}$ signatures} offer enhanced protection against unintentional faults in hash-based signatures.
-
-\textbf{Formal Security Analysis.} Classical results include \cite{AC:CorMan09} proving that PSS encoding is secure against random fault attacks in the random oracle model. Modern approaches focus on combined security models: \cite{COSADE:SahBagJapMuk21} analyze SCA+SIFA countermeasures against enhanced fault template attacks, demonstrating the complexity of achieving security against multiple attack vectors simultaneously.
-
-\color{black}
-
 \section{Preliminary}
-
-\subsection{Fault Attack Model}
-
-Consider a cryptographic computation $\mathcal{C}: \mathcal{K} \times \mathcal{M} \rightarrow \mathcal{O}$ executing on a target device, where $\mathcal{K}$, $\mathcal{M}$, and $\mathcal{O}$ denote the key, message, and output spaces, respectively. Let $\mathcal{S} = \{s_0, s_1, \ldots, s_n\}$ represent the sequence of internal computational states during execution.
-
-\textbf{Attacker Model.} The adversary $\mathcal{A}$ controls a fault injection oracle $\mathcal{F}(t, \sigma, \phi, \alpha)$ parameterized by timing $t \in [0, T]$ within execution window $T$, target computational domain $\sigma \in \Sigma$ where $\Sigma = \{\text{ALU}, \dots, \text{control}\}$ represents functional units, injection mechanism $\phi \in \{\text{EM}, \dots, \text{voltage}\}$, and intensity $\alpha \in \mathbb{R}^+$. 
-The fault oracle induces state transitions $s_i \mapsto s_i^{\text{fault}}$ with probability $P_{\text{fault}}(t, \sigma, \phi, \alpha)$. The adversary observes output pairs $(o_{\text{clean}}, o_{\text{fault}})$ where $o_{\text{clean}} = \mathcal{C}(k, m)$ and $o_{\text{fault}} = \mathcal{C}^{\text{fault}}(k, m)$ represents computation under fault influence.
-
-\textbf{Security Assumptions.} The internal states $s_i \in \mathcal{S}$ remain opaque to $\mathcal{A}$, formally expressed as $\mathcal{A}(s_i) = \perp$ for all $i \in [0, n]$. Fault effects manifest probabilistically according to $P(\Delta | t, \sigma, \phi, \alpha)$ where $\Delta$ represents the computational deviation induced by the fault oracle. The adversary cannot deterministically control fault propagation through the computational pipeline, acknowledging stochastic fault models: transient bit corruption $\Delta_{\text{bit}} \sim \text{Bernoulli}(p_{\sigma})$, instruction disruption $\Delta_{\text{instr}} \sim \text{Geometric}(q_{\sigma})$, or data corruption $\Delta_{\text{data}} \sim \text{Uniform}(\mathbb{F}_2^w)$ for $w$-bit word operations, where success probabilities $p_{\sigma}, q_{\sigma}$ depend on the target domain $\sigma$.
-
-This attack model aligns with practical fault injection scenarios encountered in hardware security evaluations and provides a realistic framework for analyzing the effectiveness of proposed countermeasures.
 
 
 %%%% 8. BILBIOGRAPHY %%%%
 \bibliographystyle{alpha}
-\bibliography{abbrev3,crypto_custom,biblio}
+\bibliography{abbrev3,biblio}
 %%%% NOTES
 % - Download abbrev3.bib and crypto.bib from https://cryptobib.di.ens.fr/
 % - Use bilbio.bib for additional references not in the cryptobib database.
