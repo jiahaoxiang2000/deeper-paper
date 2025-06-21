@@ -162,8 +162,8 @@ Based on NIST's March 2025 presentation:
 
 **Open Issues**
 
-- Transition & Migration
-  - Integration with existing cryptographic protocols (TLS, IPSec, etc.)
+- [Transition & Migration](https://www.nccoe.nist.gov/crypto-agility-considerations-migrating-post-quantum-cryptographic-algorithms)
+  - Integration with existing cryptographic protocols (Transport Layer Security (TLS) protocol and the Secure Shell (SSH) protocol and in hardware security modules (HSMs))
 
 **Standardization Approach**
 
