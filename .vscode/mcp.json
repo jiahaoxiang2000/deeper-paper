@@ -1,15 +1,8 @@
 {
   "servers": {
-    "paper-search-mcp": {
-      "type": "stdio",
+    "all-in-mcp": {
       "command": "uv",
-      "args": [
-        "run",
-        "--directory",
-        ".venv/lib/python3.12/site-packages/paper_search_mcp",
-        "-m",
-        "paper_search_mcp.server"
-      ]
+      "args": ["run", "all-in-mcp"]
     }
   }
 }
