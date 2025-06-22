@@ -1,5 +1,22 @@
 # Post-Quantum Cryptography (PQC) Status and Implementation Analysis
 
+## Algorithm Standardization Timeline
+
+### Published Standards (August 13, 2024)
+
+- **FIPS 203** - ML-KEM (Module-Lattice-Based Key-Encapsulation Mechanism) - Based on CRYSTALS-Kyber
+- **FIPS 204** - ML-DSA (Module-Lattice-Based Digital Signature Algorithm) - Based on CRYSTALS-Dilithium
+- **FIPS 205** - SLH-DSA (Stateless Hash-Based Digital Signature Algorithm) - Based on SPHINCS+
+
+### In Development
+
+- **FIPS 206** - FN-DSA (FALCON Digital Signature Algorithm) - Expected summer 2025
+
+### Future Standardization
+
+- **HQC KEM** - Selected March 11, 2025 (Hamming Quasi-Cyclic Key-Encapsulation Mechanism)
+- **On-Ramp Digital Signatures** - 14 second-round candidates for additional signature diversity
+
 ## Current Status (as of June 2025)
 
 ### NIST Standardization Process
@@ -160,11 +177,6 @@ Based on NIST's March 2025 presentation:
 
 ## Implementation Considerations
 
-**Open Issues**
-
-- [Transition & Migration](https://www.nccoe.nist.gov/crypto-agility-considerations-migrating-post-quantum-cryptographic-algorithms)
-  - Integration with existing cryptographic protocols (Transport Layer Security (TLS) protocol and the Secure Shell (SSH) protocol and in hardware security modules (HSMs))
-
 **Standardization Approach**
 
 - Standards follow thoroughly analyzed 3rd round specifications
@@ -179,9 +191,8 @@ Based on NIST's March 2025 presentation:
 - Testing and validation procedures
 - Feedback incorporation from implementers
 
-## References
+**Open Issues**
 
-- [NIST Post-Quantum Cryptography Project](https://csrc.nist.gov/projects/post-quantum-cryptography)
-- [NIST IR 8545: Fourth Round Status Report](https://csrc.nist.gov/pubs/ir/8545/final)
-- FIPS 203, 204, 205 Standards (August 2024)
-- [Additional Digital Signature Schemes - Round 2](https://csrc.nist.gov/projects/pqc-dig-sig/round-2-additional-signatures)
+- [Transition & Migration](https://www.nccoe.nist.gov/crypto-agility-considerations-migrating-post-quantum-cryptographic-algorithms)
+  - Integration with existing cryptographic protocols [(Transport Layer Security (TLS) protocol and the Secure Shell (SSH) protocol and in hardware security modules (HSMs))](https://www.nccoe.nist.gov/sites/default/files/2023-12/pqc-migration-nist-sp-1800-38c-preliminary-draft.pdf)
+  - **[Crypto agility](https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.39.ipd.pdf)** escribes the capabilities needed to replace and adapt cryptographic algorithms for protocols, applications, software, hardware, and infrastructures without interrupting the flow of a running system to achieve resiliency
