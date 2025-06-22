@@ -53,6 +53,8 @@ The NCCoE project conducted extensive interoperability and performance testing o
 
 ### QUIC Migration
 
+(Quick UDP Internet Connection) was designed to make the web faster and more efficient.
+
 **Critical Challenges:**
 
 - **Amplification Protection:** Large Dilithium certificates (18-22 KB) trigger extra round-trips
