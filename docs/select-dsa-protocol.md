@@ -91,7 +91,7 @@ Based on IACR research from 2022-2025 and NIST FIPS 204-206 standards, this docu
 
 1. **Security Vulnerabilities Discovered**:
 
-   - **Rowhammer Attack [4]**: Single bit flip can recover full key with few hundred million signatures
+   - **Rowhammer Attack [4] ⚠️**: Single bit flip can recover full key with few hundred million signatures
    - **Floating-Point Sensitivity [5]**: Small floating-point errors can cause key leakage
    - **Side-Channel Vulnerabilities [6]**: Power analysis attacks on Gaussian samplers
 
@@ -220,23 +220,88 @@ Based on IACR research from 2022-2025 and NIST FIPS 204-206 standards, this docu
 - Side-channel countermeasures
 - Implementation simplification techniques
 
-### Option 3: ML-DSA + MQTT (IoT-Focused Research)
+### Option 3: ML-DSA + IoT Protocols (Resource-Constrained Research)
 
-**Best for IoT and resource-constrained environments**
+**Best for IoT and resource-constrained environments with novel research opportunities**
 
-#### Rationale:
+#### Current Research Landscape (2022-2025):
 
-- Growing importance of IoT security
-- Limited existing research in this area
-- Practical relevance for industrial applications
-- Novel optimization opportunities
+While direct ML-DSA IoT protocol integration research is limited, several foundational studies provide crucial insights:
+
+1. **Embedded System Performance Benchmarking [24]**:
+
+   - Comprehensive evaluation of post-quantum algorithms including Dilithium on ARM Cortex-M4
+   - Integration with pqm4 benchmarking framework for microcontroller evaluation
+   - Performance analysis on STM32L4R5ZI with 640 KB RAM and 180 MHz clock
+   - First systematic evaluation of all NIST PQC candidates on resource-constrained devices
+
+2. **Side-Channel Security Research [25]**:
+
+   - Systematic analysis of vulnerabilities in Kyber and Dilithium on ARM Cortex-M4
+   - Custom countermeasures for simultaneous SCA/FIA protection
+   - Performance overhead evaluation of security measures on microcontrollers
+   - Critical insights for secure IoT deployment
+
+3. **Domain-Specific Acceleration [26]**:
+   - Hardware acceleration strategies for lattice-based signatures on resource-constrained devices
+   - 24% and 47% performance improvements for sign/verify operations
+   - Energy-delay product improvements of 44% and 67%
+   - Demonstrates feasibility of efficient post-quantum signatures on IoT platforms
+
+#### Alternative IoT Protocol Approaches:
+
+**KEM-Based Protocols [10]**: Recent breakthrough research shows KEMTLS approach for MQTT eliminates need for post-quantum signatures entirely, achieving 4.32-second handshake on 8-bit AVR devices.
+
+**Lightweight Identification [27]**: Lattice-based identification protocols specifically designed for IoT and smart card applications, avoiding signature overhead while maintaining security.
+
+#### Research Gaps and Opportunities:
+
+**Critical Research Needs**:
+
+- Direct ML-DSA integration with IoT protocols (MQTT, CoAP, 6LoWPAN)
+- Certificate chain optimization for resource-constrained environments
+- Hybrid authentication strategies balancing security and performance
+- Protocol-specific optimizations leveraging IoT communication patterns
+
+**Novel Optimization Opportunities**:
+
+- Memory-efficient signature verification techniques
+- Adaptive security levels based on device capabilities
+- Batch verification for sensor networks
+- Energy-optimized signature operations for battery-powered devices
+
+#### Implementation Challenges:
+
+**Resource Constraints**:
+
+- Limited RAM/Flash memory on IoT microcontrollers
+- Computational overhead of lattice operations
+- Energy consumption impact on battery life
+- Real-time response requirements
+
+**Protocol Integration Issues**:
+
+- Certificate size impact on constrained network bandwidth
+- Fragmentation handling for large signatures
+- Protocol overhead in resource-limited environments
+- Interoperability with existing IoT infrastructure
+
+#### Rationale for ML-DSA + IoT Research:
+
+- **Unexplored Territory**: Limited research on direct ML-DSA IoT protocol integration
+- **NIST Standardization**: ML-DSA as primary post-quantum signature standard
+- **Growing IoT Security Needs**: Increasing importance of quantum-resistant IoT security
+- **Performance Optimization Potential**: Significant opportunities for novel optimizations
+- **Real-World Impact**: Direct relevance to industrial and consumer IoT applications
 
 #### Research Opportunities:
 
-- Resource optimization techniques
-- Certificate-less authentication approaches
-- Hybrid classical-quantum strategies for IoT
-- Protocol-specific optimizations
+- **Resource Optimization Techniques**: Memory and computation efficient ML-DSA implementations
+- **Certificate-less Authentication**: Alternative authentication methods reducing signature overhead
+- **Hybrid Classical-Quantum Strategies**: Gradual migration approaches for existing IoT infrastructure
+- **Protocol-Specific Optimizations**: Leveraging IoT communication patterns for efficiency gains
+- **Cross-Layer Security**: Integration of signature schemes with IoT protocol stacks
+- **Energy-Aware Implementations**: Battery life optimization for mobile IoT devices
 
 ## Implementation Considerations
 
@@ -267,7 +332,14 @@ Based on IACR research from 2022-2025 and NIST FIPS 204-206 standards, this docu
 
 **Alternative High-Impact Option**: FN-DSA with TLS offers significant research opportunities in security hardening and implementation optimization, particularly relevant given recent vulnerability discoveries and pending FIPS 206 standardization.
 
-The research should focus on practical implementation challenges, performance optimization techniques, and security hardening measures that advance the state-of-the-art in post-quantum protocol migration.
+**Emerging High-Value Research Area**: ML-DSA with IoT protocols represents a largely unexplored research domain with significant potential impact. While foundational research on post-quantum cryptography in embedded systems exists [24,25,26], direct integration of ML-DSA with IoT protocols (MQTT, CoAP, 6LoWPAN) remains an open research challenge. This area offers opportunities for:
+
+- **Novel Resource Optimization**: Developing memory and computation efficient ML-DSA implementations specifically for IoT constraints
+- **Protocol Innovation**: Creating certificate-less or lightweight authentication mechanisms
+- **Real-World Impact**: Addressing the growing security needs of industrial and consumer IoT deployments
+- **Cross-Layer Security**: Integrating post-quantum signatures with IoT protocol stacks
+
+The research should focus on practical implementation challenges, performance optimization techniques, and security hardening measures that advance the state-of-the-art in post-quantum protocol migration, with particular attention to the resource constraints and communication patterns unique to IoT environments.
 
 ## References
 
@@ -368,3 +440,33 @@ The research should focus on practical implementation challenges, performance op
 [23] **FIPS 206: FN-DSA Standard** (Expected 2025)  
  NIST Federal Information Processing Standards Publication 206  
  Based on FALCON (Under development)
+
+### IoT and Embedded Systems Research References
+
+[24] **pqm4: Benchmarking NIST Additional Post-Quantum Signature Schemes on Microcontrollers** (2024/112)  
+ IACR ePrint Archive: https://eprint.iacr.org/2024/112  
+ Keywords: pqm4, NISTPQC, Arm Cortex-M4, microcontrollers, benchmarking
+
+[25] **Side-channel and Fault-injection attacks over Lattice-based Post-quantum Schemes (Kyber, Dilithium): Survey and New Results** (2022/737)  
+ IACR ePrint Archive: https://eprint.iacr.org/2022/737  
+ Keywords: Lattice-based Cryptography, Side-Channel Attacks, Fault-Injection Attacks, Kyber, Dilithium, Countermeasures
+
+[26] **Domain-specific Accelerators for Ideal Lattice-based Public Key Protocols** (2018/608)  
+ IACR ePrint Archive: https://eprint.iacr.org/2018/608  
+ Keywords: Public Key Cryptography, Post-quantum Cryptography, Lattice-based Cryptography, Ideal Lattices, Key Exchange, Digital Signature, System on Chip, Domain Specific Acceleration, Cache Architecture
+
+[27] **A Lightweight Identification Protocol Based on Lattices** (2023/222)  
+ IACR ePrint Archive: https://eprint.iacr.org/2023/222  
+ Keywords: Lattice-Based Cryptography, Identification Protocol, Post-Quantum Cryptography, LWE
+
+[28] **Saber on ARM CCA-secure module lattice-based key encapsulation on ARM** (2018/682)  
+ IACR ePrint Archive: https://eprint.iacr.org/2018/682  
+ Keywords: Key encapsulation scheme, post-quantum cryptography, lattice-based cryptography, efficient software, Saber
+
+[29] **Exploiting Determinism in Lattice-based Signatures - Practical Fault Attacks on pqm4 Implementations of NIST candidates** (2019/769)  
+ IACR ePrint Archive: https://eprint.iacr.org/2019/769  
+ Keywords: Deterministic Lattice Signatures, pqm4, Fault Attack, Lattice-based Cryptography, Dilithium, qTESLA
+
+[30] **Optimized One-Dimensional SQIsign Verification on Intel and Cortex-M4** (2024/1563)  
+ IACR ePrint Archive: https://eprint.iacr.org/2024/1563  
+ Keywords: post-quantum cryptography, isogeny, SQIsign, verification, ARM
