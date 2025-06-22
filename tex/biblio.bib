@@ -25,95 +25,55 @@
   doi       = {10.1145/3386367.3431305}
 }
 
-@misc{NCCoE2023,
-  author       = {NCCoE},
-  title        = {Migration to Post-Quantum Cryptography Quantum Readiness},
-  howpublished = {NIST Special Publication 1800-38},
-  year         = {2023},
-  note         = {Available at: \url{https://www.nccoe.nist.gov/crypto-agility-considerations-migrating-post-quantum-cryptographic-algorithms}}
+@misc{MQTT-Spec,
+  author       = {OASIS},
+  title        = {MQTT Version 5.0 Specification},
+  howpublished = {OASIS Standard},
+  year         = {2019},
+  note         = {Available at: \url{https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html}}
 }
 
-@techreport{NIST-PQC-Status-Report,
-  author      = {Gorjan Alagic and Jacob Alperin-Sheriff and Daniel Apon and David Cooper and Quynh Dang and Yi-Kai Liu and Carl Miller and Dustin Moody and Rene Peralta and Ray Perlner and Angela Robinson and Daniel Smith-Tone},
-  title       = {Status report on the first round of the NIST post-quantum cryptography standardization process},
-  institution = {National Institute of Standards and Technology},
-  number      = {NIST IR 8240},
-  year        = {2019},
-  doi         = {10.6028/nist.ir.8240}
+@misc{KEM-MQTT2025,
+  author       = {YoungBeom Kim and Seog Chung Seo},
+  title        = {An Optimized Instantiation of Post-Quantum {MQTT} protocol on 8-bit {AVR} Sensor Nodes},
+  howpublished = {Cryptology {ePrint} Archive, Paper 2025/563},
+  year         = {2025},
+  doi          = {10.1145/3708821.3733873},
+  url          = {https://eprint.iacr.org/2025/563}
 }
 
-@article{Kumar2022,
-  author    = {Manish Kumar},
-  title     = {Post-quantum cryptography Algorithm's standardization and performance analysis},
-  journal   = {Array},
-  volume    = {15},
-  pages     = {100242},
-  year      = {2022},
-  publisher = {Elsevier},
-  doi       = {10.1016/j.array.2022.100242}
+@misc{pqm4-benchmarks,
+  author       = {Matthias J. Kannwischer and Markus Krausz and Richard Petri and Shang-Yi Yang},
+  title        = {pqm4: Benchmarking {NIST} Additional Post-Quantum Signature Schemes on Microcontrollers},
+  howpublished = {Cryptology {ePrint} Archive, Paper 2024/112},
+  year         = {2024},
+  url          = {https://eprint.iacr.org/2024/112}
 }
 
-@inproceedings{Bernstein2009,
-  author    = {Daniel J. Bernstein},
-  title     = {Introduction to post-quantum cryptography},
-  booktitle = {Post-Quantum Cryptography},
-  pages     = {1--14},
-  year      = {2009},
-  publisher = {Springer},
-  doi       = {10.1007/978-3-540-88702-7_1}
-}
-
-@techreport{NIST-Getting-Ready-PQC,
-  author      = {William Barker and William Polk and Murugiah Souppaya},
-  title       = {Getting Ready for Post-Quantum Cryptography: Exploring Challenges Associated with Adopting and Using Post-Quantum Cryptographic Algorithms},
-  institution = {National Institute of Standards and Technology},
-  number      = {NIST CSWP 04282021},
-  year        = {2021},
-  doi         = {10.6028/nist.cswp.04282021}
-}
-
-@article{Yesina2022,
-  author  = {M.V. Yesina and Ye.V. Ostrianska and I.D. Gorbenko},
-  title   = {Status report on the third round of the NIST post-quantum cryptography standardization process},
-  journal = {Radiotekhnika},
-  pages   = {75--86},
-  year    = {2022},
-  doi     = {10.30837/rt.2022.3.210.05}
-}
-
-@inproceedings{Paquin2020,
-  author    = {Christian Paquin and Douglas Stebila and Goutam Tamvada},
-  title     = {Benchmarking Post-quantum Cryptography in TLS},
-  booktitle = {Lecture Notes in Computer Science},
-  pages     = {72--91},
-  year      = {2020},
-  publisher = {Springer},
-  doi       = {10.1007/978-3-030-44223-1_5}
-}
-
-@article{Dziechciarz2024,
-  author    = {Dominik Dziechciarz and Marcin Niemiec},
-  title     = {Efficiency Analysis of NIST-Standardized Post-Quantum Cryptographic Algorithms for Digital Signatures in Various Environments},
-  journal   = {Electronics},
-  volume    = {14},
-  pages     = {70},
-  year      = {2024},
-  publisher = {MDPI},
-  doi       = {10.3390/electronics14010070}
-}
-
-@misc{Schrock2024,
-  author = {Florian Schröck},
-  title  = {Theoretical and Practical Aspects of the Migration to Post Quantum Cryptography},
-  year   = {2024},
-  doi    = {10.33968/2024.72}
-}
-
-@article{Liu2024,
-  author  = {Yi-Kai Liu and Dustin Moody},
-  title   = {Post-quantum cryptography and the quantum future of cybersecurity},
-  journal = {Physical Review Applied},
-  volume  = {21},
+@article{SCA-Dilithium,
+  author  = {Prasanna Ravi and Anupam Chattopadhyay and Jan Pieter D'Anvers and Anubhab Baksi},
+  title   = {Side-channel and Fault-injection attacks over Lattice-based Post-quantum Schemes (Kyber, Dilithium): Survey and New Results},
+  journal = {ACM Transactions on Embedded Computing Systems},
+  volume  = {23},
+  number  = {3},
+  pages   = {1--54},
   year    = {2024},
-  doi     = {10.1103/physrevapplied.21.040501}
+  doi     = {10.1145/3603170},
+  url     = {https://doi.org/10.1145/3603170}
+}
+
+@techreport{FIPS204,
+  author      = {NIST},
+  title       = {FIPS 204: Module-Lattice-Based Digital Signature Standard},
+  institution = {National Institute of Standards and Technology},
+  year        = {2024},
+  note        = {Based on CRYSTALS-Dilithium}
+}
+
+@misc{DSA-Accelerators,
+  author       = {Hamid Nejatollahi and Nikil Dutt and Indranil Banerjee and Rosario Cammarota},
+  title        = {Domain-specific Accelerators for Ideal Lattice-based Public Key Protocols},
+  howpublished = {IACR ePrint Archive},
+  year         = {2018},
+  note         = {Paper ID: 2018/608}
 }
