@@ -194,5 +194,5 @@ Based on NIST's March 2025 presentation:
 **Open Issues**
 
 - [Transition & Migration](https://www.nccoe.nist.gov/crypto-agility-considerations-migrating-post-quantum-cryptographic-algorithms)
-  - Integration with existing cryptographic protocols [(Transport Layer Security (TLS) protocol and the Secure Shell (SSH) protocol and in hardware security modules (HSMs))](https://www.nccoe.nist.gov/sites/default/files/2023-12/pqc-migration-nist-sp-1800-38c-preliminary-draft.pdf)
+  - Integration with existing cryptographic protocols [(Transport Layer Security (TLS) protocol and the Secure Shell (SSH) protocol and in hardware security modules (HSMs))](https://www.nccoe.nist.gov/sites/default/files/2023-12/pqc-migration-nist-sp-1800-38c-preliminary-draft.pdf). also have the not support protocols like the **MQTT** (used on the IOT)
   - **[Crypto agility](https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.39.ipd.pdf)** escribes the capabilities needed to replace and adapt cryptographic algorithms for protocols, applications, software, hardware, and infrastructures without interrupting the flow of a running system to achieve resiliency
