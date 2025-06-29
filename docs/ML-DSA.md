@@ -47,3 +47,63 @@ $$
 $$
 
 Explicit algorithms for linear algebra over $T_q$ are given in Section 7.6.
+
+## Overview of the ML-DSA
+
+ML-DSA is a digital signature scheme based on CRYSTALS-DILITHIUM [6]. It consists of three main algorithms: ML-DSA.KeyGen (Algorithm 1), ML-DSA.Sign (Algorithm 2), and ML-DSA.Verify (Algorithm 3). T
+
+### Computational Assumptions
+
+Security for lattice-based digital signature schemes is typically related to the Learning With Errors (LWE) problem and the short integer solution (SIS) problem.
+
+#### Learning With Errors (LWE)
+
+The LWE problem is to recover a vector $\mathbf{s} \in \mathbb{Z}_q^n$ given a set of random "noisy" linear equations satisfied by $\mathbf{s}$. Specifically, the LWE problem is to solve a system of equations of the form $\mathbf{A}\mathbf{s} + \mathbf{e} = \mathbf{b}$, where $\mathbf{A}$ and $\mathbf{b}$ are given and $\mathbf{e}$ is not given but known to be small.
+
+#### Short Integer Solution (SIS)
+
+The SIS problem is to find a non-zero solution $\mathbf{t} \in \mathbb{Z}_q^n$ for a given linear system over $\mathbb{Z}_q$ of the form $\mathbf{A}\mathbf{t} = \mathbf{0}$ such that $\|\mathbf{t}\|_\infty$ is small. For appropriate choices of parameters, these problems are intractable for the best known techniques, including Gaussian elimination.
+
+#### Module Variants
+
+When the module $\mathbb{Z}_q^n$ in LWE and SIS is replaced by a module over a ring larger than $\mathbb{Z}_q$ (e.g., $R_q$), the resulting problems are called Module Learning With Errors (MLWE) and Module Short Integer Solution (MSIS).
+
+The security of ML-DSA is based on the MLWE problem over $R_q$ and a nonstandard variant of MSIS called SelfTargetMSIS.
+
+### ML-DSA Construction
+
+ML-DSA is a Schnorr-like signature with several optimizations. The Schnorr signature scheme applies the Fiat-Shamir heuristic to an interactive protocol between a verifier who knows $g$ (the generator of a group in which discrete logs are believed to be difficult) and the value $y = g^x$ and a prover who knows $g$ and $x$. The interactive protocol, where the prover demonstrates knowledge of $x$ to the verifier, consists of three steps:
+
+1. **Commitment**: The prover generates a random positive integer $r$ that is less than the order of $g$ and commits to its value by sending $g^r$ to the verifier.
+2. **Challenge**: The verifier sends a random positive integer $c$ that is less than the order of $g$ to the prover.
+3. **Response**: The prover returns $s = r - cx$ reduced modulo the order of $g$, and the verifier checks whether $g^s \cdot y^c = g^r$.
+
+This protocol is made noninteractive and turned into a signature scheme by replacing the verifier's random choice of $c$ in step 2 with a deterministic process that pseudorandomly derives $c$ from a hash of the commitment $g^r$ concatenated with the message to be signed. For this signature scheme, $y$ is the public key, and $x$ is the private key.
+
+#### Lattice-Based Analog
+
+The basic idea of ML-DSA and similar lattice signature schemes is to build a signature scheme from an analogous interactive protocol, where a prover who knows matrices $\mathbf{A} \in \mathbb{Z}_q^{K \times L}$, $\mathbf{S}_1 \in \mathbb{Z}_q^{L \times n}$, and $\mathbf{S}_2 \in \mathbb{Z}_q^{K \times n}$ with small coefficients (for $\mathbf{S}_1$ and $\mathbf{S}_2$) demonstrates knowledge of these matrices to a verifier who knows $\mathbf{A}$ and $\mathbf{T} \in \mathbb{Z}_q^{K \times n} = \mathbf{A}\mathbf{S}_1 + \mathbf{S}_2$. Such an interactive protocol would proceed as follows:
+
+1. **Commitment**: The prover generates $\mathbf{y} \in \mathbb{Z}_q^L$ with small coefficients and commits to its value by sending $\mathbf{w}_{\text{Approx}} = \mathbf{A}\mathbf{y} + \mathbf{y}_2$ to the verifier, where $\mathbf{y}_2 \in \mathbb{Z}_q^K$ is a vector with small coefficients.
+2. **Challenge**: The verifier sends a vector $\mathbf{c} \in \mathbb{Z}_q^n$ with small coefficients to the prover.
+3. **Response**: The prover returns $\mathbf{z} = \mathbf{y} + \mathbf{S}_1\mathbf{c}$, and the verifier checks that $\mathbf{z}$ has small coefficients and that $\mathbf{A}\mathbf{z} - \mathbf{T}\mathbf{c} \approx \mathbf{w}_{\text{Approx}}$.
+
+#### Fiat-Shamir With Aborts
+
+As written, the above protocol has a security flaw: the response $\mathbf{z}$ will be biased in a direction related to the private value $\mathbf{S}_1$. Likewise $\mathbf{r} = \mathbf{w}_{\text{Approx}} - \mathbf{A}\mathbf{z} + \mathbf{T}\mathbf{c} = \mathbf{y}_2 + \mathbf{S}_2\mathbf{c}$ is biased in a direction related to the private value $\mathbf{S}_2$.
+
+However, this flaw can be corrected when converting the interactive protocol into a signature scheme. As with Schnorr signatures, the signer derives the challenge by a pseudorandom process from a hash of the commitment concatenated with the message. To correct the bias, the signer applies rejection sampling to $\mathbf{z}$; if coefficients of $\mathbf{z}$ fall outside of a specified range, the signing process is aborted, and the signer starts over from a new value of $\mathbf{y}$. Likewise, similar rejection sampling must also be applied to $\mathbf{r}$.
+
+In the simplified Fiat-Shamir With Aborts signature, the public key is $(\mathbf{A}, \mathbf{T})$, and the private key is $(\mathbf{S}_1, \mathbf{S}_2)$.
+
+#### ML-DSA Optimizations
+
+In the ML-DSA standard, a number of tweaks and modifications are added to this basic framework for security or efficiency reasons:
+
+- **Module Structure**: To reduce key and signature size and to use fast NTT-based polynomial multiplication, ML-DSA uses module-structured matrices. It replaces dimension-$n \times n$ blocks of matrices and dimension-$n$ blocks of vectors with polynomials in the ring $R_q$. Thus, ML-DSA has $\mathbf{A} \in R_q^{k \times \ell}$, $\mathbf{t} \in R_q^k$, $\mathbf{s}_1 \in R_q^\ell$, $\mathbf{s}_2 \in R_q^k$, $\mathbf{y} \in R_q^\ell$, $c \in R_q$, where $\ell = L/n$ and $k = K/n$.
+
+- **Compressed Public Key**: To further reduce the size of the public key, the matrix $\mathbf{A}$ is pseudorandomly derived from a 256-bit public seed $\rho$, which is included in the ML-DSA public key in place of $\mathbf{A}$.
+
+- **Further Compression**: For a still further reduction in public key size, the ML-DSA public key substitutes a compressed value $\mathbf{t}_1$ for $\mathbf{t}$, which drops the $d$ low-order bits of each coefficient.
+
+- **BUFF Properties**: To obtain beyond unforgeability (BUFF) properties, ML-DSA does not directly sign the message $M$ but rather signs a message representative $\mu$ that is obtained by hashing the concatenation of a hash of the public key and $M$.
