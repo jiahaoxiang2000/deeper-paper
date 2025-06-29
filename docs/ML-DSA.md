@@ -96,14 +96,315 @@ However, this flaw can be corrected when converting the interactive protocol int
 
 In the simplified Fiat-Shamir With Aborts signature, the public key is $(\mathbf{A}, \mathbf{T})$, and the private key is $(\mathbf{S}_1, \mathbf{S}_2)$.
 
-#### ML-DSA Optimizations
+## Core ML-DSA Algorithms
 
-In the ML-DSA standard, a number of tweaks and modifications are added to this basic framework for security or efficiency reasons:
+### External Functions
 
-- **Module Structure**: To reduce key and signature size and to use fast NTT-based polynomial multiplication, ML-DSA uses module-structured matrices. It replaces dimension-$n \times n$ blocks of matrices and dimension-$n$ blocks of vectors with polynomials in the ring $R_q$. Thus, ML-DSA has $\mathbf{A} \in R_q^{k \times \ell}$, $\mathbf{t} \in R_q^k$, $\mathbf{s}_1 \in R_q^\ell$, $\mathbf{s}_2 \in R_q^k$, $\mathbf{y} \in R_q^\ell$, $c \in R_q$, where $\ell = L/n$ and $k = K/n$.
+ML-DSA provides "external" and "internal" algorithm components to simplify APIs and testing. External components handle randomness generation and validation checks, while internal components are deterministic.
 
-- **Compressed Public Key**: To further reduce the size of the public key, the matrix $\mathbf{A}$ is pseudorandomly derived from a 256-bit public seed $\rho$, which is included in the ML-DSA public key in place of $\mathbf{A}$.
+#### Algorithm 1: ML-DSA.KeyGen()
 
-- **Further Compression**: For a still further reduction in public key size, the ML-DSA public key substitutes a compressed value $\mathbf{t}_1$ for $\mathbf{t}$, which drops the $d$ low-order bits of each coefficient.
+**Purpose**: Generates a public-private key pair
 
-- **BUFF Properties**: To obtain beyond unforgeability (BUFF) properties, ML-DSA does not directly sign the message $M$ but rather signs a message representative $\mu$ that is obtained by hashing the concatenation of a hash of the public key and $M$.
+**Output**: 
+- Public key $pk \in \mathbb{B}^{32+32k(\text{bitlen}(q-1)-d)}$ 
+- Private key $sk \in \mathbb{B}^{32+32+64+32\cdot((\ell+k)\cdot\text{bitlen}(2\eta)+dk)}$
+
+**Steps**:
+1. Generate 256-bit random seed $\xi \leftarrow \mathbb{B}^{32}$
+2. If $\xi = \text{NULL}$ then return $\perp$ (error)
+3. Return ML-DSA.KeyGen_internal($\xi$)
+
+#### Algorithm 2: ML-DSA.Sign(sk, M, ctx)
+
+**Purpose**: Generates an ML-DSA signature
+
+**Input**: 
+- Private key $sk$
+- Message $M \in \{0,1\}^*$
+- Context string $ctx$ (≤255 bytes)
+
+**Output**: Signature $\sigma \in \mathbb{B}^{\lambda/4+\ell\cdot32\cdot(1+\text{bitlen}(\gamma_1-1))+\omega+k}$
+
+**Steps**:
+1. If $|ctx| > 255$ then return $\perp$
+2. Generate random seed $rnd \leftarrow \mathbb{B}^{32}$ (or $rnd \leftarrow \{0\}^{32}$ for deterministic variant)
+3. If $rnd = \text{NULL}$ then return $\perp$
+4. Encode message: $M' \leftarrow \text{BytesToBits}(\text{IntegerToBytes}(0,1) \| \text{IntegerToBytes}(|ctx|,1) \| ctx) \| M$
+5. Return ML-DSA.Sign_internal($sk, M', rnd$)
+
+#### Algorithm 3: ML-DSA.Verify(pk, M, σ, ctx)
+
+**Purpose**: Verifies a signature $\sigma$ for a message $M$
+
+**Input**:
+- Public key $pk$
+- Message $M \in \{0,1\}^*$
+- Signature $\sigma$
+- Context string $ctx$ (≤255 bytes)
+
+**Output**: Boolean (true if valid, false if invalid)
+
+**Steps**:
+1. If $|ctx| > 255$ then return $\perp$
+2. Encode message: $M' \leftarrow \text{BytesToBits}(\text{IntegerToBytes}(0,1) \| \text{IntegerToBytes}(|ctx|,1) \| ctx) \| M$
+3. Return ML-DSA.Verify_internal($pk, M', \sigma$)
+
+### Pre-Hash ML-DSA (HashML-DSA)
+
+HashML-DSA is a performance-optimized variant of ML-DSA designed for specific deployment scenarios involving large messages or hardware constraints.
+
+#### Key Differences from Standard ML-DSA
+
+**Standard ML-DSA** (Pure ML-DSA):
+- Signs the entire message directly using SHAKE256
+- Provides stronger security guarantees 
+- Preferred for most applications
+- Message size directly affects signing performance
+
+**HashML-DSA** (Pre-Hash ML-DSA):
+- Pre-hashes the message using SHA-256, SHA-512, or SHAKE128
+- Signs the hash digest (32-64 bytes) instead of the full message
+- Includes domain separation and hash function identification
+- Uses domain separator value `1` vs `0` for pure ML-DSA
+
+#### When to Use HashML-DSA
+
+**Use HashML-DSA when**:
+1. **Large Message Performance**: Signing very large messages (>1MB) where hashing the entire message with SHAKE256 becomes a bottleneck
+2. **Hardware Constraints**: Platform has hardware acceleration for SHA-256/SHA-512 but not SHAKE256
+3. **Streaming/Incremental Processing**: Need to process messages in chunks without loading entire message into memory
+4. **Legacy Hash Integration**: Must integrate with existing systems that already compute SHA-256/SHA-512 hashes
+5. **Bandwidth-Limited Environments**: Pre-computed hashes can be transmitted separately from signing operation
+
+**Use Standard ML-DSA when**:
+1. **Maximum Security**: Want strongest possible security guarantees
+2. **Small to Medium Messages**: Message size doesn't create performance issues
+3. **SHAKE256 Available**: Platform has efficient SHAKE256 implementation
+4. **Simplicity**: Prefer simpler protocol without hash function coordination
+
+#### Security Considerations
+
+**HashML-DSA Security Requirements**:
+- Hash function must provide at least λ bits of classical security strength against both collision and second preimage attacks
+- For collision resistance: digest must be at least 2λ bits (e.g., 512 bits for λ=256)
+- Hash function must be FIPS-approved (FIPS 180 or FIPS 202)
+
+**Domain Separation**:
+- Uses different domain separators to prevent cross-protocol attacks
+- Standard ML-DSA: domain separator = 0
+- HashML-DSA: domain separator = 1
+- Includes hash function OID for unambiguous identification
+
+#### Implementation Notes
+
+1. **Key Pair Compatibility**: Same key pair can be used for both ML-DSA and HashML-DSA, but it's recommended to use each key pair for only one variant
+
+2. **Signature Identification**: The signature identifier (OID) must clearly indicate:
+   - Whether it's ML-DSA or HashML-DSA
+   - Which hash function was used (for HashML-DSA)
+   - Context string usage
+
+3. **FIPS 140 Requirements**: 
+   - Pre-hashing must occur within a FIPS 140-validated cryptographic module
+   - Can be different module than the one performing ML-DSA.Sign_internal
+   - Random value generation must happen in the signing module
+
+4. **Context String Handling**: Both variants support context strings (≤255 bytes) for additional domain separation
+
+HashML-DSA provides a practical solution for performance-critical applications while maintaining post-quantum security, but standard ML-DSA should be preferred when performance isn't a limiting factor.
+
+#### Algorithm 4: HashML-DSA.Sign(sk, M, ctx, PH)
+
+**Purpose**: Generate a "pre-hash" ML-DSA signature
+
+**Input**:
+- Private key $sk$
+- Message $M \in \{0,1\}^*$
+- Context string $ctx$ (≤255 bytes)
+- Pre-hash function PH
+
+**Steps**:
+1. If $|ctx| > 255$ then return $\perp$
+2. Generate $rnd \leftarrow \mathbb{B}^{32}$ (or $\{0\}^{32}$ for deterministic)
+3. Switch on PH:
+   - SHA-256: Set OID and compute $PH_M \leftarrow \text{SHA256}(M)$
+   - SHA-512: Set OID and compute $PH_M \leftarrow \text{SHA512}(M)$
+   - SHAKE128: Set OID and compute $PH_M \leftarrow \text{SHAKE128}(M, 256)$
+4. Construct $M' \leftarrow \text{BytesToBits}(\text{IntegerToBytes}(1,1) \| \text{IntegerToBytes}(|ctx|,1) \| ctx \| \text{OID} \| PH_M)$
+5. Return ML-DSA.Sign_internal($sk, M', rnd$)
+
+#### Algorithm 5: HashML-DSA.Verify(pk, M, σ, ctx, PH)
+
+**Purpose**: Verifies a pre-hash HashML-DSA signature
+
+**Input**: Public key $pk$, message $M$, signature $\sigma$, context $ctx$, pre-hash function PH
+
+**Steps**:
+1. If $|ctx| > 255$ then return false
+2. Apply same pre-hash processing as signing
+3. Return ML-DSA.Verify_internal($pk, M', \sigma$)
+
+### Internal Functions
+
+#### Algorithm 6: ML-DSA.KeyGen_internal(ξ)
+
+**Purpose**: Internal key generation from seed
+
+**Input**: Seed $\xi \in \mathbb{B}^{32}$
+
+**Steps**:
+1. Expand seed: $(\rho, \rho', K) \leftarrow H(\xi \| \text{IntegerToBytes}(k,1) \| \text{IntegerToBytes}(\ell,1), 128)$
+2. Generate matrix: $\hat{\mathbf{A}} \leftarrow \text{ExpandA}(\rho)$ (in NTT form)
+3. Generate secret vectors: $(\mathbf{s}_1, \mathbf{s}_2) \leftarrow \text{ExpandS}(\rho')$
+4. Compute public value: $\mathbf{t} \leftarrow \text{NTT}^{-1}(\hat{\mathbf{A}} \circ \text{NTT}(\mathbf{s}_1)) + \mathbf{s}_2$
+5. Compress: $(\mathbf{t}_1, \mathbf{t}_0) \leftarrow \text{Power2Round}(\mathbf{t})$
+6. Encode keys:
+   - $pk \leftarrow \text{pkEncode}(\rho, \mathbf{t}_1)$
+   - $tr \leftarrow H(pk, 64)$
+   - $sk \leftarrow \text{skEncode}(\rho, K, tr, \mathbf{s}_1, \mathbf{s}_2, \mathbf{t}_0)$
+7. Return $(pk, sk)$
+
+#### Algorithm 7: ML-DSA.Sign_internal(sk, M', rnd)
+
+**Purpose**: Internal signature generation
+
+**Input**: Private key $sk$, formatted message $M'$, randomness $rnd$
+
+**Steps**:
+1. Extract from private key: $(\rho, K, tr, \mathbf{s}_1, \mathbf{s}_2, \mathbf{t}_0) \leftarrow \text{skDecode}(sk)$
+2. Convert to NTT form: $\hat{\mathbf{s}}_1, \hat{\mathbf{s}}_2, \hat{\mathbf{t}}_0 \leftarrow \text{NTT}(\mathbf{s}_1), \text{NTT}(\mathbf{s}_2), \text{NTT}(\mathbf{t}_0)$
+3. Generate matrix: $\hat{\mathbf{A}} \leftarrow \text{ExpandA}(\rho)$
+4. Compute message representative: $\mu \leftarrow H(\text{BytesToBits}(tr) \| M', 64)$
+5. Compute private random seed: $\rho'' \leftarrow H(K \| rnd \| \mu, 64)$
+6. Initialize counter: $\kappa \leftarrow 0$
+
+**Rejection Sampling Loop**:
+7. While $(\mathbf{z}, \mathbf{h}) = \perp$:
+   - Generate mask: $\mathbf{y} \leftarrow \text{ExpandMask}(\rho'', \kappa)$
+   - Compute commitment: $\mathbf{w} \leftarrow \text{NTT}^{-1}(\hat{\mathbf{A}} \circ \text{NTT}(\mathbf{y}))$
+   - Get high bits: $\mathbf{w}_1 \leftarrow \text{HighBits}(\mathbf{w})$
+   - Hash commitment: $\tilde{c} \leftarrow H(\mu \| \text{w1Encode}(\mathbf{w}_1), \lambda/4)$
+   - Sample challenge: $c \leftarrow \text{SampleInBall}(\tilde{c})$
+   - Convert to NTT: $\hat{c} \leftarrow \text{NTT}(c)$
+   - Compute responses: 
+     - $\langle\langle c\mathbf{s}_1 \rangle\rangle \leftarrow \text{NTT}^{-1}(\hat{c} \circ \hat{\mathbf{s}}_1)$
+     - $\langle\langle c\mathbf{s}_2 \rangle\rangle \leftarrow \text{NTT}^{-1}(\hat{c} \circ \hat{\mathbf{s}}_2)$
+     - $\mathbf{z} \leftarrow \mathbf{y} + \langle\langle c\mathbf{s}_1 \rangle\rangle$
+   - Compute low bits: $\mathbf{r}_0 \leftarrow \text{LowBits}(\mathbf{w} - \langle\langle c\mathbf{s}_2 \rangle\rangle)$
+   - **Validity checks**:
+     - If $\|\mathbf{z}\|_\infty \geq \gamma_1 - \beta$ or $\|\mathbf{r}_0\|_\infty \geq \gamma_2 - \beta$ then $(\mathbf{z}, \mathbf{h}) \leftarrow \perp$
+     - Else:
+       - $\langle\langle c\mathbf{t}_0 \rangle\rangle \leftarrow \text{NTT}^{-1}(\hat{c} \circ \hat{\mathbf{t}}_0)$
+       - $\mathbf{h} \leftarrow \text{MakeHint}(-\langle\langle c\mathbf{t}_0 \rangle\rangle, \mathbf{w} - \langle\langle c\mathbf{s}_2 \rangle\rangle + \langle\langle c\mathbf{t}_0 \rangle\rangle)$
+       - If $\|\langle\langle c\mathbf{t}_0 \rangle\rangle\|_\infty \geq \gamma_2$ or number of 1's in $\mathbf{h} > \omega$ then $(\mathbf{z}, \mathbf{h}) \leftarrow \perp$
+   - Increment counter: $\kappa \leftarrow \kappa + \ell$
+
+8. Encode signature: $\sigma \leftarrow \text{sigEncode}(\tilde{c}, \mathbf{z} \bmod \pm q, \mathbf{h})$
+9. Return $\sigma$
+
+#### Algorithm 8: ML-DSA.Verify_internal(pk, M', σ)
+
+**Purpose**: Internal signature verification
+
+**Input**: Public key $pk$, formatted message $M'$, signature $\sigma$
+
+**Steps**:
+1. Extract from public key: $(\rho, \mathbf{t}_1) \leftarrow \text{pkDecode}(pk)$
+2. Extract from signature: $(\tilde{c}, \mathbf{z}, \mathbf{h}) \leftarrow \text{sigDecode}(\sigma)$
+3. If $\mathbf{h} = \perp$ then return false (malformed hint)
+4. Generate matrix: $\hat{\mathbf{A}} \leftarrow \text{ExpandA}(\rho)$
+5. Compute public key hash: $tr \leftarrow H(pk, 64)$
+6. Compute message representative: $\mu \leftarrow H(\text{BytesToBits}(tr) \| M', 64)$
+7. Sample challenge: $c \leftarrow \text{SampleInBall}(\tilde{c})$
+8. Reconstruct commitment: $\mathbf{w}'_{\text{Approx}} \leftarrow \text{NTT}^{-1}(\hat{\mathbf{A}} \circ \text{NTT}(\mathbf{z}) - \text{NTT}(c) \circ \text{NTT}(\mathbf{t}_1 \cdot 2^d))$
+9. Use hint: $\mathbf{w}'_1 \leftarrow \text{UseHint}(\mathbf{h}, \mathbf{w}'_{\text{Approx}})$
+10. Hash reconstructed commitment: $\tilde{c}' \leftarrow H(\mu \| \text{w1Encode}(\mathbf{w}'_1), \lambda/4)$
+11. Return $[\|\mathbf{z}\|_\infty < \gamma_1 - \beta]$ AND $[\tilde{c} = \tilde{c}']$
+
+## Auxiliary Functions
+
+### Data Type Conversions
+
+#### Integer/Bit/Byte Conversions
+
+- **IntegerToBits(x, α)**: Converts integer to α-bit string (little-endian)
+- **BitsToInteger(y, α)**: Converts α-bit string to integer  
+- **IntegerToBytes(x, α)**: Converts integer to α-byte string (little-endian)
+- **BitsToBytes(y)**: Converts bit string to byte string
+- **BytesToBits(z)**: Converts byte string to bit string
+
+#### Coefficient Generation
+
+- **CoeffFromThreeBytes(b₀, b₁, b₂)**: Generates element of {0,1,...,q-1} ∪ {⊥} using rejection sampling
+- **CoeffFromHalfByte(b)**: Generates element of {-η,...,η} ∪ {⊥} for η ∈ {2,4}
+
+#### Polynomial Packing
+
+- **SimpleBitPack(w, b)**: Encodes polynomial w with coefficients in [0,b] to byte string
+- **BitPack(w, a, b)**: Encodes polynomial w with coefficients in [-a,b] to byte string  
+- **SimpleBitUnpack(v, b)**: Reverses SimpleBitPack
+- **BitUnpack(v, a, b)**: Reverses BitPack
+
+#### Hint Encoding
+
+- **HintBitPack(h)**: Encodes sparse binary polynomial vector h to byte string
+- **HintBitUnpack(y)**: Reverses HintBitPack
+
+### Key and Signature Encodings
+
+- **pkEncode(ρ, t₁)**: Encodes public key to byte string
+- **pkDecode(pk)**: Decodes public key from byte string
+- **skEncode(ρ, K, tr, s₁, s₂, t₀)**: Encodes private key to byte string
+- **skDecode(sk)**: Decodes private key from byte string
+- **sigEncode(c̃, z, h)**: Encodes signature to byte string
+- **sigDecode(σ)**: Decodes signature from byte string
+- **w1Encode(w₁)**: Encodes polynomial vector w₁ for hashing
+
+### Pseudorandom Sampling
+
+#### Core Sampling Functions
+
+- **SampleInBall(ρ)**: Samples polynomial c ∈ R with coefficients from {-1,0,1} and Hamming weight τ using Fisher-Yates shuffle
+- **RejNTTPoly(ρ)**: Samples polynomial in T_q using rejection sampling
+- **RejBoundedPoly(ρ)**: Samples polynomial in R with coefficients in [-η,η]
+
+#### Expansion Functions
+
+- **ExpandA(ρ)**: Samples k×ℓ matrix Â of elements in T_q
+- **ExpandS(ρ)**: Samples vectors s₁ ∈ R^ℓ and s₂ ∈ R^k with coefficients in [-η,η]
+- **ExpandMask(ρ, μ)**: Samples vector y ∈ R^ℓ with coefficients in [-γ₁+1, γ₁]
+
+### High/Low Bits and Hints
+
+These functions support key compression optimization and hint generation:
+
+#### Decomposition Functions
+
+- **Power2Round(r)**: Decomposes r into (r₁, r₀) such that r ≡ r₁2^d + r₀ (mod q)
+- **Decompose(r)**: Decomposes r into (r₁, r₀) such that r ≡ r₁(2γ₂) + r₀ (mod q) with special handling for wrap-around
+- **HighBits(r)**: Returns r₁ from Decompose(r)
+- **LowBits(r)**: Returns r₀ from Decompose(r)
+
+#### Hint Functions
+
+- **MakeHint(z, r)**: Computes Boolean hint indicating whether adding z to r alters the high bits
+- **UseHint(h, r)**: Returns high bits of r adjusted according to hint h
+
+### Number Theoretic Transform (NTT)
+
+#### Core NTT Operations
+
+- **NTT(w)**: Computes forward NTT of polynomial w ∈ R_q to ŵ ∈ T_q
+- **NTT⁻¹(ŵ)**: Computes inverse NTT from ŵ ∈ T_q back to w ∈ R_q  
+- **BitRev8(m)**: Reverses bit order in 8-bit integer
+
+#### NTT Arithmetic
+
+- **AddNTT(â, b̂)**: Addition of two elements in T_q (componentwise)
+- **MultiplyNTT(â, b̂)**: Multiplication of two elements in T_q (componentwise)
+- **AddVectorNTT(v̂, ŵ)**: Vector addition over T_q
+- **ScalarVectorNTT(ĉ, v̂)**: Scalar-vector multiplication over T_q
+- **MatrixVectorNTT(M̂, v̂)**: Matrix-vector multiplication over T_q
+
+The NTT uses ζ = 1753 ∈ Z_q as a 512th root of unity, with precomputed zetas table for efficiency.
