@@ -3,11 +3,16 @@
     "all-in-mcp": {
       "type": "stdio",
       "command": "uv",
-      "args": [
-        "run",
-        "all-in-mcp"
-      ],
+      "args": ["run", "all-in-mcp"],
       "env": {}
+    },
+    "github-repo-mcp": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["github-repo-mcp"],
+      "env": {
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+      }
     }
   }
 }
