@@ -43,12 +43,10 @@
 %%%% 5. KEYWORDS %%%%
 \keywords{Post-Quantum Cryptography \and ML-DSA \and Digital Signatures \and MQTT Protocol \and IoT Security \and Resource-Constrained Devices}
 
-
+\color{blue}
 %%%% 6. ABSTRACT %%%%
 \begin{abstract}
-The advent of cryptographically relevant quantum computers poses a significant threat to current public-key cryptography systems. In response, NIST has standardized post-quantum cryptographic algorithms, including ML-DSA (Module-Lattice-Based Digital Signature Algorithm) based on CRYSTALS-Dilithium for secure digital signatures. This paper presents a comprehensive implementation and performance analysis of ML-DSA digital signatures integrated into the MQTT protocol for post-quantum migration in Internet of Things (IoT) environments.
-We implement ML-DSA variants with different security levels in resource-constrained IoT devices and evaluate their performance characteristics, including signature generation/verification times, memory consumption, and energy overhead on ARM Cortex-M4 microcontrollers. Our implementation addresses the unique challenges of post-quantum authentication in IoT environments, where computational resources, memory, and energy are severely limited. We investigate both pure post-quantum and hybrid classical-quantum approaches, with particular focus on certificate-less authentication mechanisms and protocol optimization techniques suitable for IoT deployments.
-Experimental results demonstrate that ML-DSA can provide viable post-quantum authentication for IoT devices with careful optimization, though significant challenges remain in signature size overhead and computational requirements. Our findings contribute to the emerging research area of post-quantum cryptography implementation in resource-constrained IoT protocols.
+The imminent threat of large-scale quantum computers necessitates the migration of Internet of Things (IoT) systems to post-quantum cryptographic standards. While NIST has standardized ML-DSA (Module-Lattice-Based Digital Signature Algorithm) for digital signatures, the fundamental question of whether post-quantum authentication can be practically deployed in resource-constrained IoT environments remains unresolved. This research investigates the viability of ML-DSA integration within MQTT-based IoT systems, where severe limitations in computational resources, memory, and energy consumption present unprecedented challenges for post-quantum cryptographic deployment.
 
 \end{abstract}
 
@@ -56,59 +54,23 @@ Experimental results demonstrate that ML-DSA can provide viable post-quantum aut
 %%%% 7. PAPER CONTENT %%%%
 \section{Introduction}
 
-The transition to post-quantum cryptography represents one of the most significant challenges in modern cybersecurity. With NIST's standardization of post-quantum cryptographic algorithms including ML-DSA (Module-Lattice-Based Digital Signature Algorithm)~\cite{NIST-PQC-Standards}, organizations must now prepare for the migration from classical cryptographic systems that will be vulnerable to quantum attacks.
+The emergence of quantum computing poses an existential threat to current cryptographic infrastructures, necessitating systematic migration to post-quantum cryptographic standards across all computing domains. The National Institute of Standards and Technology (NIST) has formalized ML-DSA (Module-Lattice-Based Digital Signature Algorithm) within FIPS 204~\cite{NIST-FIPS-204}, establishing this CRYSTALS-Dilithium-based scheme as the primary standard for post-quantum digital signatures. However, the deployment of post-quantum cryptography encounters severe constraints in resource-limited environments, where Internet of Things (IoT) systems present fundamental challenges due to computational, memory, and energy limitations that may preclude practical implementation.
 
-Internet of Things (IoT) environments present unique challenges for post-quantum cryptography deployment due to severe resource constraints in computational power, memory, and energy consumption. While traditional secure communication protocols like TLS have received significant attention for post-quantum migration~\cite{Kampanakis2020, Sikeridis2020}, IoT-specific protocols such as MQTT have been largely unexplored in this context. Recent research has shown that post-quantum migration for IoT communication protocols remains an open challenge, with embedded devices requiring specialized optimization approaches~\cite{KEM-MQTT2025}.
+Existing research reveals a critical disparity between post-quantum standardization efforts and IoT deployment feasibility. While conventional network protocols have undergone extensive analysis for post-quantum migration~\cite{Kampanakis2020, Sikeridis2020}, IoT-specific communication protocols remain insufficiently investigated. Empirical evaluations demonstrate that post-quantum signature schemes, particularly CRYSTALS-Dilithium implementations underlying ML-DSA, impose substantial computational overhead on ARM Cortex-M microcontrollers commonly deployed in IoT devices~\cite{Banegas2021, Marchsreiter2024}. Post-quantum signatures exhibit 30-70× size increases compared to classical schemes—ranging from 2,420 bytes (Level 1) to 4,595 bytes (Level 5) versus 64 bytes for ECDSA—while computational demands frequently exceed the processing capabilities of resource-constrained devices.
 
-This paper addresses the practical implementation of ML-DSA digital signatures in MQTT protocol frameworks, focusing on the unique constraints and requirements of resource-limited IoT devices. Unlike traditional network environments, IoT deployments must consider factors such as limited RAM (often < 256 KB), constrained flash memory, energy efficiency for battery-powered devices, and real-time response requirements. We contribute:
+Comprehensive benchmarking studies have quantified the performance implications of post-quantum cryptography deployment on embedded systems. Banegas et al.~\cite{Banegas2021} established that CRYSTALS-Dilithium signature operations require approximately 45\% additional computational cycles compared to classical ECDSA implementations on ARM Cortex-M4 processors. Critical performance bottlenecks emerge in practical deployment scenarios: analysis of the SUIT (Software Update for the Internet of Things) framework demonstrates that post-quantum signature verification operations can require up to 3.2 seconds on low-power microcontrollers, substantially exceeding acceptable latency constraints for real-time IoT applications.
 
-\begin{itemize}
-    \item A comprehensive implementation of ML-DSA variants optimized for resource constrained IoT devices using ARM Cortex-M4 microcontrollers
-    \item Performance analysis of ML-DSA integration with MQTT protocol, including memory consumption, computational overhead, and energy efficiency
-    \item Investigation of certificate-less authentication mechanisms to reduce signature size overhead in IoT environments. Comparison with alternative approaches including KEM-based authentication and hybrid classical-quantum strategies
-\end{itemize}
+Security analysis of embedded post-quantum implementations has identified significant attack vulnerabilities that exacerbate deployment challenges. Fault injection research targeting ML-DSA and ML-KEM implementations achieved 89.5\% attack success rates on ARM Cortex-M processors through electromagnetic fault injection techniques~\cite{Li2024}. These analyses demonstrate that Keccak-based hash functions—integral to ML-DSA randomness generation and signature computation—exhibit particular susceptibility to loop-abort faults that enable complete private key recovery, raising fundamental questions about the security assurance of post-quantum implementations in physically accessible IoT environments.
 
+The MQTT protocol, widely adopted in IoT deployments due to its lightweight messaging characteristics, exemplifies the fundamental challenges of post-quantum migration in resource-constrained environments. Kim and Seo~\cite{Kim2025} demonstrate that direct application of post-quantum signatures to MQTT authentication introduces prohibitive performance overhead, prompting alternative KEM-based authentication architectures that eliminate signature operations entirely. While their CRYSTALS-Kyber implementation achieves 4.32-second handshake completion on 8-bit AVR microcontrollers, this approach circumvents rather than resolves the core challenge of post-quantum signature deployment. Signature-based authentication mechanisms remain essential for applications requiring cryptographic non-repudiation, comprehensive audit trails, and compatibility with existing public key infrastructure frameworks.
+
+Current optimization research demonstrates the limitations of algorithmic improvements in addressing fundamental resource constraints. While Barrett multiplication techniques achieve 1.38-1.51× performance improvements on ARM Cortex-M3 processors and 6.37-7.27× improvements on 8-bit AVR platforms~\cite{Barrett2023}, these optimizations provide insufficient performance gains to bridge the gap between post-quantum signature requirements and IoT device capabilities. The absence of comprehensive empirical studies specifically evaluating ML-DSA performance within MQTT protocol implementations represents a critical knowledge gap, particularly given MQTT's widespread adoption in industrial IoT deployments where signature-based authentication remains mandatory for regulatory compliance and security audit requirements.
+
+\color{black}
 
 \section{Background and Related Work}
 
-\subsection{Post-Quantum Cryptography Standardization}
-
-NIST's Post-Quantum Cryptography standardization process, initiated in 2016, culminated in the publication of post-quantum cryptographic standards including various digital signature algorithms~\cite{NIST-PQC-Standards}. ML-DSA represents one approach to post-quantum digital signatures, providing multiple security levels corresponding to different classical security equivalents.
-
-\subsection{Embedded Systems and Post-Quantum Cryptography Research}
-
-The implementation of post-quantum cryptography on embedded systems has received increasing attention, with several key research efforts providing foundational insights. The pqm4 benchmarking framework has established performance baselines for post-quantum algorithms on ARM Cortex-M4 microcontrollers~\cite{pqm4-benchmarks}, demonstrating that lattice-based schemes including Dilithium (the basis for ML-DSA) can operate on resource-constrained devices with appropriate optimizations.
-Recent security analysis has revealed that embedded implementations of lattice-based signatures face unique vulnerabilities, including side-channel attacks and fault injection threats~\cite{SCA-Dilithium}. 
-
-\subsection{IoT Protocols and Post-Quantum Migration}
-
-Internet of Things communication protocols operate under fundamentally different constraints compared to traditional network protocols. MQTT (Message Queuing Telemetry Transport), widely deployed in IoT environments, prioritizes lightweight operation and minimal overhead~\cite{MQTT-Spec}. Recent research has demonstrated that direct application of post-quantum cryptography to IoT protocols faces significant challenges due to resource limitations~\cite{KEM-MQTT2025}.
-
-The integration of post-quantum signatures into IoT protocols requires careful consideration of several factors: (1) computational overhead on resource-constrained microcontrollers, (2) memory consumption for signature storage and verification, (3) energy efficiency for battery-powered devices, and (4) network bandwidth limitations in low-power wireless networks. Previous work has shown that alternative approaches, such as KEM-based authentication using KEMTLS, can eliminate the need for post-quantum signatures entirely in some IoT scenarios~\cite{KEM-MQTT2025}, but this approach does not use the ML-DSA signature scheme.
-
-However, signature-based authentication remains important for scenarios requiring non-repudiation, long-term security, and compatibility with existing certificate infrastructures. This creates a research gap in understanding how ML-DSA can be effectively deployed in IoT environments while maintaining acceptable performance characteristics.
-
 \section{ML-DSA Algorithm Overview}
-
-\subsection{ML-DSA Foundation and Characteristics}
-
-ML-DSA (Module-Lattice-Based Digital Signature Algorithm) is based on the CRYSTALS-Dilithium scheme and represents NIST's primary recommendation for post-quantum digital signatures~\cite{FIPS204}. The algorithm provides security guarantees against both classical and quantum adversaries through the hardness of the Module Learning With Errors (M-LWE) problem over polynomial rings.
-
-For IoT applications, ML-DSA's characteristics present both opportunities and challenges. The algorithm offers good performance compared to other post-quantum signature schemes and has received extensive security analysis. However, the signature sizes (ranging from 2,420 bytes for Level 1 to 4,595 bytes for Level 5) represent a significant increase over classical signatures like ECDSA (64 bytes), posing challenges for bandwidth-constrained IoT networks.
-
-\subsection{Parameter Sets and IoT Deployment Considerations}
-
-ML-DSA defines multiple parameter sets providing different security levels, each with distinct implications for IoT deployment:
-
-\begin{itemize}
-    \item \textbf{ML-DSA-44 (Level 1)}: Provides security equivalent to AES-128, with signature size of 2,420 bytes and public key size of 1,312 bytes
-    \item \textbf{ML-DSA-65 (Level 3)}: Provides security equivalent to AES-192, with signature size of 3,293 bytes and public key size of 1,952 bytes
-    \item \textbf{ML-DSA-87 (Level 5)}: Provides security equivalent to AES-256, with signature size of 4,595 bytes and public key size of 2,592 bytes
-\end{itemize}
-
-For IoT environments, the choice of parameter set involves critical trade-offs between security level, computational overhead, memory consumption, and network bandwidth usage. Level 1 parameters may be sufficient for many IoT applications while minimizing resource impact, though applications requiring long-term security may necessitate higher security levels despite the increased overhead.
-
-The computational requirements also vary significantly across parameter sets, with Level 5 requiring approximately 40\% more cycles for signature generation and 25\% more for verification compared to Level 1 on ARM Cortex-M4 platforms~\cite{pqm4-benchmarks}.
 
 \section{Implementation Architecture}
 
@@ -117,6 +79,8 @@ The computational requirements also vary significantly across parameter sets, wi
 \section{Results and Analysis}
 
 \section{Conclusion}
+
+\newpage
 
 %%%% 8. BILBIOGRAPHY %%%%
 \bibliographystyle{alpha}

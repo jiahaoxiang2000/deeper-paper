@@ -1,9 +1,10 @@
-@misc{NIST-PQC-Standards,
+@misc{NIST-FIPS-204,
   author       = {NIST},
-  title        = {Post-Quantum Cryptography Standards},
-  howpublished = {NIST Post-Quantum Cryptography Standardization},
+  title        = {FIPS 204: Module-Lattice-Based Digital Signature Standard},
+  howpublished = {Federal Information Processing Standards Publication},
   year         = {2024},
-  note         = {Available at: \url{https://csrc.nist.gov/projects/post-quantum-cryptography/post-quantum-cryptography-standardization}}
+  institution  = {National Institute of Standards and Technology},
+  note         = {Available at: \url{https://csrc.nist.gov/pubs/fips/204/final}}
 }
 
 @inproceedings{Kampanakis2020,
@@ -25,21 +26,17 @@
   doi       = {10.1145/3386367.3431305}
 }
 
-@misc{MQTT-Spec,
-  author       = {OASIS},
-  title        = {MQTT Version 5.0 Specification},
-  howpublished = {OASIS Standard},
-  year         = {2019},
-  note         = {Available at: \url{https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html}}
-}
 
-@misc{KEM-MQTT2025,
-  author       = {YoungBeom Kim and Seog Chung Seo},
-  title        = {An Optimized Instantiation of Post-Quantum {MQTT} protocol on 8-bit {AVR} Sensor Nodes},
-  howpublished = {Cryptology {ePrint} Archive, Paper 2025/563},
-  year         = {2025},
-  doi          = {10.1145/3708821.3733873},
-  url          = {https://eprint.iacr.org/2025/563}
+@inproceedings{Kim2025,
+  author    = {YoungBeom Kim and Seog Chung Seo},
+  title     = {An Optimized Instantiation of Post-Quantum {MQTT} protocol on 8-bit {AVR} Sensor Nodes},
+  booktitle = {Proceedings of the 2025 ACM Asia Conference on Computer and Communications Security},
+  series    = {ASIA CCS '25},
+  year      = {2025},
+  pages     = {1--19},
+  publisher = {ACM},
+  doi       = {10.1145/3708821.3733873},
+  url       = {https://eprint.iacr.org/2025/563}
 }
 
 @misc{pqm4-benchmarks,
@@ -50,16 +47,52 @@
   url          = {https://eprint.iacr.org/2024/112}
 }
 
-@article{SCA-Dilithium,
-  author  = {Prasanna Ravi and Anupam Chattopadhyay and Jan Pieter D'Anvers and Anubhab Baksi},
-  title   = {Side-channel and Fault-injection attacks over Lattice-based Post-quantum Schemes (Kyber, Dilithium): Survey and New Results},
-  journal = {ACM Transactions on Embedded Computing Systems},
-  volume  = {23},
-  number  = {3},
-  pages   = {1--54},
-  year    = {2024},
-  doi     = {10.1145/3603170},
-  url     = {https://doi.org/10.1145/3603170}
+@inproceedings{Banegas2021,
+  author    = {Gustavo Banegas and Koen Zandberg and Emmanuel Baccelli and Adrian Herrmann and Benjamin Smith},
+  title     = {Quantum-Resistant Security for Software Updates on Low-power Networked Embedded Devices},
+  booktitle = {Applied Cryptography and Network Security},
+  series    = {ACNS 2022},
+  publisher = {Springer},
+  year      = {2022},
+  note      = {Also available at: \url{https://eprint.iacr.org/2021/781}}
+}
+
+@misc{Li2024,
+  author       = {Yuxuan Wang and Jintong Yu and Shipei Qu and Xiaolin Zhang and Xiaowei Li and Chi Zhang and Dawu Gu},
+  title        = {Mind the Faulty Keccak: A Practical Fault Injection Attack Scheme Apply to All Phases of ML-KEM and ML-DSA},
+  howpublished = {Cryptology {ePrint} Archive, Paper 2024/1522},
+  year         = {2024},
+  url          = {https://eprint.iacr.org/2024/1522}
+}
+
+@article{Barrett2023,
+  author  = {Vincent Hwang and YoungBeom Kim and Seog Chung Seo},
+  title   = {Multiplying Polynomials without Powerful Multiplication Instructions},
+  journal = {IACR Transactions on Cryptographic Hardware and Embedded Systems},
+  volume  = {2025},
+  number  = {1},
+  pages   = {160--202},
+  year    = {2025},
+  note    = {Extended version of Barrett Multiplication for Dilithium on Embedded Devices}
+}
+
+@inproceedings{Benchmark2022,
+  author    = {James Howe and Bas Westerbaan},
+  title     = {Benchmarking and Analysing the NIST PQC Lattice-Based Signature Schemes Standards on the ARM Cortex M7},
+  booktitle = {Progress in Cryptology - AFRICACRYPT 2023},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {14064},
+  publisher = {Springer},
+  year      = {2023},
+  doi       = {10.1007/978-3-031-37679-5_19}
+}
+
+@misc{Marchsreiter2024,
+  author       = {Dominik Marchsreiter},
+  title        = {Towards Quantum-Safe Blockchain: Exploration of PQC and Public-key Recovery on Embedded Systems},
+  howpublished = {Cryptology {ePrint} Archive, Paper 2024/1178},
+  year         = {2024},
+  url          = {https://eprint.iacr.org/2024/1178}
 }
 
 @techreport{FIPS204,
@@ -70,10 +103,3 @@
   note        = {Based on CRYSTALS-Dilithium}
 }
 
-@misc{DSA-Accelerators,
-  author       = {Hamid Nejatollahi and Nikil Dutt and Indranil Banerjee and Rosario Cammarota},
-  title        = {Domain-specific Accelerators for Ideal Lattice-based Public Key Protocols},
-  howpublished = {IACR ePrint Archive},
-  year         = {2018},
-  note         = {Paper ID: 2018/608}
-}
