@@ -8,7 +8,7 @@ This is a research project focused on post-quantum cryptography implementation i
 
 ## Research Context
 
-The project addresses NIST's post-quantum cryptography standards (FIPS 203, 204, 205) with specific focus on:
+The project addresses NIST's post-quantum cryptography standards with specific focus on:
 
 - ML-DSA (CRYSTALS-Dilithium based) implementation challenges
 - IoT device resource constraints (ARM Cortex-M4 microcontrollers)
