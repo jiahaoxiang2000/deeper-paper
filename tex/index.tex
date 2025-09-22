@@ -10,6 +10,19 @@
 % - Change "submission" to "final" for final version
 % - Add "spthm" for LNCS-like theorems
 
+%%%% 2. ALGORITHM PACKAGES %%%%
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+%%%% ALGORITHM GLOBAL SETTINGS %%%%
+% Custom commands for consistent Input/Output formatting
+\newcommand{\Input}[1]{\STATE \textbf{Input:} #1}
+\newcommand{\Output}[1]{\STATE \textbf{Output:} #1}
+
+% Optional: Customize algorithm appearance
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
 %%%% 3. AUTHOR, INSTITUTE %%%%
 \author{Jiahao Xiang\inst{1} \and Lang Li\inst{1}}
 \institute{
@@ -41,8 +54,6 @@
 \begin{abstract}
   The imminent threat of large-scale quantum computers necessitates the migration of Internet of Things (IoT) systems to post-quantum cryptographic standards. While NIST has standardized ML-DSA (Module-Lattice-Based Digital Signature Algorithm) for digital signatures, the practical deployment of post-quantum authentication in resource-constrained IoT environments remains unexplored. This research evaluates ML-DSA integration within MQTT-based IoT systems through comprehensive performance analysis on ARM Cortex-M4 microcontrollers. Our methodology encompasses signature generation and verification benchmarking, memory utilization analysis, and protocol overhead assessment under realistic IoT constraints. We analyze the performance implications of ML-DSA deployment compared to classical signature schemes, examining computational overhead, memory requirements, and verification latency on resource-constrained devices. These findings will reveal fundamental trade-offs between post-quantum security and IoT performance requirements, providing critical insights for practical deployment strategies in resource-limited environments.
 \end{abstract}
-
-\color{blue}
 
 %%%% 7. PAPER CONTENT %%%%
 \section{Introduction}
@@ -87,9 +98,141 @@ The absence of comprehensive empirical studies specifically evaluating ML-DSA pe
 
 Existing research primarily focuses on isolated cryptographic operations or alternative protocol architectures, failing to address the systematic integration challenges inherent in MQTT-based IoT systems. This research addresses these limitations through comprehensive performance analysis of ML-DSA deployment within realistic MQTT environments, providing essential insights for practical post-quantum IoT migration strategies.
 
-\color{black}
+\color{blue}
 
 \section{ML-DSA Algorithm Overview}\label{sec:mldsa}
+
+The Module-Lattice-Based Digital Signature Algorithm (ML-DSA) represents NIST's standardized post-quantum digital signature scheme, formalized in FIPS 204~\cite{NIST-FIPS-204}. Derived from the CRYSTALS-Dilithium algorithm, ML-DSA employs lattice-based cryptographic constructions to provide quantum-resistant digital signature capabilities while preserving computational feasibility for existing computational architectures.
+
+\subsection{Mathematical Foundation}
+
+ML-DSA constructs digital signatures using the Fiat-Shamir With Aborts paradigm applied to module lattice problems. The algorithm's security relies on two fundamental computational assumptions: the Module Learning With Errors (MLWE) problem and a variant of the Module Short Integer Solution (MSIS) problem termed SelfTargetMSIS~\cite{NIST-FIPS-204}. These problems operate over polynomial rings $R_q = \mathbb{Z}_q[X]/(X^{256} + 1)$ where $q = 2^{23} - 2^{13} + 1 = 8380417$. The ring structure facilitates efficient polynomial arithmetic through Number Theoretic Transform (NTT) operations, enabling $O(n \log n)$ multiplication complexity essential for practical deployment.
+
+The core cryptographic relationship underlying ML-DSA signatures follows the lattice equation $\mathbf{t} = \mathbf{A}\mathbf{s_1} + \mathbf{s_2}$, where $\mathbf{A} \in R_q^{k \times \ell}$ represents a public matrix, and $\mathbf{s_1} \in R_q^\ell$, $\mathbf{s_2} \in R_q^k$ constitute secret vectors with coefficients bounded by parameter $\eta$. This construction extends traditional discrete logarithm-based signature schemes to the lattice setting while incorporating rejection sampling techniques to eliminate statistical bias that could leak private key information.
+
+\subsection{Algorithm Structure}
+
+ML-DSA implements three primary algorithms: key generation (Algorithm~\ref{alg:mldsa-keygen}), signature generation (Algorithm~\ref{alg:mldsa-sign}), and signature verification (Algorithm~\ref{alg:mldsa-verify}). Each algorithm operates within the module lattice framework while accommodating practical deployment constraints through optimized parameter selections.
+
+\begin{algorithm}[h]
+  \caption{ML-DSA Key Generation}
+  \label{alg:mldsa-keygen}
+  \begin{algorithmic}[1]
+    \Input{Security parameter defining $(k, \ell, \eta, d)$}
+    \Output{Public key $pk$, Private key $sk$}
+    \STATE $\xi \leftarrow \{0,1\}^{256}$ \COMMENT{Generate random seed}
+    \STATE $(\rho, \rho', K) \leftarrow H(\xi \| \text{IntegerToBytes}(k,1) \| \text{IntegerToBytes}(\ell,1), 128)$
+    \STATE $\hat{\mathbf{A}} \leftarrow \text{ExpandA}(\rho)$ \COMMENT{Generate public matrix in NTT form}
+    \STATE $(\mathbf{s_1}, \mathbf{s_2}) \leftarrow \text{ExpandS}(\rho')$ \COMMENT{Sample secret vectors with $\|\mathbf{s_i}\|_\infty \leq \eta$}
+    \STATE $\mathbf{t} \leftarrow \text{NTT}^{-1}(\hat{\mathbf{A}} \circ \text{NTT}(\mathbf{s_1})) + \mathbf{s_2}$
+    \STATE $(\mathbf{t_1}, \mathbf{t_0}) \leftarrow \text{Power2Round}(\mathbf{t})$ \COMMENT{Compress with $d = 13$ bits}
+    \STATE $pk \leftarrow \text{pkEncode}(\rho, \mathbf{t_1})$
+    \STATE $tr \leftarrow H(pk, 64)$
+    \STATE $sk \leftarrow \text{skEncode}(\rho, K, tr, \mathbf{s_1}, \mathbf{s_2}, \mathbf{t_0})$
+    \RETURN $(pk, sk)$
+  \end{algorithmic}
+\end{algorithm}
+
+As shown in Algorithm~\ref{alg:mldsa-keygen}, the compression technique (line 6) reduces public key size by discarding the $d = 13$ least significant bits from each coefficient, as these low-order bits can be reconstructed from signature information during verification.
+
+\begin{algorithm}[h]
+  \caption{ML-DSA Signature Generation}
+  \label{alg:mldsa-sign}
+  \begin{algorithmic}[1]
+    \Input{Private key $sk$, Message $M$, Context $ctx$}
+    \Output{Signature $\sigma$ or $\perp$}
+    \STATE $(\rho, K, tr, \mathbf{s_1}, \mathbf{s_2}, \mathbf{t_0}) \leftarrow \text{skDecode}(sk)$
+    \STATE $\hat{\mathbf{A}} \leftarrow \text{ExpandA}(\rho)$
+    \STATE $M' \leftarrow \text{BytesToBits}(\text{IntegerToBytes}(0,1) \| \text{IntegerToBytes}(|ctx|,1) \| ctx) \| M$
+    \STATE $\mu \leftarrow H(\text{BytesToBits}(tr) \| M', 64)$
+    \STATE $rnd \leftarrow \{0,1\}^{256}$ \COMMENT{For hedged signing; use $\{0\}^{256}$ for deterministic}
+    \STATE $\rho'' \leftarrow H(K \| rnd \| \mu, 64)$
+    \STATE $\kappa \leftarrow 0$
+    \REPEAT
+    \STATE $\mathbf{y} \leftarrow \text{ExpandMask}(\rho'', \kappa)$ \COMMENT{Sample commitment with $\|\mathbf{y}\|_\infty \leq \gamma_1$}
+    \STATE $\mathbf{w} \leftarrow \text{NTT}^{-1}(\hat{\mathbf{A}} \circ \text{NTT}(\mathbf{y}))$
+    \STATE $\mathbf{w_1} \leftarrow \text{HighBits}(\mathbf{w})$
+    \STATE $\tilde{c} \leftarrow H(\mu \| \text{w1Encode}(\mathbf{w_1}), \lambda/4)$
+    \STATE $c \leftarrow \text{SampleInBall}(\tilde{c})$ \COMMENT{Challenge with $\|c\|_0 = \tau$}
+    \STATE $\mathbf{z} \leftarrow \mathbf{y} + c \mathbf{s_1}$
+    \STATE $\mathbf{r_0} \leftarrow \text{LowBits}(\mathbf{w} - c\mathbf{s_2})$
+    \IF{$\|\mathbf{z}\|_\infty \geq \gamma_1 - \beta$ OR $\|\mathbf{r_0}\|_\infty \geq \gamma_2 - \beta$}
+    \STATE $\kappa \leftarrow \kappa + \ell$
+    \STATE \textbf{continue}
+    \ENDIF
+    \STATE $\mathbf{h} \leftarrow \text{MakeHint}(-c\mathbf{t_0}, \mathbf{w} - c\mathbf{s_2} + c\mathbf{t_0})$
+    \IF{$\|c\mathbf{t_0}\|_\infty \geq \gamma_2$ OR $\|\mathbf{h}\|_0 > \omega$}
+    \STATE $\kappa \leftarrow \kappa + \ell$
+    \STATE \textbf{continue}
+    \ENDIF
+    \STATE $\sigma \leftarrow \text{sigEncode}(\tilde{c}, \mathbf{z}, \mathbf{h})$
+    \RETURN $\sigma$
+    \UNTIL{false}
+  \end{algorithmic}
+\end{algorithm}
+
+Algorithm~\ref{alg:mldsa-sign} demonstrates the rejection sampling mechanism (lines 9-18) that ensures signatures maintain statistical independence from private key values, with expected iteration counts of 4.25, 5.1, and 3.85 for ML-DSA-44, ML-DSA-65, and ML-DSA-87 respectively. The validity checks in lines 11-12 and 16-17 determine whether each iteration produces an acceptable signature or requires repetition.
+
+\begin{algorithm}[h]
+  \caption{ML-DSA Signature Verification}
+  \label{alg:mldsa-verify}
+  \begin{algorithmic}[1]
+    \Input{Public key $pk$, Message $M$, Signature $\sigma$, Context $ctx$}
+    \Output{$\mathsf{true}$ or $\mathsf{false}$}
+    \STATE $(\rho, \mathbf{t_1}) \leftarrow \text{pkDecode}(pk)$
+    \STATE $(\tilde{c}, \mathbf{z}, \mathbf{h}) \leftarrow \text{sigDecode}(\sigma)$
+    \IF{$\mathbf{h} = \perp$}
+    \RETURN $\mathsf{false}$ \COMMENT{Invalid hint encoding}
+    \ENDIF
+    \STATE $\hat{\mathbf{A}} \leftarrow \text{ExpandA}(\rho)$
+    \STATE $tr \leftarrow H(pk, 64)$
+    \STATE $M' \leftarrow \text{BytesToBits}(\text{IntegerToBytes}(0,1) \| \text{IntegerToBytes}(|ctx|,1) \| ctx) \| M$
+    \STATE $\mu \leftarrow H(\text{BytesToBits}(tr) \| M', 64)$
+    \STATE $c \leftarrow \text{SampleInBall}(\tilde{c})$
+    \STATE $\mathbf{w'} \leftarrow \text{NTT}^{-1}(\hat{\mathbf{A}} \circ \text{NTT}(\mathbf{z}) - \text{NTT}(c) \circ \text{NTT}(\mathbf{t_1} \cdot 2^d))$
+    \STATE $\mathbf{w_1'} \leftarrow \text{UseHint}(\mathbf{h}, \mathbf{w'})$
+    \STATE $\tilde{c'} \leftarrow H(\mu \| \text{w1Encode}(\mathbf{w_1'}), \lambda/4)$
+    \RETURN $\|\mathbf{z}\|_\infty < \gamma_1 - \beta$ AND $\tilde{c} = \tilde{c'}$
+  \end{algorithmic}
+\end{algorithm}
+
+Algorithm~\ref{alg:mldsa-verify} illustrates the deterministic verification process that reconstructs the signer's commitment using the hint mechanism (line 12). The critical verification steps include commitment reconstruction (line 11), hint application (line 12), and dual validation through both norm bounds and hash consistency (line 14).
+
+\subsection{Parameter Sets and Security Analysis}
+
+NIST standardizes three ML-DSA parameter sets with distinct security-performance trade-offs. Table~\ref{tab:mldsa-params} summarizes the key parameters and resulting implementation characteristics.
+
+\begin{table}[h]
+  \centering
+  \caption{ML-DSA Parameter Sets and Implementation Characteristics}
+  \label{tab:mldsa-params}
+  \begin{tabular}{lccc}
+    \hline
+    \textbf{Parameter} & \textbf{ML-DSA-44} & \textbf{ML-DSA-65} & \textbf{ML-DSA-87} \\
+    \hline
+    Security Category & 2 (AES-128) & 3 (AES-192) & 5 (AES-256) \\
+    Matrix $(k,\ell)$ & $(4,4)$ & $(6,5)$ & $(8,7)$ \\
+    Private Key (bytes) & 2,560 & 4,032 & 4,896 \\
+    Public Key (bytes) & 1,312 & 1,952 & 2,592 \\
+    Signature (bytes) & 2,420 & 3,309 & 4,627 \\
+    Expected Iterations & 4.25 & 5.1 & 3.85 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+These parameter selections demonstrate the fundamental trade-off between quantum security strength and implementation overhead. Signature sizes increase by factors of 30-70× relative to classical ECDSA schemes, reflecting the inherent cost of lattice-based post-quantum security.
+
+\subsection{Computational Complexity Analysis}
+
+ML-DSA implementation requires quantified resource analysis for deployment feasibility assessment in constrained environments. Algorithm~\ref{alg:mldsa-keygen} exhibits $O(k \cdot \ell \cdot n \log n)$ complexity dominated by matrix-vector multiplication operations in line 5. Algorithm~\ref{alg:mldsa-sign} complexity varies with rejection sampling iterations, requiring $O(E[\text{iterations}] \cdot \ell \cdot n \log n)$ expected operations where $E[\text{iterations}]$ ranges from 3.85 to 5.1 across parameter sets. Algorithm~\ref{alg:mldsa-verify} maintains deterministic $O((k + \ell) \cdot n \log n)$ complexity through the commitment reconstruction process in line 11.
+
+Memory requirements encompass both static storage and dynamic working memory. Static storage includes private keys (2,560-4,896 bytes), public keys (1,312-2,592 bytes), and precomputed NTT constants (approximately 1KB). Dynamic memory requirements include polynomial vector storage ($k \cdot \ell \cdot 256 \cdot 4$ bytes for intermediate calculations) and matrix buffers for NTT operations.
+
+\subsection{Implementation Variants and Security Trade-offs}
+
+ML-DSA provides deterministic and hedged signing variants that present distinct security-performance trade-offs for resource-constrained deployments. Deterministic signing eliminates entropy requirements during signature generation, reducing hardware complexity but introducing vulnerability to side-channel and fault injection attacks. Hedged signing incorporates fresh randomness during each signature operation, providing enhanced resistance to implementation attacks while requiring secure random number generation capabilities that may be unavailable in minimal IoT implementations.
+
+\color{black}
 
 \section{Implementation Architecture}\label{sec:architecture}
 
