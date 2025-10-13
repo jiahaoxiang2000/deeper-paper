@@ -58,13 +58,13 @@
 %%%% 7. PAPER CONTENT %%%%
 \section{Introduction}
 
-{\color{blue}The emergence of quantum computing poses an existential threat to current cryptographic infrastructures, necessitating systematic migration to post-quantum cryptographic standards across all computing domains~\cite{Khalid2019}.} The National Institute of Standards and Technology (NIST) has formalized ML-DSA (Module-Lattice-Based Digital Signature Algorithm) within FIPS 204~\cite{NIST-FIPS-204}, establishing this CRYSTALS-Dilithium-based scheme as the primary standard for post-quantum digital signatures.
+The emergence of quantum computing poses an existential threat to current cryptographic infrastructures, necessitating systematic migration to post-quantum cryptographic standards across all computing domains~\cite{Khalid2019}. The National Institute of Standards and Technology (NIST) has formalized ML-DSA (Module-Lattice-Based Digital Signature Algorithm) within FIPS 204~\cite{NIST-FIPS-204}, establishing this CRYSTALS-Dilithium-based scheme as the primary standard for post-quantum digital signatures.
 
-{\color{blue}The transition from theoretical post-quantum standardization to practical deployment has revealed fundamental implementation challenges that extend beyond algorithmic considerations~\cite{MLDSAHardware2024}. Post-quantum signature schemes impose substantial computational and storage overhead compared to classical alternatives. ML-DSA signatures range from 2,420 bytes to 4,627 bytes across security levels, representing 30-70× size increases relative to 64-byte ECDSA signatures. These expanded signature sizes, combined with elevated computational demands, frequently exceed the processing capabilities of resource-constrained devices~\cite{HwangKim2024}.
+The transition from theoretical post-quantum standardization to practical deployment has revealed fundamental implementation challenges that extend beyond algorithmic considerations~\cite{MLDSAHardware2024}. Post-quantum signature schemes impose substantial computational and storage overhead compared to classical alternatives. ML-DSA signatures range from 2,420 bytes to 4,627 bytes across security levels, representing 30-70× size increases relative to 64-byte ECDSA signatures. These expanded signature sizes, combined with elevated computational demands, frequently exceed the processing capabilities of resource-constrained devices~\cite{HwangKim2024}.
 
-Internet of Things (IoT) systems exemplify these deployment challenges, where computational, memory, and energy limitations fundamentally constrain cryptographic implementation choices~\cite{Ghosh2019}. Despite performance overhead, signature-based authentication mechanisms remain essential for applications requiring cryptographic non-repudiation, comprehensive audit trails, and compatibility with existing public key infrastructure frameworks. The MQTT protocol, widely adopted for IoT messaging due to its lightweight characteristics, becomes particularly problematic when post-quantum signatures impose prohibitive performance overhead on resource-constrained devices. This disparity creates a critical gap between standardization achievements and practical deployment feasibility in IoT environments.}
+Internet of Things (IoT) systems exemplify these deployment challenges, where computational, memory, and energy limitations fundamentally constrain cryptographic implementation choices~\cite{Ghosh2019}. Despite performance overhead, signature-based authentication mechanisms remain essential for applications requiring cryptographic non-repudiation, comprehensive audit trails, and compatibility with existing public key infrastructure frameworks. The MQTT protocol, widely adopted for IoT messaging due to its lightweight characteristics, becomes particularly problematic when post-quantum signatures impose prohibitive performance overhead on resource-constrained devices. This disparity creates a critical gap between standardization achievements and practical deployment feasibility in IoT environments.
 
-This research systematically addresses the challenge of ML-DSA integration within MQTT-based IoT systems through comprehensive performance analysis on ARM Cortex-M4 microcontrollers. {\color{blue}Our work provides three primary contributions to post-quantum IoT deployment:
+This research systematically addresses the challenge of ML-DSA integration within MQTT-based IoT systems through comprehensive performance analysis on ARM Cortex-M4 microcontrollers. Our work provides three primary contributions to post-quantum IoT deployment:
 
 \begin{itemize}
 \item \textbf{Computational Performance Benchmarking}: We conduct comprehensive benchmarking of ML-DSA signature operations on resource-constrained ARM Cortex-M4 microcontrollers, quantifying computational overhead, execution latency, and performance variations across all three standardized ML-DSA parameter sets under realistic IoT operating conditions.
@@ -74,7 +74,7 @@ This research systematically addresses the challenge of ML-DSA integration withi
 \item \textbf{Protocol-Level MQTT Integration Assessment}: We evaluate protocol-level overhead implications of ML-DSA integration within MQTT communication frameworks, analyzing message size increases, transmission latency impacts, and network throughput degradation relative to classical signature schemes.
 \end{itemize}
 
-Through comparative analysis with classical signature schemes, these contributions establish fundamental trade-offs between post-quantum security guarantees and IoT performance requirements, providing essential insights for practical deployment strategies in resource-limited environments.}
+Through comparative analysis with classical signature schemes, these contributions establish fundamental trade-offs between post-quantum security guarantees and IoT performance requirements, providing essential insights for practical deployment strategies in resource-limited environments.
 
 The remainder of this paper is organized as follows: Section~\ref{sec:related} presents background information on post-quantum cryptography and related work in IoT deployments. Section~\ref{sec:mldsa} provides an overview of the ML-DSA algorithm and its implementation considerations. Section~\ref{sec:architecture} describes our implementation architecture for MQTT-based IoT systems. Section~\ref{sec:methodology} details our experimental methodology for performance evaluation on ARM Cortex-M4 microcontrollers. Section~\ref{sec:results} presents and analyzes our experimental results, examining the trade-offs between security and performance. Finally, Section~\ref{sec:conclusion} concludes with implications for practical deployment and future research directions.
 
@@ -92,11 +92,11 @@ The ongoing pqm4 benchmarking campaign extends these observations to the standar
 
 Practical deployment scenarios reveal critical performance bottlenecks that challenge IoT system viability. Analysis of the SUIT (Software Update for the Internet of Things) framework demonstrates that post-quantum signature verification operations require up to 3.2 seconds on low-power microcontrollers, substantially exceeding acceptable latency constraints for real-time IoT applications.
 
-{\color{blue}These performance constraints are compounded by security vulnerabilities and protocol-level throughput ceilings. Marchsreiter~\cite{Marchsreiter2024} shows that blockchain workloads on embedded nodes experience order-of-magnitude drops in transactions-per-second once ML-DSA is introduced, with signing latency alone dominating system throughput.} Fault injection research targeting ML-DSA and ML-KEM implementations achieved 89.5\% attack success rates on ARM Cortex-M processors through electromagnetic fault injection techniques~\cite{Li2024}. The analyses demonstrate that Keccak-based hash functions—integral to ML-DSA randomness generation and signature computation—exhibit particular susceptibility to loop-abort faults enabling complete private key recovery, necessitating additional countermeasures that further impact performance.
+These performance constraints are compounded by security vulnerabilities and protocol-level throughput ceilings. Marchsreiter~\cite{Marchsreiter2024} shows that blockchain workloads on embedded nodes experience order-of-magnitude drops in transactions-per-second once ML-DSA is introduced, with signing latency alone dominating system throughput. Fault injection research targeting ML-DSA and ML-KEM implementations achieved 89.5\% attack success rates on ARM Cortex-M processors through electromagnetic fault injection techniques~\cite{Li2024}. The analyses demonstrate that Keccak-based hash functions—integral to ML-DSA randomness generation and signature computation—exhibit particular susceptibility to loop-abort faults enabling complete private key recovery, necessitating additional countermeasures that further impact performance.
 
 \subsection{Alternative Approaches and Limitations}
 
-Recent research has explored alternative authentication architectures to address these deployment challenges. Kim and Seo~\cite{Kim2025} demonstrate that direct application of post-quantum signatures to MQTT authentication introduces prohibitive performance overhead, prompting KEM-based authentication architectures that eliminate signature operations entirely. While their CRYSTALS-Kyber implementation achieves 4.32-second handshake completion on 8-bit AVR microcontrollers, {\color{blue}this approach circumvents rather than resolves the fundamental challenge of post-quantum signature deployment in signature-dependent applications.}
+Recent research has explored alternative authentication architectures to address these deployment challenges. Kim and Seo~\cite{Kim2025} demonstrate that direct application of post-quantum signatures to MQTT authentication introduces prohibitive performance overhead, prompting KEM-based authentication architectures that eliminate signature operations entirely. While their CRYSTALS-Kyber implementation achieves 4.32-second handshake completion on 8-bit AVR microcontrollers, this approach circumvents rather than resolves the fundamental challenge of post-quantum signature deployment in signature-dependent applications.
 
 Current algorithmic optimization research reveals limitations in addressing fundamental resource constraints. Barrett multiplication techniques achieve 1.38-1.51× performance improvements on ARM Cortex-M3 processors and 6.37-7.27× improvements on 8-bit AVR platforms~\cite{Barrett2023}. However, these optimizations provide insufficient performance gains to bridge the gap between post-quantum signature requirements and IoT device capabilities, necessitating comprehensive system-level analysis.
 
@@ -107,13 +107,13 @@ The absence of comprehensive empirical studies specifically evaluating ML-DSA pe
 Existing research primarily focuses on isolated cryptographic operations or alternative protocol architectures, failing to address the systematic integration challenges inherent in MQTT-based IoT systems. This research addresses these limitations through comprehensive performance analysis of ML-DSA deployment within realistic MQTT environments, providing essential insights for practical post-quantum IoT migration strategies.
 
 
-{\color{blue}\section{ML-DSA and MQTT Protocol Integration}\label{sec:mldsa}
+\section{ML-DSA and MQTT Protocol Integration}\label{sec:mldsa}
 
 \subsection{ML-DSA Algorithm Characteristics}
 
 ML-DSA constitutes NIST's standardized post-quantum digital signature scheme (FIPS 204~\cite{NIST-FIPS-204}) based on CRYSTALS-Dilithium. The algorithm employs the Fiat-Shamir With Aborts paradigm over polynomial rings $R_q = \mathbb{Z}_q[X]/(X^{256} + 1)$ with security derived from Module Learning With Errors (MLWE) and Module Short Integer Solution (MSIS) assumptions. Polynomial arithmetic utilizes Number Theoretic Transform (NTT) operations achieving $O(n \log n)$ complexity.
 
-ML-DSA implements rejection sampling requiring iterative signature generation with expected iteration counts of 4.25, 5.1, and 3.85 across parameter sets, directly impacting timing predictability. The algorithm comprises three operations: key generation with $O(k \cdot \ell \cdot n \log n)$ complexity producing keys of 1.3-4.9 KB, computationally intensive signature generation with variable execution time, and deterministic verification with $O((k + \ell) \cdot n \log n)$ complexity—all substantially exceeding classical signature costs.}
+ML-DSA implements rejection sampling requiring iterative signature generation with expected iteration counts of 4.25, 5.1, and 3.85 across parameter sets, directly impacting timing predictability. The algorithm comprises three operations: key generation with $O(k \cdot \ell \cdot n \log n)$ complexity producing keys of 1.3-4.9 KB, computationally intensive signature generation with variable execution time, and deterministic verification with $O((k + \ell) \cdot n \log n)$ complexity—all substantially exceeding classical signature costs.
 
 \subsection{Parameter Sets and Security Analysis}
 
@@ -139,24 +139,76 @@ NIST standardizes three ML-DSA parameter sets with distinct security-performance
 
 These parameter selections demonstrate the fundamental trade-off between quantum security strength and implementation overhead. Signature sizes increase by factors of 30-70× relative to classical ECDSA schemes, reflecting the inherent cost of lattice-based post-quantum security.
 
-{\color{blue}\subsection{MQTT Protocol and Security Integration}
+\subsection{MQTT Protocol and Security Integration}
 
 Message Queuing Telemetry Transport (MQTT) constitutes an OASIS standard messaging protocol implementing publish-subscribe architecture with minimal overhead for resource-constrained IoT devices. MQTT utilizes binary packet structure comprising fixed header (2-byte mandatory component specifying packet type and control flags), variable header (packet-specific control information), and payload (message content up to 256 MB).
 
-MQTT specifies three Quality of Service levels affecting signature integration: QoS 0 (fire-and-forget transmission), QoS 1 (guaranteed delivery via PUBACK acknowledgments), and QoS 2 (exactly-once delivery through four-way handshake). Native security provisions include username/password authentication, TLS integration, and X.509 certificate-based mutual authentication, but lack built-in digital signature support.}
+MQTT specifies three Quality of Service levels affecting signature integration: QoS 0 (fire-and-forget transmission), QoS 1 (guaranteed delivery via PUBACK acknowledgments), and QoS 2 (exactly-once delivery through four-way handshake). Native security provisions include username/password authentication, TLS integration, and X.509 certificate-based mutual authentication, but lack built-in digital signature support.
 
-{\color{blue}\subsection{ML-DSA Integration Challenges and Performance Impact}
+\subsection{ML-DSA Integration Challenges and Performance Impact}
 
 ML-DSA integration within MQTT environments presents three primary implementation approaches: payload-embedded signatures (preserving compatibility but substantially increasing packet size), header extensions (requiring protocol modifications), and meta-message patterns (maintaining compliance with additional network overhead). Applications requiring non-repudiation necessitate asymmetric signatures like ML-DSA despite computational costs, while message authentication can utilize faster MACs with shared secrets.
 
 ML-DSA signatures span 2,420-4,627 bytes compared to 64 bytes for ECDSA, representing 38×-72× overhead amplification. For typical IoT sensor data (10-100 bytes), signatures dominate packet composition, transforming 20-byte temperature measurements into 2.4-4.6 KB transmissions. ARM Cortex-M4 platforms require tens of milliseconds for signature generation and substantial memory resources (1.3-4.9 KB keys, tens of kilobytes working memory), creating processing bottlenecks that violate MQTT responsiveness guarantees.
 
-Integration challenges include backward compatibility constraints, broker computational requirements, error handling extensions, processing power limitations, energy consumption escalation, and real-time constraint violations. These factors necessitate comprehensive empirical analysis to quantify performance trade-offs and inform practical deployment strategies within resource-constrained MQTT environments.}
+Integration challenges include backward compatibility constraints, broker computational requirements, error handling extensions, processing power limitations, energy consumption escalation, and real-time constraint violations. These factors necessitate comprehensive empirical analysis to quantify performance trade-offs and inform practical deployment strategies within resource-constrained MQTT environments.
 
 
 \section{Implementation Architecture}\label{sec:architecture}
 
+\color{blue}
+
 \section{Experimental Methodology}\label{sec:methodology}
+
+This section presents our experimental framework for evaluating ML-DSA integration within MQTT-based IoT systems. Our methodology encompasses comprehensive performance benchmarking on resource-constrained ARM Cortex-M4 microcontrollers, systematic memory utilization analysis, and protocol-level overhead assessment under realistic IoT operational constraints.
+
+\subsection{Experimental Platform}
+
+Our experimental platform targets ARM Cortex-M4 microcontrollers, representative of mid-range IoT devices deployed in industrial monitoring, smart agriculture, and building automation systems. The evaluation hardware comprises STM32F407VG development boards featuring ARM Cortex-M4F cores operating at 168 MHz with hardware floating-point unit, 1 MB Flash memory for program storage, and 192 KB SRAM for runtime operations. This configuration represents typical resource constraints encountered in contemporary IoT deployments requiring cryptographic authentication capabilities.
+
+The software environment utilizes the ARM GCC toolchain (version 10.3.1) with \texttt{-O3} optimization enabling aggressive performance optimizations while maintaining standards compliance. ML-DSA implementation derives from the pqm4 reference library~\cite{pqm4-benchmarks}, providing optimized ARM Cortex-M4 implementations of all three standardized parameter sets (ML-DSA-44, ML-DSA-65, ML-DSA-87) with verified NIST test vector compliance. For comparative baseline measurements, we employ the micro-ecc library implementing ECDSA with NIST P-256 curves, compiled with identical optimization settings to ensure fair performance comparison.
+
+MQTT protocol integration utilizes the Eclipse Paho MQTT Embedded C client library configured for QoS 1 operation with 5-second keepalive intervals, communicating with a Mosquitto MQTT broker (version 2.0.15) deployed on dedicated server infrastructure. Network connectivity employs IEEE 802.11n WiFi through ESP32-WROOM-32 wireless modules, eliminating physical wiring constraints while maintaining realistic IoT communication patterns.
+
+\subsection{Performance Measurement Framework}
+
+Computational performance measurement exploits ARM Cortex-M4 Data Watchpoint and Trace (DWT) hardware unit, providing cycle-accurate execution time quantification through the \texttt{DWT\_CYCCNT} register. This hardware-based approach eliminates measurement overhead associated with software profiling while achieving single-cycle temporal resolution. Measurements capture complete operation execution including all preprocessing, core algorithm computation, and result formatting stages.
+
+Memory utilization analysis employs dual-methodology assessment combining static and dynamic measurement techniques. Static memory consumption derives from compilation output through \texttt{arm-none-eabi-size} toolchain utilities, quantifying Flash memory requirements for ML-DSA implementation code and initialized data segments. Dynamic memory profiling utilizes stack watermarking techniques, initializing stack memory regions with distinctive patterns (0xDEADBEEF sentinel values) prior to operation execution and subsequently scanning for pattern corruption to determine peak stack utilization. Heap allocation monitoring instruments \texttt{malloc} and \texttt{free} functions to track runtime memory requests, though ML-DSA implementations typically avoid dynamic allocation in embedded contexts.
+
+Energy consumption assessment, while not primary focus of this research, employs INA219 current sensor modules measuring supply current at 100 Hz sampling frequency throughout cryptographic operation execution. Voltage monitoring and current integration provide operation-level energy consumption estimates, enabling power-constrained deployment analysis for battery-operated IoT devices.
+
+\subsection{Benchmark Design}
+
+Benchmark methodology encompasses systematic evaluation of all ML-DSA cryptographic operations across standardized parameter sets. Key generation benchmarking measures complete public-private keypair generation including random seed generation, matrix expansion, and polynomial sampling operations. Signature generation benchmarking captures end-to-end signing latency including message hashing, rejection sampling iterations, and signature encoding, with statistical analysis accounting for variable iteration counts. Verification benchmarking measures signature validation computational cost including signature decoding, polynomial reconstruction, and validity checking operations.
+
+Each parameter set (ML-DSA-44, ML-DSA-65, ML-DSA-87) undergoes evaluation across representative IoT message payloads spanning 10-byte minimal sensor readings (single temperature value), 50-byte typical telemetry packets (multi-sensor aggregated data), and 100-byte extended status reports (device diagnostics with metadata). This payload diversity captures realistic IoT communication patterns while enabling overhead ratio analysis across message sizes.
+
+Baseline performance comparison employs ECDSA P-256 implementations executing identical operation sequences: keypair generation producing 32-byte private keys and 64-byte public keys, signature generation over equivalent message lengths producing 64-byte DER-encoded signatures, and signature verification operations. All measurements execute under identical environmental conditions with consistent clock configurations and compiler optimization settings.
+
+Statistical rigor derives from repeated measurement methodology executing each operation 1,000 iterations with outlier elimination. We report median execution times providing robust central tendency estimates resilient to measurement noise, along with interquartile ranges quantifying performance variability. For signature generation operations exhibiting substantial variance due to rejection sampling, we additionally report minimum and maximum observed execution times characterizing performance bounds.
+
+\subsection{Integration Testing Protocol}
+
+MQTT protocol integration testing evaluates end-to-end authentication workflows embedding ML-DSA signatures within MQTT message payloads. The signature integration architecture implements payload-embedded approach maintaining MQTT protocol compatibility: publishers generate ML-DSA signatures over message content, append signatures to payload data, and transmit composite messages through standard MQTT PUBLISH operations. Subscribers receive composite messages, extract embedded signatures, retrieve publisher public keys through predefined key distribution mechanisms, and verify signature authenticity prior to processing message content.
+
+End-to-end latency measurement encompasses complete message lifecycle: signature generation on publisher devices, MQTT message serialization and transmission, network propagation delay, broker processing and routing, subscriber reception and deserialization, and signature verification. Measurement instrumentation captures timestamps at each workflow stage enabling latency decomposition and bottleneck identification.
+
+Protocol overhead quantification compares signed message transmission characteristics against baseline unsigned MQTT communications. Message size overhead calculation measures total payload expansion including signature data and any required metadata (key identifiers, algorithm parameters, encoding formats). Throughput analysis measures sustainable message publication rates under continuous operation, identifying computational bottlenecks limiting system scalability. Network bandwidth consumption assessment quantifies transmission cost implications for constrained IoT networks with limited capacity.
+
+Testing scenarios evaluate all three MQTT QoS levels: QoS 0 fire-and-forget transmission measuring minimum-overhead scenarios, QoS 1 acknowledged delivery assessing interaction between signature verification latency and protocol acknowledgment timeouts, and QoS 2 exactly-once delivery quantifying computational impact on multi-phase message exchange protocols.
+
+\subsection{Evaluation Metrics}
+
+Our evaluation framework employs comprehensive metric suite spanning computational performance, memory utilization, and protocol-level impacts. Computational metrics include CPU cycle counts providing architecture-independent performance characterization, execution time measurements in milliseconds reflecting real-world latency experienced by applications, and operations per second quantifying sustainable cryptographic operation rates under continuous workload.
+
+Memory metrics encompass code size measured in kilobytes quantifying Flash memory requirements for ML-DSA implementation, static RAM allocation for constant data structures and global variables, stack memory peak consumption during operation execution, and total memory footprint combining all storage requirements. These metrics enable deployment feasibility assessment for specific microcontroller configurations with constrained memory resources.
+
+Protocol-level metrics characterize MQTT integration impacts through message size overhead calculated as percentage increase relative to unsigned baseline messages, transmission latency measuring time from publish invocation to subscriber reception, verification latency quantifying delay between message reception and validated content availability, and end-to-end latency spanning complete publish-subscribe workflow including all cryptographic operations and network propagation.
+
+Comparative analysis employs overhead ratios normalizing ML-DSA measurements relative to ECDSA baseline implementations, enabling quantification of post-quantum migration costs. For each metric $M$, we compute overhead ratio $R = M_{\text{ML-DSA}} / M_{\text{ECDSA}}$, with values exceeding 1.0 indicating increased resource consumption. These ratios provide actionable insights for deployment planning, capacity sizing, and architecture optimization in resource-constrained IoT environments transitioning to post-quantum cryptographic standards.
+
+\color{black}
 
 \section{Results and Analysis}\label{sec:results}
 
