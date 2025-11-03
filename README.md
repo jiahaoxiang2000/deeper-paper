@@ -6,4 +6,4 @@ In our fourth paper, we aim to explore cryptography more deeply, rather than wri
 
 ## Research Progress
 
-- [ ] see the [PQC process](./docs/pqc-status.md), then to find the issues in the implementation of post-quantum cryptography
+- [x] see the [PQC process](./docs/pqc-status.md), then to find the issues in the implementation of post-quantum cryptography
