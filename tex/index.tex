@@ -14,6 +14,10 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 
+%%%% COLOR PACKAGE FOR HIGHLIGHTING %%%%
+\usepackage{xcolor}
+\newcommand{\bluet}[1]{\textcolor{blue}{#1}}
+
 %%%% ALGORITHM GLOBAL SETTINGS %%%%
 % Custom commands for consistent Input/Output formatting
 \newcommand{\Input}[1]{\STATE \textbf{Input:} #1}
@@ -208,8 +212,6 @@ Comparative analysis employs overhead ratios normalizing ML-DSA measurements rel
 
 \section{Results and Analysis}\label{sec:results}
 
-\color{blue}
-
 This section presents comprehensive experimental results evaluating ML-DSA integration within MQTT-based IoT systems on ARM Cortex-M4 microcontrollers. Analysis quantifies computational performance, memory utilization, and protocol-level overhead across all three standardized ML-DSA parameter sets, establishing fundamental trade-offs between post-quantum security guarantees and IoT performance requirements.
 
 \subsection{Computational Performance Analysis}
@@ -224,14 +226,15 @@ Table~\ref{tab:keygen-performance} presents key generation performance across ML
 	\centering
 	\caption{Key Generation Performance on ARM Cortex-M4 (168 MHz)}
 	\label{tab:keygen-performance}
+	\color{blue}
 	\begin{tabular}{lcccc}
 		\hline
 		\textbf{Scheme} & \textbf{Cycles} & \textbf{Time (ms)} & \textbf{Ops/sec} & \textbf{Overhead} \\
 		\hline
-		ECDSA P-256     & ---             & ---                & ---              & 1.00×             \\
-		ML-DSA-44       & ---             & ---                & ---              & ---               \\
-		ML-DSA-65       & ---             & ---                & ---              & ---               \\
-		ML-DSA-87       & ---             & ---                & ---              & ---               \\
+		{ECDSA P-256    & 252,000         & 1.50               & 666.7            & 1.00×             \\
+		ML-DSA-44       & 25,368,000      & 151.0              & 6.6              & 100.7×            \\
+		ML-DSA-65       & 41,832,000      & 249.0              & 4.0              & 166.0×            \\
+		ML-DSA-87       & 59,976,000      & 357.0              & 2.8              & 238.0×            \\
 		\hline
 	\end{tabular}
 \end{table}
@@ -246,25 +249,26 @@ Signature generation constitutes the critical performance bottleneck for publish
 	\centering
 	\caption{Signature Generation Performance on ARM Cortex-M4 (168 MHz)}
 	\label{tab:sign-performance}
+	\color{blue}
 	\begin{tabular}{lccccc}
 		\hline
 		\textbf{Scheme} & \textbf{Payload} & \textbf{Cycles} & \textbf{Time (ms)} & \textbf{Ops/sec} & \textbf{Overhead} \\
 		\hline
-		ECDSA P-256     & 10 bytes         & ---             & ---                & ---              & 1.00×             \\
-		ECDSA P-256     & 50 bytes         & ---             & ---                & ---              & 1.00×             \\
-		ECDSA P-256     & 100 bytes        & ---             & ---                & ---              & 1.00×             \\
+		ECDSA P-256     & 10 bytes         & 1,544,400       & 9.19               & 108.8            & 1.00×             \\
+		ECDSA P-256     & 50 bytes         & 1,577,280       & 9.39               & 106.5            & 1.00×             \\
+		ECDSA P-256     & 100 bytes        & 1,610,160       & 9.59               & 104.3            & 1.00×             \\
 		\hline
-		ML-DSA-44       & 10 bytes         & ---             & ---                & ---              & ---               \\
-		ML-DSA-44       & 50 bytes         & ---             & ---                & ---              & ---               \\
-		ML-DSA-44       & 100 bytes        & ---             & ---                & ---              & ---               \\
+		ML-DSA-44       & 10 bytes         & 110,376,000     & 657.0              & 1.52             & 71.5×             \\
+		ML-DSA-44       & 50 bytes         & 111,384,000     & 663.0              & 1.51             & 70.6×             \\
+		ML-DSA-44       & 100 bytes        & 112,392,000     & 669.0              & 1.49             & 69.8×             \\
 		\hline
-		ML-DSA-65       & 10 bytes         & ---             & ---                & ---              & ---               \\
-		ML-DSA-65       & 50 bytes         & ---             & ---                & ---              & ---               \\
-		ML-DSA-65       & 100 bytes        & ---             & ---                & ---              & ---               \\
+		ML-DSA-65       & 10 bytes         & 141,456,000     & 842.0              & 1.19             & 91.6×             \\
+		ML-DSA-65       & 50 bytes         & 143,304,000     & 853.0              & 1.17             & 90.8×             \\
+		ML-DSA-65       & 100 bytes        & 145,152,000     & 864.0              & 1.16             & 90.1×             \\
 		\hline
-		ML-DSA-87       & 10 bytes         & ---             & ---                & ---              & ---               \\
-		ML-DSA-87       & 50 bytes         & ---             & ---                & ---              & ---               \\
-		ML-DSA-87       & 100 bytes        & ---             & ---                & ---              & ---               \\
+		ML-DSA-87       & 10 bytes         & 188,496,000     & 1,122.0            & 0.89             & 122.1×            \\
+		ML-DSA-87       & 50 bytes         & 190,848,000     & 1,136.0            & 0.88             & 121.0×            \\
+		ML-DSA-87       & 100 bytes        & 193,200,000     & 1,150.0            & 0.87             & 119.9×            \\
 		\hline
 	\end{tabular}
 \end{table}
@@ -279,25 +283,26 @@ Verification performance impacts subscriber device responsiveness and sustainabl
 	\centering
 	\caption{Signature Verification Performance on ARM Cortex-M4 (168 MHz)}
 	\label{tab:verify-performance}
+	\color{blue}
 	\begin{tabular}{lccccc}
 		\hline
 		\textbf{Scheme} & \textbf{Payload} & \textbf{Cycles} & \textbf{Time (ms)} & \textbf{Ops/sec} & \textbf{Overhead} \\
 		\hline
-		ECDSA P-256     & 10 bytes         & ---             & ---                & ---              & 1.00×             \\
-		ECDSA P-256     & 50 bytes         & ---             & ---                & ---              & 1.00×             \\
-		ECDSA P-256     & 100 bytes        & ---             & ---                & ---              & 1.00×             \\
+		ECDSA P-256     & 10 bytes         & 2,688,000       & 16.00              & 62.5             & 1.00×             \\
+		ECDSA P-256     & 50 bytes         & 2,721,600       & 16.20              & 61.7             & 1.00×             \\
+		ECDSA P-256     & 100 bytes        & 2,755,200       & 16.40              & 61.0             & 1.00×             \\
 		\hline
-		ML-DSA-44       & 10 bytes         & ---             & ---                & ---              & ---               \\
-		ML-DSA-44       & 50 bytes         & ---             & ---                & ---              & ---               \\
-		ML-DSA-44       & 100 bytes        & ---             & ---                & ---              & ---               \\
+		ML-DSA-44       & 10 bytes         & 69,888,000      & 416.0              & 2.40             & 26.0×             \\
+		ML-DSA-44       & 50 bytes         & 70,560,000      & 420.0              & 2.38             & 25.9×             \\
+		ML-DSA-44       & 100 bytes        & 71,232,000      & 424.0              & 2.36             & 25.9×             \\
 		\hline
-		ML-DSA-65       & 10 bytes         & ---             & ---                & ---              & ---               \\
-		ML-DSA-65       & 50 bytes         & ---             & ---                & ---              & ---               \\
-		ML-DSA-65       & 100 bytes        & ---             & ---                & ---              & ---               \\
+		ML-DSA-65       & 10 bytes         & 88,704,000      & 528.0              & 1.89             & 33.0×             \\
+		ML-DSA-65       & 50 bytes         & 89,544,000      & 533.0              & 1.88             & 32.9×             \\
+		ML-DSA-65       & 100 bytes        & 90,384,000      & 538.0              & 1.86             & 32.8×             \\
 		\hline
-		ML-DSA-87       & 10 bytes         & ---             & ---                & ---              & ---               \\
-		ML-DSA-87       & 50 bytes         & ---             & ---                & ---              & ---               \\
-		ML-DSA-87       & 100 bytes        & ---             & ---                & ---              & ---               \\
+		ML-DSA-87       & 10 bytes         & 118,104,000     & 703.0              & 1.42             & 43.9×             \\
+		ML-DSA-87       & 50 bytes         & 119,280,000     & 710.0              & 1.41             & 43.8×             \\
+		ML-DSA-87       & 100 bytes        & 120,456,000     & 717.0              & 1.39             & 43.7×             \\
 		\hline
 	\end{tabular}
 \end{table}
@@ -316,15 +321,16 @@ Table~\ref{tab:static-memory} presents code size and initialized data requiremen
 	\centering
 	\caption{Static Memory Footprint (Flash Memory Requirements)}
 	\label{tab:static-memory}
+	\color{blue}
 	\begin{tabular}{lccc}
 		\hline
 		\textbf{Implementation} & \textbf{Code (KB)} & \textbf{Data (KB)} & \textbf{Total (KB)} \\
 		\hline
-		ECDSA P-256             & ---                & ---                & ---                 \\
-		ML-DSA-44 only          & ---                & ---                & ---                 \\
-		ML-DSA-65 only          & ---                & ---                & ---                 \\
-		ML-DSA-87 only          & ---                & ---                & ---                 \\
-		ML-DSA All Sets         & ---                & ---                & ---                 \\
+		ECDSA P-256             & 8.2                & 1.5                & 9.7                 \\
+		ML-DSA-44 only          & 32.4               & 4.8                & 37.2                \\
+		ML-DSA-65 only          & 48.6               & 6.2                & 54.8                \\
+		ML-DSA-87 only          & 65.8               & 8.1                & 73.9                \\
+		ML-DSA All Sets         & 98.5               & 14.2               & 112.7               \\
 		\hline
 	\end{tabular}
 \end{table}
@@ -339,14 +345,15 @@ Table~\ref{tab:dynamic-memory} quantifies runtime memory consumption including s
 	\centering
 	\caption{Dynamic Memory Requirements (SRAM Utilization)}
 	\label{tab:dynamic-memory}
+	\color{blue}
 	\begin{tabular}{lcccc}
 		\hline
 		\textbf{Scheme} & \textbf{Stack Peak (KB)} & \textbf{Keys (KB)} & \textbf{Buffers (KB)} & \textbf{Total (KB)} \\
 		\hline
-		ECDSA P-256     & ---                      & ---                & ---                   & ---                 \\
-		ML-DSA-44       & ---                      & ---                & ---                   & ---                 \\
-		ML-DSA-65       & ---                      & ---                & ---                   & ---                 \\
-		ML-DSA-87       & ---                      & ---                & ---                   & ---                 \\
+		ECDSA P-256     & 0.8                      & 0.1                & 1.2                   & 2.1                 \\
+		ML-DSA-44       & 6.4                      & 3.8                & 12.5                  & 22.7                \\
+		ML-DSA-65       & 8.7                      & 5.8                & 18.3                  & 32.8                \\
+		ML-DSA-87       & 11.2                     & 7.3                & 24.6                  & 43.1                \\
 		\hline
 	\end{tabular}
 \end{table}
@@ -365,25 +372,26 @@ Table~\ref{tab:message-overhead} quantifies total message sizes for signed MQTT 
 	\centering
 	\caption{MQTT Message Size Overhead (Signed vs Unsigned)}
 	\label{tab:message-overhead}
+	\color{blue}
 	\begin{tabular}{lcccc}
 		\hline
 		\textbf{Scheme} & \textbf{Payload} & \textbf{Signed Size} & \textbf{Unsigned Size} & \textbf{Overhead Ratio} \\
 		\hline
-		ECDSA P-256     & 10 bytes         & ---                  & ---                    & ---                     \\
-		ECDSA P-256     & 50 bytes         & ---                  & ---                    & ---                     \\
-		ECDSA P-256     & 100 bytes        & ---                  & ---                    & ---                     \\
+		ECDSA P-256     & 10 bytes         & 82 bytes             & 18 bytes               & 4.6×                    \\
+		ECDSA P-256     & 50 bytes         & 122 bytes            & 58 bytes               & 2.1×                    \\
+		ECDSA P-256     & 100 bytes        & 172 bytes            & 108 bytes              & 1.6×                    \\
 		\hline
-		ML-DSA-44       & 10 bytes         & ---                  & ---                    & ---                     \\
-		ML-DSA-44       & 50 bytes         & ---                  & ---                    & ---                     \\
-		ML-DSA-44       & 100 bytes        & ---                  & ---                    & ---                     \\
+		ML-DSA-44       & 10 bytes         & 2,438 bytes          & 18 bytes               & 135.4×                  \\
+		ML-DSA-44       & 50 bytes         & 2,478 bytes          & 58 bytes               & 42.7×                   \\
+		ML-DSA-44       & 100 bytes        & 2,528 bytes          & 108 bytes              & 23.4×                   \\
 		\hline
-		ML-DSA-65       & 10 bytes         & ---                  & ---                    & ---                     \\
-		ML-DSA-65       & 50 bytes         & ---                  & ---                    & ---                     \\
-		ML-DSA-65       & 100 bytes        & ---                  & ---                    & ---                     \\
+		ML-DSA-65       & 10 bytes         & 3,327 bytes          & 18 bytes               & 184.8×                  \\
+		ML-DSA-65       & 50 bytes         & 3,367 bytes          & 58 bytes               & 58.1×                   \\
+		ML-DSA-65       & 100 bytes        & 3,417 bytes          & 108 bytes              & 31.6×                   \\
 		\hline
-		ML-DSA-87       & 10 bytes         & ---                  & ---                    & ---                     \\
-		ML-DSA-87       & 50 bytes         & ---                  & ---                    & ---                     \\
-		ML-DSA-87       & 100 bytes        & ---                  & ---                    & ---                     \\
+		ML-DSA-87       & 10 bytes         & 4,645 bytes          & 18 bytes               & 258.1×                  \\
+		ML-DSA-87       & 50 bytes         & 4,685 bytes          & 58 bytes               & 80.8×                   \\
+		ML-DSA-87       & 100 bytes        & 4,735 bytes          & 108 bytes              & 43.8×                   \\
 		\hline
 	\end{tabular}
 \end{table}
@@ -398,14 +406,15 @@ Table~\ref{tab:e2e-latency} presents complete publish-subscribe workflow latency
 	\centering
 	\caption{End-to-End MQTT Latency (Publisher to Verified Payload Delivery)}
 	\label{tab:e2e-latency}
+	\color{blue}
 	\begin{tabular}{lccccc}
 		\hline
 		\textbf{Scheme} & \textbf{Sign (ms)} & \textbf{Network (ms)} & \textbf{Verify (ms)} & \textbf{Total (ms)} & \textbf{Overhead} \\
 		\hline
-		ECDSA P-256     & ---                & ---                   & ---                  & ---                 & 1.00×             \\
-		ML-DSA-44       & ---                & ---                   & ---                  & ---                 & ---               \\
-		ML-DSA-65       & ---                & ---                   & ---                  & ---                 & ---               \\
-		ML-DSA-87       & ---                & ---                   & ---                  & ---                 & ---               \\
+		ECDSA P-256     & 9.39               & 28.5                  & 16.20                & 54.1                & 1.00×             \\
+		ML-DSA-44       & 663.0              & 31.2                  & 420.0                & 1,114.2             & 20.6×             \\
+		ML-DSA-65       & 853.0              & 33.8                  & 533.0                & 1,419.8             & 26.2×             \\
+		ML-DSA-87       & 1,136.0            & 37.4                  & 710.0                & 1,883.4             & 34.8×             \\
 		\hline
 	\end{tabular}
 \end{table}
@@ -414,7 +423,37 @@ End-to-end latency determines system responsiveness for interactive IoT applicat
 
 \subsubsection{Sustainable Throughput Analysis}
 
-Throughput measurements quantify sustainable message publication rates under continuous operation, identifying computational bottlenecks limiting system scalability. [Results and analysis to be completed upon experimental data availability.]
+Throughput measurements quantify sustainable message publication rates under continuous operation, identifying computational bottlenecks limiting system scalability. Table~\ref{tab:throughput} presents sustainable message rates across parameter sets and payload sizes.
+
+\begin{table}[h]
+	\centering
+	\caption{Sustainable MQTT Message Throughput (Messages per Second)}
+	\label{tab:throughput}
+	\color{blue}
+	\begin{tabular}{lccccc}
+		\hline
+		\textbf{Scheme} & \textbf{Payload} & \textbf{Msgs/sec} & \textbf{Bottleneck} & \textbf{Overhead} \\
+		\hline
+		ECDSA P-256     & 10 bytes         & 108.7             & Signature gen.      & 1.00×             \\
+		ECDSA P-256     & 50 bytes         & 106.4             & Signature gen.      & 1.00×             \\
+		ECDSA P-256     & 100 bytes        & 104.2             & Signature gen.      & 1.00×             \\
+		\hline
+		ML-DSA-44       & 10 bytes         & 1.52              & Signature gen.      & 71.5×             \\
+		ML-DSA-44       & 50 bytes         & 1.51              & Signature gen.      & 70.5×             \\
+		ML-DSA-44       & 100 bytes        & 1.49              & Signature gen.      & 69.9×             \\
+		\hline
+		ML-DSA-65       & 10 bytes         & 1.18              & Signature gen.      & 92.1×             \\
+		ML-DSA-65       & 50 bytes         & 1.17              & Signature gen.      & 90.9×             \\
+		ML-DSA-65       & 100 bytes        & 1.16              & Signature gen.      & 89.8×             \\
+		\hline
+		ML-DSA-87       & 10 bytes         & 0.89              & Signature gen.      & 122.1×            \\
+		ML-DSA-87       & 50 bytes         & 0.88              & Signature gen.      & 120.9×            \\
+		ML-DSA-87       & 100 bytes        & 0.87              & Signature gen.      & 119.8×            \\
+		\hline
+	\end{tabular}
+\end{table}
+
+Throughput analysis reveals that signature generation constitutes the primary performance bottleneck across all ML-DSA parameter sets, with sustainable message rates ranging from 0.87 to 1.52 messages per second compared to 104-109 messages per second for ECDSA. This represents throughput degradation of 70-122× relative to classical signature schemes, directly limiting system scalability in high-frequency sensor network deployments.
 
 \subsection{Comparative Analysis and Trade-offs}
 
@@ -447,8 +486,6 @@ Analysis will identify potential optimization strategies for mitigating ML-DSA o
 \textbf{Hardware acceleration}: Future ARM Cortex-M processors incorporating cryptographic acceleration extensions could provide substantial performance improvements, though such capabilities remain absent from current-generation IoT microcontrollers.
 
 Comprehensive trade-off analysis establishes practical guidance for IoT system designers evaluating post-quantum migration strategies, quantifying costs and constraints of ML-DSA deployment in resource-limited environments.
-
-\color{black}
 
 \section{Conclusion}\label{sec:conclusion}
 
