@@ -121,6 +121,136 @@ ML-DSA constitutes NIST's standardized post-quantum digital signature scheme (FI
 
 ML-DSA implements rejection sampling requiring iterative signature generation with expected iteration counts of 4.25, 5.1, and 3.85 across parameter sets, directly impacting timing predictability. The algorithm comprises three operations: key generation with $O(k \cdot \ell \cdot n \log n)$ complexity producing keys of 1.3-4.9 KB, computationally intensive signature generation with variable execution time, and deterministic verification with $O((k + \ell) \cdot n \log n)$ complexity—all substantially exceeding classical signature costs.
 
+\color{blue}
+
+\subsection{Signing Algorithm Structure and Computational Profile}
+
+The ML-DSA signing procedure constitutes the primary computational bottleneck in IoT deployments, warranting detailed algorithmic analysis. The signing operation comprises a wrapper function handling context processing and randomness generation, followed by the computationally intensive internal signing procedure implementing the Fiat-Shamir with Aborts paradigm.
+
+\subsubsection{Signing Procedure Overview}
+
+The signing wrapper (Algorithm~\ref{alg:mldsa-sign}) processes context strings and generates randomness before invoking the internal signing routine. Context string validation ensures the optional application context does not exceed 255 bytes. Randomness generation produces 32 bytes of cryptographic random data; for deterministic variants, this randomness is substituted with zeros to enable reproducible signatures.
+
+\begin{algorithm}[h]
+	\caption{ML-DSA.Sign($sk$, $M$, $ctx$)}
+	\color{blue}
+	\label{alg:mldsa-sign}
+	\begin{algorithmic}[1]
+		\REQUIRE Private key $sk$, message $M \in \{0,1\}^*$, context string $ctx$ ($|ctx| \leq 255$ bytes)
+		\ENSURE Signature $\sigma$ or error indication $\bot$
+		\IF{$|ctx| > 255$}
+		\RETURN $\bot$ \COMMENT{Context string too long}
+		\ENDIF
+		\STATE $rnd \leftarrow \mathbb{B}^{32}$ \COMMENT{Random bytes; use $\{0\}^{32}$ for deterministic variant}
+		\IF{$rnd = \text{NULL}$}
+		\RETURN $\bot$ \COMMENT{Random generation failed}
+		\ENDIF
+		\STATE $M' \leftarrow \text{BytesToBits}(\text{IntegerToBytes}(0, 1) \| \text{IntegerToBytes}(|ctx|, 1) \| ctx) \| M$
+		\STATE $\sigma \leftarrow \text{ML-DSA.Sign\_internal}(sk, M', rnd)$
+		\RETURN $\sigma$
+	\end{algorithmic}
+\end{algorithm}
+
+The internal signing procedure expands the private key, computes the message representative through hashing, and enters the rejection sampling loop. Each iteration samples a masking vector $\mathbf{y}$, computes the commitment $\mathbf{w} = \mathbf{A} \cdot \mathbf{y}$, derives the challenge polynomial $c$ from the commitment hash, and evaluates the response vector $\mathbf{z} = \mathbf{y} + c \cdot \mathbf{s}_1$. The response undergoes bound checking against the threshold $\gamma_1 - \beta$; rejection occurs if any coefficient exceeds this bound, necessitating iteration restart with fresh randomness.
+
+\subsubsection{Number Theoretic Transform Operations}
+
+The Number Theoretic Transform (NTT) dominates computational cost in ML-DSA signing, enabling efficient polynomial multiplication in the ring $R_q = \mathbb{Z}_q[X]/(X^{256} + 1)$ where $q = 8380417$. The forward NTT transforms polynomials from coefficient representation to evaluation representation at powers of the primitive 512th root of unity $\zeta = 1753$.
+
+\begin{algorithm}[h]
+	\caption{NTT($w$)}
+	\color{blue}
+	\label{alg:ntt}
+	\begin{algorithmic}[1]
+		\REQUIRE Polynomial $w(X) = \sum_{j=0}^{255} w_j X^j \in R_q$
+		\ENSURE $\hat{w} = (\hat{w}[0], \ldots, \hat{w}[255]) \in T_q$
+		\FOR{$j = 0$ \TO $255$}
+		\STATE $\hat{w}[j] \leftarrow w_j$
+		\ENDFOR
+		\STATE $m \leftarrow 0$; $len \leftarrow 128$
+		\WHILE{$len \geq 1$}
+		\STATE $start \leftarrow 0$
+		\WHILE{$start < 256$}
+		\STATE $m \leftarrow m + 1$; $z \leftarrow \text{zetas}[m]$
+		\FOR{$j = start$ \TO $start + len - 1$}
+		\STATE $t \leftarrow (z \cdot \hat{w}[j + len]) \mod q$
+		\STATE $\hat{w}[j + len] \leftarrow (\hat{w}[j] - t) \mod q$
+		\STATE $\hat{w}[j] \leftarrow (\hat{w}[j] + t) \mod q$
+		\ENDFOR
+		\STATE $start \leftarrow start + 2 \cdot len$
+		\ENDWHILE
+		\STATE $len \leftarrow \lfloor len / 2 \rfloor$
+		\ENDWHILE
+		\RETURN $\hat{w}$
+	\end{algorithmic}
+\end{algorithm}
+
+The forward NTT employs the Cooley-Tukey butterfly structure through eight stages ($\log_2 256 = 8$), halving the stride length at each stage. Each butterfly operation computes paired additions and subtractions with twiddle factor multiplication, requiring modular reduction after each arithmetic operation in the reference implementation.
+
+The inverse NTT (Algorithm~\ref{alg:intt}) reverses the transformation using the Gentleman-Sande butterfly structure with negated twiddle factors. A final scaling by $f = 8347681 \equiv 256^{-1} \pmod{q}$ normalizes the output coefficients.
+
+\begin{algorithm}[h]
+	\caption{NTT$^{-1}$($\hat{w}$)}
+	\color{blue}
+	\label{alg:intt}
+	\begin{algorithmic}[1]
+		\REQUIRE $\hat{w} = (\hat{w}[0], \ldots, \hat{w}[255]) \in T_q$
+		\ENSURE Polynomial $w(X) = \sum_{j=0}^{255} w_j X^j \in R_q$
+		\FOR{$j = 0$ \TO $255$}
+		\STATE $w_j \leftarrow \hat{w}[j]$
+		\ENDFOR
+		\STATE $m \leftarrow 256$; $len \leftarrow 1$
+		\WHILE{$len < 256$}
+		\STATE $start \leftarrow 0$
+		\WHILE{$start < 256$}
+		\STATE $m \leftarrow m - 1$; $z \leftarrow -\text{zetas}[m]$
+		\FOR{$j = start$ \TO $start + len - 1$}
+		\STATE $t \leftarrow w_j$
+		\STATE $w_j \leftarrow (t + w_{j+len}) \mod q$
+		\STATE $w_{j+len} \leftarrow (t - w_{j+len}) \mod q$
+		\STATE $w_{j+len} \leftarrow (z \cdot w_{j+len}) \mod q$
+		\ENDFOR
+		\STATE $start \leftarrow start + 2 \cdot len$
+		\ENDWHILE
+		\STATE $len \leftarrow 2 \cdot len$
+		\ENDWHILE
+		\FOR{$j = 0$ \TO $255$}
+		\STATE $w_j \leftarrow (f \cdot w_j) \mod q$ \COMMENT{$f = 8347681$}
+		\ENDFOR
+		\RETURN $w$
+	\end{algorithmic}
+\end{algorithm}
+
+Each NTT execution requires $256 \cdot \log_2 256 = 2048$ butterfly operations, with each butterfly involving one modular multiplication and two modular additions/subtractions. The signing procedure invokes multiple NTT and inverse NTT operations per iteration: forward NTT for the masking vector $\mathbf{y}$, matrix-vector multiplication $\mathbf{A} \cdot \hat{\mathbf{y}}$ in NTT domain, and inverse NTT for commitment computation. Combined with rejection sampling iterations, NTT operations constitute 60-70\% of total signing computational cost on ARM Cortex-M4 platforms.
+
+\subsubsection{Signing Performance Bottlenecks}
+
+Performance profiling identifies four primary bottlenecks in ML-DSA signing on resource-constrained platforms:
+
+\textbf{Rejection Sampling Overhead}: The Fiat-Shamir with Aborts paradigm requires iterative signature attempts until the response vector satisfies norm bounds. Expected iteration counts of 4.25 (ML-DSA-44), 5.1 (ML-DSA-65), and 3.85 (ML-DSA-87) introduce timing variability and multiplicative computational overhead, with worst-case iterations potentially exceeding 20 attempts.
+
+\textbf{NTT Computational Dominance}: Each signing iteration requires multiple NTT/INTT operations for polynomial arithmetic. On ARM Cortex-M4 at 168 MHz, reference NTT implementations consume 2.5-3.0 million cycles per transformation, establishing NTT as the dominant computational primitive.
+
+\textbf{Modular Reduction Overhead}: Butterfly operations require modular reduction after each multiplication and addition to maintain coefficient bounds within $[0, q)$. Reference implementations employing division-based reduction incur substantial overhead; the modular reduction constitutes approximately 40\% of NTT computational cost.
+
+\textbf{Hash Function Invocations}: SHAKE-256 hash function calls for matrix expansion, challenge derivation, and message hashing consume 15-20\% of signing computation. The Keccak-based SHAKE implementation requires careful optimization on platforms lacking hardware acceleration.
+
+\subsubsection{Optimization Directions}
+
+Several optimization strategies address the identified performance bottlenecks, representing active research directions in post-quantum embedded cryptography:
+
+\textbf{NTT Assembly Optimization}: Hand-optimized ARM assembly implementations exploit instruction-level parallelism, register allocation optimization, and pipeline scheduling. Reported improvements achieve 20-30\% latency reduction relative to compiled C implementations through efficient use of the UMULL instruction for 32$\times$32$\rightarrow$64-bit multiplication and conditional execution for branch elimination.
+
+\textbf{Lazy Modular Reduction}: Deferring modular reduction across multiple butterfly operations reduces reduction frequency. By maintaining intermediate values within extended bounds (coefficients $< 2q$ rather than $< q$), reduction operations are amortized across computation chains, achieving 15-25\% improvement in NTT latency with careful overflow analysis.
+
+\textbf{Barrett and Montgomery Reduction}: Replacing division-based modular reduction with multiplication-based techniques eliminates expensive division operations. Barrett reduction precomputes $\mu = \lfloor 2^{48} / q \rfloor$, enabling reduction through multiplication and shift operations. Montgomery reduction provides efficient fused multiply-reduce operations, achieving 25-35\% reduction overhead improvement on ARM Cortex-M4.
+
+\textbf{Precomputation Strategies}: Storing secret vectors $\mathbf{s}_1$, $\mathbf{s}_2$ in NTT representation eliminates per-signing NTT transformations, trading 10-13 KB additional Flash storage for 20-25\% signing latency reduction. Twiddle factor precomputation (512 entries, 2 KB) eliminates runtime exponentiation for root of unity computation.
+
+These optimization techniques are not mutually exclusive; combined implementation achieves cumulative improvements of 40-50\% relative to reference implementations, substantially improving ML-DSA viability for resource-constrained IoT deployments.
+
+\color{black}
+
 \subsection{Parameter Sets and Security Analysis}
 
 NIST standardizes three ML-DSA parameter sets with distinct security-performance trade-offs. Table~\ref{tab:mldsa-params} summarizes the key parameters and resulting implementation characteristics.
