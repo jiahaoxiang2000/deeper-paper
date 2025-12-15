@@ -14,6 +14,15 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 
+%%%% TIKZ PACKAGES FOR FIGURES %%%%
+\usepackage{tikz}
+\usetikzlibrary{positioning}       % relative positioning
+\usetikzlibrary{shapes.geometric}  % shapes like diamond, ellipse
+\usetikzlibrary{arrows.meta}       % modern arrow tips
+\usetikzlibrary{fit}               % fitting nodes around others
+\usetikzlibrary{backgrounds}       % background layers
+\usetikzlibrary{calc}              % coordinate calculations
+
 %%%% COLOR PACKAGE FOR HIGHLIGHTING %%%%
 \usepackage{xcolor}
 \usepackage[normalem]{ulem}  % For wavy underline
@@ -151,6 +160,53 @@ The signing wrapper (Algorithm~\ref{alg:mldsa-sign}) processes context strings a
 
 The internal signing procedure expands the private key, computes the message representative through hashing, and enters the rejection sampling loop. Each iteration samples a masking vector $\mathbf{y}$, computes the commitment $\mathbf{w} = \mathbf{A} \cdot \mathbf{y}$, derives the challenge polynomial $c$ from the commitment hash, and evaluates the response vector $\mathbf{z} = \mathbf{y} + c \cdot \mathbf{s}_1$. The response undergoes bound checking against the threshold $\gamma_1 - \beta$; rejection occurs if any coefficient exceeds this bound, necessitating iteration restart with fresh randomness.
 
+Figure~\ref{fig:mldsa-signing} illustrates the ML-DSA signing procedure, highlighting the rejection sampling loop and NTT operations that constitute the primary performance bottlenecks.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		% Compact style definitions for column width
+		startstop/.style={draw, rounded corners=4pt, minimum width=1.8cm, minimum height=0.5cm, fill=black!10, font=\footnotesize},
+		process/.style={draw, minimum width=2.2cm, minimum height=0.5cm, fill=white, font=\footnotesize},
+		decision/.style={draw, diamond, aspect=2.2, inner sep=0pt, fill=white, font=\footnotesize},
+		nttbox/.style={draw, minimum width=2.2cm, minimum height=0.5cm, fill=black!5, font=\footnotesize},
+		arrow/.style={-{Stealth[length=2mm]}, semithick},
+		% Uniform compact spacing
+		node distance=0.55cm,
+	]
+		% Main flow (top to bottom)
+		\node[startstop] (start) {Input: $sk$, $M$};
+		\node[process, below=of start] (expand) {Expand Key};
+		\node[process, below=of expand] (hash) {$\mu \leftarrow H(M)$};
+		\node[process, below=of hash, fill=black!8] (sample) {Sample $\mathbf{y}$};
+		\node[nttbox, below=of sample] (ntt) {NTT: $\hat{\mathbf{w}} \leftarrow \mathbf{A}\hat{\mathbf{y}}$};
+		\node[process, below=of ntt] (challenge) {$c \leftarrow H(\mathbf{w}_1, \mu)$};
+		\node[process, below=of challenge] (response) {$\mathbf{z} \leftarrow \mathbf{y} + c\mathbf{s}_1$};
+		\node[decision, below=0.6cm of response] (check) {\tiny$\|\mathbf{z}\|_\infty\!<\!\gamma_1\!-\!\beta$};
+		\node[startstop, below=0.6cm of check] (output) {Output: $\sigma$};
+
+		% Main flow arrows
+		\draw[arrow] (start) -- (expand);
+		\draw[arrow] (expand) -- (hash);
+		\draw[arrow] (hash) -- (sample);
+		\draw[arrow] (sample) -- (ntt);
+		\draw[arrow] (ntt) -- (challenge);
+		\draw[arrow] (challenge) -- (response);
+		\draw[arrow] (response) -- (check);
+		\draw[arrow] (check) -- node[right, font=\tiny] {Yes} (output);
+
+		% Rejection loop
+		\draw[arrow] (check.east) -- ++(0.6,0) node[above, font=\tiny, pos=0.5] {No} |- (sample.east);
+
+		% Annotations (compact)
+		\node[left=0.4cm of ntt, font=\tiny, align=right] {60--70\%\\cost};
+		\node[right=0.8cm of sample, font=\tiny, align=left] {4--5 iter.};
+
+	\end{tikzpicture}
+	\caption{ML-DSA signing procedure with Fiat-Shamir with Aborts. The rejection sampling loop (4--5 expected iterations) and NTT operations (60--70\% of cost) are primary performance bottlenecks.}
+	\label{fig:mldsa-signing}
+\end{figure}
+
 \subsubsection{Number Theoretic Transform Operations}
 
 The Number Theoretic Transform (NTT) dominates computational cost in ML-DSA signing, enabling efficient polynomial multiplication in the ring $R_q = \mathbb{Z}_q[X]/(X^{256} + 1)$ where $q = 8380417$. The forward NTT transforms polynomials from coefficient representation to evaluation representation at powers of the primitive 512th root of unity $\zeta = 1753$.
@@ -275,6 +331,57 @@ Message Queuing Telemetry Transport (MQTT) constitutes an OASIS standard messagi
 
 MQTT specifies three Quality of Service levels affecting signature integration: QoS 0 (fire-and-forget transmission), QoS 1 (guaranteed delivery via PUBACK acknowledgments), and QoS 2 (exactly-once delivery through four-way handshake). Native security provisions include username/password authentication, TLS integration, and X.509 certificate-based mutual authentication, but lack built-in digital signature support.
 
+Figure~\ref{fig:mqtt-mldsa} illustrates the MQTT publish-subscribe architecture with ML-DSA signature integration, showing the message flow from publisher through broker to subscriber with cryptographic operations at each endpoint.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		% Style definitions - compact sizes for column width
+		device/.style={draw, rounded corners=2pt, minimum width=1.6cm, minimum height=1.1cm, fill=white, align=center, font=\footnotesize},
+		broker/.style={draw, rounded corners=2pt, minimum width=1.4cm, minimum height=1.3cm, fill=black!8, align=center, font=\footnotesize},
+		operation/.style={draw, rounded corners=1pt, minimum width=1.4cm, minimum height=0.4cm, fill=black!5, font=\tiny, align=center},
+		msgbox/.style={draw, minimum width=1.6cm, font=\tiny, align=center, inner sep=2pt},
+		arrow/.style={-{Stealth[length=2mm]}, semithick},
+		% Uniform spacing
+		node distance=0.6cm and 1.8cm,
+	]
+		% Row 1: Main components (left to right)
+		\node[device] (pub) {\textbf{Publisher}\\[-1pt]\tiny(IoT Sensor)};
+		\node[broker, right=of pub] (broker) {\textbf{Broker}\\[-1pt]\tiny(Route)};
+		\node[device, right=of broker] (sub) {\textbf{Subscriber}\\[-1pt]\tiny(Gateway)};
+
+		% Row 2: Crypto operations (below devices)
+		\node[operation, below=of pub] (sign) {Sign (657--1150\,ms)};
+		\node[operation, below=of sub] (verify) {Verify (416--717\,ms)};
+
+		% Message structure (above broker, compact)
+		\node[msgbox, above=0.8cm of broker] (msg) {%
+			\begin{tabular}{|c|}\hline
+				\tiny Payload 10--100\,B \\\hline
+				\tiny Sig.\ 2.4--4.6\,KB \\\hline
+			\end{tabular}};
+
+		% Arrows - horizontal message flow
+		\draw[arrow] (pub) -- node[above, font=\tiny] {PUBLISH} (broker);
+		\draw[arrow] (broker) -- node[above, font=\tiny] {FORWARD} (sub);
+
+		% Arrows - vertical crypto operations
+		\draw[arrow, densely dashed] (sign) -- (pub);
+		\draw[arrow, densely dashed] (sub) -- (verify);
+
+		% Key annotations (inline, minimal)
+		\node[left=0.15cm of pub, font=\tiny, align=right] {$sk$};
+		\node[right=0.15cm of sub, font=\tiny, align=left] {$pk$};
+
+		% Message flow indicators to message box
+		\draw[arrow, gray] (pub.north) |- (msg.west);
+		\draw[arrow, gray] (msg.east) -| (sub.north);
+
+	\end{tikzpicture}
+	\caption{MQTT publish-subscribe architecture with ML-DSA integration. Publishers sign sensor data, transmit signed payloads through the broker, and subscribers verify authenticity. Signatures (2.4--4.6\,KB) dominate message size relative to payloads (10--100\,B).}
+	\label{fig:mqtt-mldsa}
+\end{figure}
+
 \subsection{ML-DSA Integration Challenges and Performance Impact}
 
 ML-DSA integration within MQTT environments presents three primary implementation approaches: payload-embedded signatures (preserving compatibility but substantially increasing packet size), header extensions (requiring protocol modifications), and meta-message patterns (maintaining compliance with additional network overhead). Applications requiring non-repudiation necessitate asymmetric signatures like ML-DSA despite computational costs, while message authentication can utilize faster MACs with shared secrets.
@@ -312,7 +419,6 @@ The MQTT protocol layer employs the Eclipse Paho MQTT Embedded C client library 
 
 The application layer implements publish-subscribe workflows with integrated signature generation and verification. Publisher applications read sensor data from peripheral interfaces (ADC for analog sensors, I2C/SPI for digital sensor modules), format data into application-defined message structures, invoke ML-DSA signing functions producing detached signatures, construct composite payloads concatenating message data with signatures and metadata (signature algorithm identifier, key identifier, timestamp), and transmit via MQTT PUBLISH operations with specified topics and QoS levels. Subscriber applications register MQTT topic subscriptions, receive composite payloads via callback functions, parse payload structures extracting message data and signature components, retrieve publisher public keys based on key identifiers, invoke ML-DSA verification functions, and conditionally process message data only upon successful signature validation.
 
-\color{blue}
 
 \subsection{Cryptographic Optimization Implementation}
 
@@ -537,7 +643,6 @@ Combined optimization techniques achieve 53.8\% NTT latency reduction relative t
 
 The optimization techniques exhibit interdependencies affecting implementation order. Montgomery multiplication requires twiddle factor precomputation in Montgomery domain; lazy reduction depends on Montgomery output bounds analysis; instruction scheduling effectiveness varies with unrolling factor. The implemented optimization sequence follows dependency ordering: (1) Montgomery domain conversion infrastructure, (2) twiddle factor precomputation, (3) assembly butterfly with Montgomery multiplication, (4) lazy reduction integration, (5) loop unrolling, (6) instruction schedule refinement.
 
-\color{black}
 
 \subsection{Message Format and Signature Integration}
 
@@ -904,7 +1009,6 @@ Several optimization strategies mitigate ML-DSA performance overhead in resource
 
 \textbf{Hardware acceleration}: Future ARM Cortex-M processors incorporating cryptographic acceleration extensions for NTT operations, modular arithmetic, or Keccak hashing could provide substantial performance improvements. While current-generation IoT microcontrollers lack post-quantum cryptographic acceleration, industry roadmaps suggest specialized instruction set extensions may appear in 2027-2029 timeframes, potentially achieving 5-10× performance improvements through dedicated NTT hardware and reducing ML-DSA signing latency to sub-100-millisecond ranges approaching ECDSA performance characteristics. Until hardware acceleration availability, software optimization techniques establish performance upper bounds for ARM Cortex-M4 platforms.
 
-\color{black}
 
 Trade-off analysis provides guidance for IoT system designers evaluating post-quantum migration strategies through quantification of ML-DSA deployment costs and constraints in resource-limited environments.
 
