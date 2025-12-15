@@ -22,6 +22,7 @@
 \usetikzlibrary{fit}               % fitting nodes around others
 \usetikzlibrary{backgrounds}       % background layers
 \usetikzlibrary{calc}              % coordinate calculations
+\usetikzlibrary{decorations.pathreplacing}  % braces for annotations
 
 %%%% COLOR PACKAGE FOR HIGHLIGHTING %%%%
 \usepackage{xcolor}
@@ -173,7 +174,7 @@ Figure~\ref{fig:mldsa-signing} illustrates the ML-DSA signing procedure, highlig
 		arrow/.style={-{Stealth[length=2mm]}, semithick},
 		% Uniform compact spacing
 		node distance=0.55cm,
-	]
+		]
 		% Main flow (top to bottom)
 		\node[startstop] (start) {Input: $sk$, $M$};
 		\node[process, below=of start] (expand) {Expand Key};
@@ -344,7 +345,7 @@ Figure~\ref{fig:mqtt-mldsa} illustrates the MQTT publish-subscribe architecture 
 		arrow/.style={-{Stealth[length=2mm]}, semithick},
 		% Uniform spacing
 		node distance=0.6cm and 1.8cm,
-	]
+		]
 		% Row 1: Main components (left to right)
 		\node[device] (pub) {\textbf{Publisher}\\[-1pt]\tiny(IoT Sensor)};
 		\node[broker, right=of pub] (broker) {\textbf{Broker}\\[-1pt]\tiny(Route)};
@@ -409,6 +410,65 @@ Network connectivity is provided through ESP32-WROOM-32 wireless modules interfa
 
 Power supply architecture provides regulated 3.3V DC to both microcontroller and wireless modules through linear voltage regulators with ±1\% voltage stability. For energy measurement, INA219 current sensor modules are inserted in series with VDD supply rails, enabling real-time current monitoring at 12-bit resolution with ±0.8 mA precision. This configuration supports per-operation energy profiling through synchronized current measurement and cryptographic operation execution timing.
 
+Figure~\ref{fig:hardware-architecture} illustrates the hardware platform architecture, showing the separation of cryptographic computation (Cortex-M4) from network protocol handling (ESP32) with UART interconnection.
+
+% Hardware Platform Architecture Figure
+% Design principle: Use ONLY relative positioning (right=of, below=of)
+% AVOID: anchor-based offsets (e.g., "above right=-0.1cm and 0.1cm of node.south west")
+% AVOID: absolute coordinates, -| or |- with manual offsets
+% This ensures robustness when embedded in itemize, minipage, multicol, etc.
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		% Style definitions - all sizes explicit, no implicit positioning
+		mcu/.style={draw, rounded corners=2pt, minimum width=2.6cm, minimum height=1.8cm, fill=black!5, align=center, font=\footnotesize},
+		module/.style={draw, rounded corners=2pt, minimum width=2.0cm, minimum height=1.4cm, fill=white, align=center, font=\footnotesize},
+		peripheral/.style={draw, rounded corners=1pt, minimum width=1.4cm, minimum height=0.6cm, fill=black!3, font=\tiny, align=center},
+		label/.style={font=\tiny, align=center},
+		arrow/.style={-{Stealth[length=2mm]}, semithick},
+		bidir/.style={{Stealth[length=2mm]}-{Stealth[length=2mm]}, semithick},
+		% Uniform node distance for predictable layout
+		node distance=0.6cm and 1.6cm,
+		]
+		% === ROW 1: Function labels (top) ===
+		\node[label] (lbl-crypto) {Crypto Operations\\ML-DSA Sign/Verify};
+		\node[label, right=2.8cm of lbl-crypto] (lbl-network) {Network Protocol\\MQTT Transport};
+
+		% === ROW 2: Main components ===
+		\node[mcu, below=of lbl-crypto] (stm32) {%
+			\textbf{STM32F407VG}\\[-1pt]
+			\tiny ARM Cortex-M4F\\[-1pt]
+			\tiny 168\,MHz\\[2pt]
+			\tiny 1\,MB Flash\\[-1pt]
+			\tiny 192\,KB SRAM};
+		\node[module, below=of lbl-network] (esp32) {%
+			\textbf{ESP32}\\[-1pt]
+			\tiny WiFi 802.11n\\[-1pt]
+			\tiny TCP/IP Stack};
+
+		% === ROW 3: Supporting components ===
+		\node[peripheral, left=of stm32] (sensors) {Sensors\\(ADC/I2C)};
+		\node[peripheral, right=of esp32] (network) {WiFi\\Network};
+
+		% === ROW 4: Power subsystem ===
+		\node[peripheral, below=of stm32] (power) {3.3V Regulator};
+		\node[peripheral, below=of esp32] (ina219) {INA219 Current};
+
+		% === Connections: horizontal data flow ===
+		\draw[arrow] (sensors) -- (stm32);
+		\draw[bidir] (stm32) -- node[above, font=\tiny] {UART} node[below, font=\tiny] {115.2k} (esp32);
+		\draw[arrow] (esp32) -- (network);
+
+		% === Connections: vertical power flow (use node anchors, not calc) ===
+		\draw[arrow, gray, densely dashed] (power) -- (stm32);
+		\draw[arrow, gray, densely dashed] (ina219) -- (esp32);
+		\draw[bidir, gray, densely dotted] (power) -- (ina219);
+
+	\end{tikzpicture}
+	\caption{Hardware platform architecture with ARM Cortex-M4 microcontroller (STM32F407VG) for cryptographic computation and ESP32 wireless module for network protocol handling. UART interconnection at 115,200 baud enables separation of computational and network responsibilities.}
+	\label{fig:hardware-architecture}
+\end{figure}
+
 \subsection{Software Architecture and Integration Layers}
 
 The software architecture implements a layered design separating cryptographic operations, MQTT protocol handling, and application logic. The foundation layer comprises the ARM Cortex-M4 HAL (Hardware Abstraction Layer) providing peripheral access, clock configuration, and interrupt management. Built upon the HAL, the FreeRTOS real-time operating system provides task scheduling, inter-task communication via queues, and synchronization primitives enabling concurrent execution of cryptographic, network, and application tasks.
@@ -419,6 +479,58 @@ The MQTT protocol layer employs the Eclipse Paho MQTT Embedded C client library 
 
 The application layer implements publish-subscribe workflows with integrated signature generation and verification. Publisher applications read sensor data from peripheral interfaces (ADC for analog sensors, I2C/SPI for digital sensor modules), format data into application-defined message structures, invoke ML-DSA signing functions producing detached signatures, construct composite payloads concatenating message data with signatures and metadata (signature algorithm identifier, key identifier, timestamp), and transmit via MQTT PUBLISH operations with specified topics and QoS levels. Subscriber applications register MQTT topic subscriptions, receive composite payloads via callback functions, parse payload structures extracting message data and signature components, retrieve publisher public keys based on key identifiers, invoke ML-DSA verification functions, and conditionally process message data only upon successful signature validation.
 
+Figure~\ref{fig:software-stack} illustrates the layered software architecture with clear separation between hardware abstraction, operating system, cryptographic operations, protocol handling, and application logic.
+
+% Software Architecture Stack Figure
+% Design principle: Use matrix or simple vertical stacking with "below=of"
+% AVOID: anchor-based positioning (e.g., "below left=0.0cm and -0.25cm of app.south")
+% AVOID: xshift/yshift modifiers on path coordinates
+% For side-by-side sublayers, use explicit "right=0cm of" chaining
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		% Style definitions for layered stack
+		layer/.style={draw, minimum width=6.2cm, minimum height=0.7cm, font=\footnotesize, align=center},
+		sublayer/.style={draw, minimum width=3.0cm, minimum height=0.7cm, font=\tiny, align=center},
+		label/.style={font=\tiny, align=center},
+		arrow/.style={-{Stealth[length=2mm]}, semithick, gray},
+		% Small vertical gap between layers
+		node distance=0.0cm,
+		]
+		% === Layer 1: Application (top) ===
+		\node[layer, fill=white] (app) {\textbf{Application Layer}\\[-2pt]\tiny Publish/Subscribe Workflows, Sensor Data Processing};
+
+		% === Layer 2: Protocol + Crypto (side by side) ===
+		% Use a container approach: place left sublayer, then right sublayer relative to it
+		\node[sublayer, fill=black!5, below=of app.south west, anchor=north west] (mqtt) {%
+			\textbf{MQTT Client}\\[-1pt]Paho Embedded C\\QoS 0/1/2};
+		\node[sublayer, fill=black!5, right=0.2cm of mqtt] (crypto) {%
+			\textbf{ML-DSA Crypto}\\[-1pt]pqm4 Library\\Sign/Verify/KeyGen};
+
+		% === Layer 3: RTOS ===
+		\node[layer, fill=black!3, below=of mqtt.south west, anchor=north west] (rtos) {%
+			\textbf{FreeRTOS}\\[-2pt]\tiny Task Scheduling, Queues, Synchronization};
+
+		% === Layer 4: HAL ===
+		\node[layer, fill=black!8, below=of rtos] (hal) {%
+			\textbf{ARM Cortex-M4 HAL}\\[-2pt]\tiny Peripheral Access, Clock Config, Interrupts};
+
+		% === Layer 5: Hardware (bottom) ===
+		\node[layer, fill=black!12, below=of hal] (hw) {%
+			\textbf{Hardware}\\[-2pt]\tiny STM32F407VG (168\,MHz, 1\,MB Flash, 192\,KB SRAM)};
+
+		% === Side labels (use simple left/right positioning) ===
+		\node[label, left=0.2cm of mqtt] {Network\\API};
+		\node[label, right=0.2cm of crypto] {Crypto\\API};
+
+		% === Arrows: use node centers, not coordinate offsets ===
+		\draw[arrow] (app) -- (mqtt);
+		\draw[arrow] (app) -- (crypto);
+
+	\end{tikzpicture}
+	\caption{Layered software architecture separating application logic, protocol handling (MQTT), cryptographic operations (ML-DSA), real-time operating system (FreeRTOS), and hardware abstraction (HAL). This modular design enables independent optimization of cryptographic and network components.}
+	\label{fig:software-stack}
+\end{figure}
 
 \subsection{Cryptographic Optimization Implementation}
 
@@ -649,6 +761,58 @@ The optimization techniques exhibit interdependencies affecting implementation o
 Signature integration employs payload-embedded architecture maintaining backward compatibility with standard MQTT brokers. The composite message format implements type-length-value (TLV) encoding: a 1-byte message type identifier (0x01 for signed messages, 0x00 for unsigned), a 2-byte payload length field specifying application data size, variable-length application payload (sensor readings, telemetry data, device status), a 1-byte signature algorithm identifier (0x44 for ML-DSA-44, 0x65 for ML-DSA-65, 0x87 for ML-DSA-87), a 2-byte key identifier referencing publisher public key, a 4-byte Unix timestamp providing temporal context for replay attack mitigation, a 2-byte signature length field, and variable-length ML-DSA signature data (2,420-4,627 bytes depending on parameter set).
 
 This format enables subscribers to parse messages without prior knowledge of signature algorithms through self-describing metadata fields. Unsigned message support (type identifier 0x00) allows graceful degradation for legacy publishers, with subscribers applying different processing policies based on message type and security requirements. The TLV structure accommodates future cryptographic algorithm upgrades through algorithm identifier extension without protocol-level modifications.
+
+Figure~\ref{fig:message-format} illustrates the composite message format with TLV-encoded fields, showing the relative sizes of metadata, payload, and signature components.
+
+% Message Format Figure
+% Design principle: Use simple horizontal chain with "right=of"
+% AVOID: yshift/xshift on coordinates (breaks in nested environments)
+% For annotations, use separate rows with "above=of" or "below=of"
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		% Style definitions
+		field/.style={draw, minimum height=0.7cm, font=\tiny, align=center, fill=white},
+		sigfield/.style={draw, minimum height=0.7cm, font=\tiny, align=center, fill=black!8},
+		grouplabel/.style={font=\tiny, align=center},
+		arrow/.style={-{Stealth[length=1.5mm]}, thin},
+		brace/.style={decorate, decoration={brace, amplitude=3pt, mirror}},
+		% No gap between fields
+		node distance=0.0cm,
+		]
+		% === ROW 1: Top labels ===
+		% Place a spanning label node first, then position fields below
+
+		% === ROW 2: Message fields (horizontal chain) ===
+		\node[field, minimum width=0.6cm] (type) {Type\\1B};
+		\node[field, minimum width=0.8cm, right=of type] (plen) {Len\\2B};
+		\node[field, minimum width=1.6cm, right=of plen, fill=black!3] (payload) {Payload\\10--100\,B};
+		\node[field, minimum width=0.6cm, right=of payload] (alg) {Alg\\1B};
+		\node[field, minimum width=0.7cm, right=of alg] (keyid) {Key\\2B};
+		\node[field, minimum width=0.8cm, right=of keyid] (ts) {Time\\4B};
+		\node[field, minimum width=0.7cm, right=of ts] (siglen) {Len\\2B};
+		\node[sigfield, minimum width=2.0cm, right=of siglen] (sig) {\textbf{Signature}\\2.4--4.6\,KB};
+
+		% === ROW 3: Group labels below (use fit or manual positioning) ===
+		% Header brace
+		\draw[brace] (type.south west) -- node[below=0.15cm, grouplabel] {Header} (plen.south east);
+		% Metadata brace
+		\draw[brace] (alg.south west) -- node[below=0.15cm, grouplabel] {Sig.\ Metadata} (siglen.south east);
+
+		% === ROW 0: Top annotations ===
+		\node[grouplabel, above=0.25cm of payload] {Data};
+		\node[grouplabel, above=0.25cm of sig] {Dominates size};
+
+		% === Total size spanning indicator ===
+		% Use a simple node above the entire structure
+		\node[grouplabel, above=0.6cm of alg] (total) {Total message: 2.4--4.7\,KB};
+		\draw[thin, gray] (type.north) -- (total.south west);
+		\draw[thin, gray] (sig.north) -- (total.south east);
+
+	\end{tikzpicture}
+	\caption{Composite MQTT message format with TLV encoding. Fixed-size header (3 bytes) and signature metadata (9 bytes) frame the variable-length payload and ML-DSA signature. Signature data (2,420--4,627 bytes) dominates total message size for typical IoT payloads (10--100 bytes).}
+	\label{fig:message-format}
+\end{figure}
 
 \subsection{Key Management Architecture}
 
