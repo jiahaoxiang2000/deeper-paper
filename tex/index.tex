@@ -80,23 +80,23 @@ The transition from theoretical post-quantum standardization to practical deploy
 
 Internet of Things (IoT) systems exemplify these deployment challenges, where computational, memory, and energy limitations constrain cryptographic implementation choices~\cite{Ghosh2019}. Despite performance overhead, signature-based authentication remains essential for applications requiring cryptographic non-repudiation, audit trails, and public key infrastructure compatibility. The MQTT protocol, widely adopted for IoT messaging due to its lightweight design, experiences performance degradation when post-quantum signatures introduce overhead on resource-constrained devices. This disparity between standardization progress and deployment feasibility motivates systematic performance characterization.
 
-\bluet{This work addresses ML-DSA integration within MQTT-based IoT systems through performance analysis on ARM Cortex-M4 microcontrollers. Three contributions advance post-quantum IoT deployment:}
+This work addresses ML-DSA integration within MQTT-based IoT systems through performance analysis on ARM Cortex-M4 microcontrollers. Three contributions advance post-quantum IoT deployment:
 
 \begin{itemize}
-	\item \textbf{Computational Performance Benchmarking}: \bluet{Cycle-accurate measurements of ML-DSA signature operations on ARM Cortex-M4 microcontrollers at 168 MHz, quantifying execution latency and throughput across all three standardized parameter sets.}
+	\item \textbf{Computational Performance Benchmarking}: Cycle-accurate measurements of ML-DSA signature operations on ARM Cortex-M4 microcontrollers at 168 MHz, quantifying execution latency and throughput across all three standardized parameter sets.
 
-	\item \textbf{Memory Utilization Analysis}: \bluet{Static and dynamic memory profiling measuring Flash storage requirements, stack consumption, and peak SRAM utilization during signature operations.}
+	\item \textbf{Memory Utilization Analysis}: Static and dynamic memory profiling measuring Flash storage requirements, stack consumption, and peak SRAM utilization during signature operations.
 
-	\item \textbf{Protocol-Level MQTT Integration Assessment}: \bluet{End-to-end latency and message size overhead evaluation within MQTT publish-subscribe workflows, comparing ML-DSA against ECDSA P-256 baseline.}
+	\item \textbf{Protocol-Level MQTT Integration Assessment}: End-to-end latency and message size overhead evaluation within MQTT publish-subscribe workflows, comparing ML-DSA against ECDSA P-256 baseline.
 \end{itemize}
 
-\bluet{These contributions quantify trade-offs between post-quantum security levels and IoT performance requirements, enabling informed deployment decisions for resource-limited environments.}
+These contributions quantify trade-offs between post-quantum security levels and IoT performance requirements, enabling informed deployment decisions for resource-limited environments.
 
 The remainder of this paper is organized as follows: Section~\ref{sec:related} presents background information on post-quantum cryptography and related work in IoT deployments. Section~\ref{sec:mldsa} provides an overview of the ML-DSA algorithm and its implementation considerations. Section~\ref{sec:architecture} describes the implementation architecture for MQTT-based IoT systems. Section~\ref{sec:methodology} details the experimental methodology for performance evaluation on ARM Cortex-M4 microcontrollers. Section~\ref{sec:results} presents and analyzes experimental results, examining the trade-offs between security and performance. Finally, Section~\ref{sec:conclusion} concludes with implications for practical deployment and future research directions.
 
 \section{Related Work and Motivation}\label{sec:related}
 
-Conventional network protocols have undergone post-quantum migration analysis~\cite{Kampanakis2020, Sikeridis2020}, yet \bluet{IoT-specific communication protocols remain underexplored}, creating deployment barriers in resource-constrained environments.
+Conventional network protocols have undergone post-quantum migration analysis~\cite{Kampanakis2020, Sikeridis2020}, yet IoT-specific communication protocols remain underexplored, creating deployment barriers in resource-constrained environments.
 
 \subsection{ML-DSA Performance Benchmarks on Embedded Systems}
 
@@ -118,9 +118,9 @@ Algorithmic optimization research demonstrates limitations in addressing fundame
 
 \subsection{Research Gap and Motivation}
 
-\bluet{Empirical studies evaluating ML-DSA performance within MQTT protocol implementations remain absent}, representing a knowledge gap in post-quantum IoT deployment. This gap is particularly relevant given MQTT's widespread industrial IoT adoption, where signature-based authentication remains mandatory for regulatory compliance and audit requirements.
+Empirical studies evaluating ML-DSA performance within MQTT protocol implementations remain absent, representing a knowledge gap in post-quantum IoT deployment. This gap is particularly relevant given MQTT's widespread industrial IoT adoption, where signature-based authentication remains mandatory for regulatory compliance and audit requirements.
 
-Existing research focuses on isolated cryptographic operations or alternative protocol architectures, without addressing systematic MQTT integration challenges. \bluet{This work addresses these limitations through ML-DSA performance analysis within realistic MQTT environments, informing practical post-quantum IoT migration strategies.}
+Existing research focuses on isolated cryptographic operations or alternative protocol architectures, without addressing systematic MQTT integration challenges. This work addresses these limitations through ML-DSA performance analysis within realistic MQTT environments, informing practical post-quantum IoT migration strategies.
 
 
 \section{ML-DSA and MQTT Protocol Integration}\label{sec:mldsa}
@@ -129,7 +129,7 @@ Existing research focuses on isolated cryptographic operations or alternative pr
 
 ML-DSA constitutes NIST's standardized post-quantum digital signature scheme (FIPS 204~\cite{NIST-FIPS-204}) based on CRYSTALS-Dilithium. The algorithm employs the Fiat-Shamir with Aborts paradigm over polynomial rings $R_q = \mathbb{Z}_q[X]/(X^{256} + 1)$ with security derived from Module Learning With Errors (MLWE) and Module Short Integer Solution (MSIS) assumptions. Polynomial arithmetic utilizes Number Theoretic Transform (NTT) operations achieving $O(n \log n)$ complexity.
 
-ML-DSA implements rejection sampling requiring iterative signature generation with \bluet{expected iteration counts of 4.25, 5.1, and 3.85 for ML-DSA-44, ML-DSA-65, and ML-DSA-87 respectively}, directly impacting timing predictability. The algorithm comprises three operations: key generation with $O(k \cdot \ell \cdot n \log n)$ complexity producing keys of 1.3--4.9\,KB, \bluet{signature generation with variable execution time due to rejection sampling}, and deterministic verification with $O((k + \ell) \cdot n \log n)$ complexity.
+ML-DSA implements rejection sampling requiring iterative signature generation with expected iteration counts of 4.25, 5.1, and 3.85 for ML-DSA-44, ML-DSA-65, and ML-DSA-87 respectively, directly impacting timing predictability. The algorithm comprises three operations: key generation with $O(k \cdot \ell \cdot n \log n)$ complexity producing keys of 1.3--4.9\,KB, signature generation with variable execution time due to rejection sampling, and deterministic verification with $O((k + \ell) \cdot n \log n)$ complexity.
 
 
 \subsection{Signing Algorithm Structure and Computational Profile}
@@ -832,7 +832,7 @@ Network fault recovery employs persistent session mechanisms: MQTT connections u
 
 \section{Experimental Methodology}\label{sec:methodology}
 
-The experimental framework evaluates ML-DSA integration within MQTT-based IoT systems through \bluet{performance benchmarking on ARM Cortex-M4 microcontrollers, memory utilization analysis, and protocol-level overhead assessment.}
+The experimental framework evaluates ML-DSA integration within MQTT-based IoT systems through performance benchmarking on ARM Cortex-M4 microcontrollers, memory utilization analysis, and protocol-level overhead assessment.
 
 \subsection{Experimental Platform}
 
@@ -844,7 +844,7 @@ MQTT protocol integration utilizes the Eclipse Paho MQTT Embedded C client libra
 
 \subsection{Performance Measurement Framework}
 
-\bluet{Performance profiling exploits ARM Cortex-M4 Data Watchpoint and Trace (DWT) hardware for cycle-accurate measurement through the \texttt{DWT\_CYCCNT} register.} This hardware approach eliminates software profiling overhead and achieves single-cycle temporal resolution. Measurement accuracy was validated through comparison with external logic analyzer traces, confirming $\pm$1 cycle precision. Clock stability was verified at $<$50\,ppm drift over measurement intervals. Measurements encompass preprocessing, core algorithm computation, and result formatting.
+Performance profiling exploits ARM Cortex-M4 Data Watchpoint and Trace (DWT) hardware for cycle-accurate measurement through the \texttt{DWT\_CYCCNT register.} This hardware approach eliminates software profiling overhead and achieves single-cycle temporal resolution. Measurement accuracy was validated through comparison with external logic analyzer traces, confirming $\pm$1 cycle precision. Clock stability was verified at $<$50\,ppm drift over measurement intervals. Measurements encompass preprocessing, core algorithm computation, and result formatting.
 
 Memory utilization analysis combines static and dynamic measurement techniques. Static memory consumption is quantified via \texttt{arm-none-eabi-size} toolchain utilities measuring Flash memory requirements for ML-DSA implementation code and initialized data segments. Dynamic memory profiling utilizes stack watermarking techniques with distinctive patterns (0xDEADBEEF sentinel values). Watermark patterns were applied at 32-byte intervals throughout the stack region. Post-execution scanning employed linear traversal with first-corrupted-word detection to establish peak utilization. Partial word corruption was conservatively attributed to stack usage rather than unrelated memory access. Heap allocation monitoring instruments \texttt{malloc} and \texttt{free} functions to track runtime memory requests. ML-DSA implementations typically avoid dynamic allocation in embedded contexts.
 
@@ -882,7 +882,7 @@ Comparative analysis employs overhead ratios normalizing ML-DSA measurements to 
 
 \section{Results and Analysis}\label{sec:results}
 
-\bluet{Experimental results evaluate ML-DSA integration within MQTT-based IoT systems on ARM Cortex-M4 microcontrollers. Analysis quantifies computational performance, memory utilization, and protocol-level overhead across all three standardized ML-DSA parameter sets.}
+Experimental results evaluate ML-DSA integration within MQTT-based IoT systems on ARM Cortex-M4 microcontrollers. Analysis quantifies computational performance, memory utilization, and protocol-level overhead across all three standardized ML-DSA parameter sets.
 
 \subsection{Computational Performance Analysis}
 
@@ -910,7 +910,7 @@ Table~\ref{tab:keygen-performance} presents key generation performance across ML
 	\end{tabular}
 \end{table}
 
-Key generation performance impacts device provisioning workflows and key rotation strategies. The 100.7--238$\times$ computational overhead relative to ECDSA P-256 reflects lattice-based cryptographic complexity; optimization techniques provide limited improvement for key generation operations dominated by random polynomial sampling and matrix expansion rather than NTT arithmetic. \bluet{Measured execution times of 151--357\,ms establish feasibility for infrequent key generation during device provisioning but prohibit high-frequency rotation strategies requiring sub-second key derivation.}
+Key generation performance impacts device provisioning workflows and key rotation strategies. The 100.7--238$\times$ computational overhead relative to ECDSA P-256 reflects lattice-based cryptographic complexity; optimization techniques provide limited improvement for key generation operations dominated by random polynomial sampling and matrix expansion rather than NTT arithmetic. Measured execution times of 151--357\,ms establish feasibility for infrequent key generation during device provisioning but prohibit high-frequency rotation strategies requiring sub-second key derivation.
 
 \subsubsection{Signature Generation Performance}
 
@@ -943,7 +943,7 @@ Signature generation represents the primary performance bottleneck for publisher
 	\end{tabular}
 \end{table}
 
-Signature generation benefits from NTT optimization techniques, with each rejection sampling iteration requiring multiple forward and inverse NTT operations for polynomial arithmetic. \bluet{Optimized NTT implementations reduce per-iteration computational cost by 40--50\%, translating to proportional signing latency reduction.} However, \bluet{absolute signing latencies of 657--1,150\,ms across parameter sets remain 70--122$\times$ slower than ECDSA despite optimization}, establishing performance constraints for signature-based IoT authentication. Performance variability from rejection sampling (expected 3.85--5.1 iterations depending on parameter set) introduces timing non-determinism requiring worst-case latency analysis for real-time applications.
+Signature generation benefits from NTT optimization techniques, with each rejection sampling iteration requiring multiple forward and inverse NTT operations for polynomial arithmetic. Optimized NTT implementations reduce per-iteration computational cost by 40--50\%, translating to proportional signing latency reduction. However, absolute signing latencies of 657--1,150\,ms across parameter sets remain 70--122$\times$ slower than ECDSA despite optimization, establishing performance constraints for signature-based IoT authentication. Performance variability from rejection sampling (expected 3.85--5.1 iterations depending on parameter set) introduces timing non-determinism requiring worst-case latency analysis for real-time applications.
 
 \subsubsection{Signature Verification Performance}
 
@@ -976,7 +976,7 @@ Verification performance impacts subscriber device responsiveness and sustainabl
 	\end{tabular}
 \end{table}
 
-Unlike signature generation, verification executes deterministically without rejection sampling, yielding predictable latency characteristics for real-time constraint analysis. Verification operations benefit from precomputed twiddle factors and optimized NTT implementations, \bluet{achieving 26--44$\times$ overhead relative to ECDSA compared to 71--122$\times$ overhead for signature generation}. \bluet{Absolute verification latencies of 416--717\,ms exceed sub-second bounds for interactive IoT applications across all parameter sets}, necessitating architectural accommodations for post-quantum authenticated messaging in latency-sensitive deployments.
+Unlike signature generation, verification executes deterministically without rejection sampling, yielding predictable latency characteristics for real-time constraint analysis. Verification operations benefit from precomputed twiddle factors and optimized NTT implementations, achieving 26--44$\times$ overhead relative to ECDSA compared to 71--122$\times$ overhead for signature generation. Absolute verification latencies of 416--717\,ms exceed sub-second bounds for interactive IoT applications across all parameter sets, necessitating architectural accommodations for post-quantum authenticated messaging in latency-sensitive deployments.
 
 \color{black}
 
