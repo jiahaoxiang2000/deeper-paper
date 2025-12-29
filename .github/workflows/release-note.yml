@@ -1,5 +1,7 @@
 name: Create Release
 
+# TODO: use the latex-diff auto create the change filed then complie
+
 on:
   push:
     tags:
@@ -46,7 +48,7 @@ jobs:
 
       - name: Rename PDF with version tag
         run: |
-          cp tex/index.pdf tex/deeper-paper-${{ env.CURRENT_TAG }}.pdf
+          cp tex/index-diff.pdf tex/deeper-paper-${{ env.CURRENT_TAG }}.pdf
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
