@@ -253,16 +253,16 @@ NIST standardizes three ML-DSA parameter sets with distinct security-performance
 	\caption{ML-DSA Parameter Sets and Implementation Characteristics}
 	\label{tab:mldsa-params}
 	\begin{tabular}{lccc}
-		\hline
+		\toprule
 		\textbf{Parameter}  & \textbf{ML-DSA-44} & \textbf{ML-DSA-65} & \textbf{ML-DSA-87} \\
-		\hline
+		\midrule
 		Security Category   & 2 (AES-128)        & 3 (AES-192)        & 5 (AES-256)        \\
 		Matrix $(k,\ell)$   & $(4,4)$            & $(6,5)$            & $(8,7)$            \\
 		Private Key (bytes) & 2,560              & 4,032              & 4,896              \\
 		Public Key (bytes)  & 1,312              & 1,952              & 2,592              \\
 		Signature (bytes)   & 2,420              & 3,309              & 4,627              \\
 		Expected Iterations & 4.25               & 5.1                & 3.85               \\
-		\hline
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -338,18 +338,18 @@ Table~\ref{tab:ntt-optimization} summarizes cycle count improvements achieved th
 	\caption{NTT Optimization Technique Performance Impact}
 	\label{tab:ntt-optimization}
 	\begin{tabular}{lccc}
-		\hline
-		\textbf{Optimization}      & \textbf{Cycles/NTT} & \textbf{Reduction} & \textbf{Cumulative} \\
-		\hline
-		Reference C (baseline)     & 320,000             & ---                & ---                 \\
-		Assembly butterfly         & 248,000             & 22.5\%             & 22.5\%              \\
-		Montgomery multiplication  & 198,000             & 20.2\%             & 38.1\%              \\
-		Lazy reduction             & 172,000             & 13.1\%             & 46.3\%              \\
-		Loop unrolling (4$\times$) & 156,000             & 9.3\%              & 51.3\%              \\
-		Instruction scheduling     & 148,000             & 5.1\%              & 53.8\%              \\
-		\hline
-		\textbf{Optimized total}   & \textbf{148,000}    & ---                & \textbf{53.8\%}     \\
-		\hline
+		\toprule
+		\textbf{Optimization}      & \textbf{Cycles/NTT} & \textbf{Reduct.} & \textbf{Cumul.} \\
+		\midrule
+		Reference C (baseline)     & 320,000             & ---              & ---             \\
+		Assembly butterfly         & 248,000             & 22.5\%           & 22.5\%          \\
+		Montgomery mult.           & 198,000             & 20.2\%           & 38.1\%          \\
+		Lazy reduction             & 172,000             & 13.1\%           & 46.3\%          \\
+		Loop unrolling (4$\times$) & 156,000             & 9.3\%            & 51.3\%          \\
+		Instruction scheduling     & 148,000             & 5.1\%            & 53.8\%          \\
+		\midrule
+		\textbf{Optimized total}   & \textbf{148,000}    & ---              & \textbf{53.8\%} \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -403,14 +403,14 @@ The protocol defines four message criticality levels with corresponding minimum 
 	\caption{Message Criticality Classification and Security Requirements}
 	\label{tab:criticality}
 	\begin{tabular}{llcc}
-		\hline
-		\textbf{Level} & \textbf{Message Types}          & \textbf{Min. Security} & \textbf{Default} \\
-		\hline
-		Critical       & Firmware, credentials, keys     & ML-DSA-87              & ML-DSA-87        \\
-		High           & Alerts, configuration, commands & ML-DSA-65              & ML-DSA-87        \\
-		Medium         & Aggregated data, status reports & ML-DSA-44              & ML-DSA-65        \\
-		Low            & Routine telemetry, heartbeats   & ML-DSA-44              & ML-DSA-44        \\
-		\hline
+		\toprule
+		\textbf{Level} & \textbf{Message Types}     & \textbf{Min.} & \textbf{Default} \\
+		\midrule
+		Critical       & Firmware, credentials      & ML-DSA-87     & ML-DSA-87        \\
+		High           & Alerts, config., commands  & ML-DSA-65     & ML-DSA-87        \\
+		Medium         & Aggregated data, status    & ML-DSA-44     & ML-DSA-65        \\
+		Low            & Telemetry, heartbeats      & ML-DSA-44     & ML-DSA-44        \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -533,14 +533,14 @@ Table~\ref{tab:keygen-performance} presents key generation performance across ML
 	\caption{Key Generation Performance on ARM Cortex-M4 (168 MHz)}
 	\label{tab:keygen-performance}
 	\begin{tabular}{lcccc}
-		\hline
-		\textbf{Scheme} & \textbf{Cycles} & \textbf{Time (ms)} & \textbf{Ops/sec} & \textbf{Overhead} \\
-		\hline
-		ECDSA P-256     & 252,000         & 1.50               & 666.7            & 1.00$\times$      \\
-		ML-DSA-44       & 25,368,000      & 151.0              & 6.6              & 100.7$\times$     \\
-		ML-DSA-65       & 41,832,000      & 249.0              & 4.0              & 166.0$\times$     \\
-		ML-DSA-87       & 59,976,000      & 357.0              & 2.8              & 238.0$\times$     \\
-		\hline
+		\toprule
+		\textbf{Scheme} & \textbf{Cycles} & \textbf{Time} & \textbf{Ops/s} & \textbf{Overhead} \\
+		\midrule
+		ECDSA P-256     & 252,000         & 1.50\,ms      & 666.7          & 1.00$\times$      \\
+		ML-DSA-44       & 25,368,000      & 151\,ms       & 6.6            & 100.7$\times$     \\
+		ML-DSA-65       & 41,832,000      & 249\,ms       & 4.0            & 166.0$\times$     \\
+		ML-DSA-87       & 59,976,000      & 357\,ms       & 2.8            & 238.0$\times$     \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -554,26 +554,26 @@ Signature generation represents the primary performance bottleneck for publisher
 	\centering
 	\caption{Signature Generation Performance on ARM Cortex-M4 (168 MHz)}
 	\label{tab:sign-performance}
-	\begin{tabular}{lccccc}
-		\hline
-		\textbf{Scheme} & \textbf{Payload} & \textbf{Cycles} & \textbf{Time (ms)} & \textbf{Ops/sec} & \textbf{Overhead} \\
-		\hline
-		ECDSA P-256     & 10 bytes         & 1,544,400       & 9.19               & 108.8            & 1.00$\times$      \\
-		ECDSA P-256     & 50 bytes         & 1,577,280       & 9.39               & 106.5            & 1.00$\times$      \\
-		ECDSA P-256     & 100 bytes        & 1,610,160       & 9.59               & 104.3            & 1.00$\times$      \\
-		\hline
-		ML-DSA-44       & 10 bytes         & 110,376,000     & 657.0              & 1.52             & 71.5$\times$      \\
-		ML-DSA-44       & 50 bytes         & 111,384,000     & 663.0              & 1.51             & 70.6$\times$      \\
-		ML-DSA-44       & 100 bytes        & 112,392,000     & 669.0              & 1.49             & 69.8$\times$      \\
-		\hline
-		ML-DSA-65       & 10 bytes         & 141,456,000     & 842.0              & 1.19             & 91.6$\times$      \\
-		ML-DSA-65       & 50 bytes         & 143,304,000     & 853.0              & 1.17             & 90.8$\times$      \\
-		ML-DSA-65       & 100 bytes        & 145,152,000     & 864.0              & 1.16             & 90.1$\times$      \\
-		\hline
-		ML-DSA-87       & 10 bytes         & 188,496,000     & 1,122.0            & 0.89             & 122.1$\times$     \\
-		ML-DSA-87       & 50 bytes         & 190,848,000     & 1,136.0            & 0.88             & 121.0$\times$     \\
-		ML-DSA-87       & 100 bytes        & 193,200,000     & 1,150.0            & 0.87             & 119.9$\times$     \\
-		\hline
+	\begin{tabular}{lcccc}
+		\toprule
+		\textbf{Scheme} & \textbf{Payload} & \textbf{Time} & \textbf{Ops/s} & \textbf{Overhead} \\
+		\midrule
+		ECDSA P-256     & 10\,B            & 9.19\,ms      & 108.8          & 1.00$\times$      \\
+		ECDSA P-256     & 50\,B            & 9.39\,ms      & 106.5          & 1.00$\times$      \\
+		ECDSA P-256     & 100\,B           & 9.59\,ms      & 104.3          & 1.00$\times$      \\
+		\midrule
+		ML-DSA-44       & 10\,B            & 657\,ms       & 1.52           & 71.5$\times$      \\
+		ML-DSA-44       & 50\,B            & 663\,ms       & 1.51           & 70.6$\times$      \\
+		ML-DSA-44       & 100\,B           & 669\,ms       & 1.49           & 69.8$\times$      \\
+		\midrule
+		ML-DSA-65       & 10\,B            & 842\,ms       & 1.19           & 91.6$\times$      \\
+		ML-DSA-65       & 50\,B            & 853\,ms       & 1.17           & 90.8$\times$      \\
+		ML-DSA-65       & 100\,B           & 864\,ms       & 1.16           & 90.1$\times$      \\
+		\midrule
+		ML-DSA-87       & 10\,B            & 1,122\,ms     & 0.89           & 122.1$\times$     \\
+		ML-DSA-87       & 50\,B            & 1,136\,ms     & 0.88           & 121.0$\times$     \\
+		ML-DSA-87       & 100\,B           & 1,150\,ms     & 0.87           & 119.9$\times$     \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -587,26 +587,26 @@ Verification performance impacts subscriber device responsiveness and sustainabl
 	\centering
 	\caption{Signature Verification Performance on ARM Cortex-M4 (168 MHz)}
 	\label{tab:verify-performance}
-	\begin{tabular}{lccccc}
-		\hline
-		\textbf{Scheme} & \textbf{Payload} & \textbf{Cycles} & \textbf{Time (ms)} & \textbf{Ops/sec} & \textbf{Overhead} \\
-		\hline
-		ECDSA P-256     & 10 bytes         & 2,688,000       & 16.00              & 62.5             & 1.00$\times$      \\
-		ECDSA P-256     & 50 bytes         & 2,721,600       & 16.20              & 61.7             & 1.00$\times$      \\
-		ECDSA P-256     & 100 bytes        & 2,755,200       & 16.40              & 61.0             & 1.00$\times$      \\
-		\hline
-		ML-DSA-44       & 10 bytes         & 69,888,000      & 416.0              & 2.40             & 26.0$\times$      \\
-		ML-DSA-44       & 50 bytes         & 70,560,000      & 420.0              & 2.38             & 25.9$\times$      \\
-		ML-DSA-44       & 100 bytes        & 71,232,000      & 424.0              & 2.36             & 25.9$\times$      \\
-		\hline
-		ML-DSA-65       & 10 bytes         & 88,704,000      & 528.0              & 1.89             & 33.0$\times$      \\
-		ML-DSA-65       & 50 bytes         & 89,544,000      & 533.0              & 1.88             & 32.9$\times$      \\
-		ML-DSA-65       & 100 bytes        & 90,384,000      & 538.0              & 1.86             & 32.8$\times$      \\
-		\hline
-		ML-DSA-87       & 10 bytes         & 118,104,000     & 703.0              & 1.42             & 43.9$\times$      \\
-		ML-DSA-87       & 50 bytes         & 119,280,000     & 710.0              & 1.41             & 43.8$\times$      \\
-		ML-DSA-87       & 100 bytes        & 120,456,000     & 717.0              & 1.39             & 43.7$\times$      \\
-		\hline
+	\begin{tabular}{lcccc}
+		\toprule
+		\textbf{Scheme} & \textbf{Payload} & \textbf{Time} & \textbf{Ops/s} & \textbf{Overhead} \\
+		\midrule
+		ECDSA P-256     & 10\,B            & 16.0\,ms      & 62.5           & 1.00$\times$      \\
+		ECDSA P-256     & 50\,B            & 16.2\,ms      & 61.7           & 1.00$\times$      \\
+		ECDSA P-256     & 100\,B           & 16.4\,ms      & 61.0           & 1.00$\times$      \\
+		\midrule
+		ML-DSA-44       & 10\,B            & 416\,ms       & 2.40           & 26.0$\times$      \\
+		ML-DSA-44       & 50\,B            & 420\,ms       & 2.38           & 25.9$\times$      \\
+		ML-DSA-44       & 100\,B           & 424\,ms       & 2.36           & 25.9$\times$      \\
+		\midrule
+		ML-DSA-65       & 10\,B            & 528\,ms       & 1.89           & 33.0$\times$      \\
+		ML-DSA-65       & 50\,B            & 533\,ms       & 1.88           & 32.9$\times$      \\
+		ML-DSA-65       & 100\,B           & 538\,ms       & 1.86           & 32.8$\times$      \\
+		\midrule
+		ML-DSA-87       & 10\,B            & 703\,ms       & 1.42           & 43.9$\times$      \\
+		ML-DSA-87       & 50\,B            & 710\,ms       & 1.41           & 43.8$\times$      \\
+		ML-DSA-87       & 100\,B           & 717\,ms       & 1.39           & 43.7$\times$      \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -625,15 +625,15 @@ Table~\ref{tab:static-memory} presents code size and initialized data requiremen
 	\caption{Static Memory Footprint (Flash Memory Requirements)}
 	\label{tab:static-memory}
 	\begin{tabular}{lccc}
-		\hline
-		\textbf{Implementation} & \textbf{Code (KB)} & \textbf{Data (KB)} & \textbf{Total (KB)} \\
-		\hline
-		ECDSA P-256             & 8.2                & 1.5                & 9.7                 \\
-		ML-DSA-44 only          & 32.4               & 4.8                & 37.2                \\
-		ML-DSA-65 only          & 48.6               & 6.2                & 54.8                \\
-		ML-DSA-87 only          & 65.8               & 8.1                & 73.9                \\
-		ML-DSA All Sets         & 98.5               & 14.2               & 112.7               \\
-		\hline
+		\toprule
+		\textbf{Implementation} & \textbf{Code} & \textbf{Data} & \textbf{Total} \\
+		\midrule
+		ECDSA P-256             & 8.2\,KB       & 1.5\,KB       & 9.7\,KB        \\
+		ML-DSA-44 only          & 32.4\,KB      & 4.8\,KB       & 37.2\,KB       \\
+		ML-DSA-65 only          & 48.6\,KB      & 6.2\,KB       & 54.8\,KB       \\
+		ML-DSA-87 only          & 65.8\,KB      & 8.1\,KB       & 73.9\,KB       \\
+		ML-DSA All Sets         & 98.5\,KB      & 14.2\,KB      & 112.7\,KB      \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -648,14 +648,14 @@ Table~\ref{tab:dynamic-memory} quantifies runtime memory consumption including s
 	\caption{Dynamic Memory Requirements (SRAM Utilization)}
 	\label{tab:dynamic-memory}
 	\begin{tabular}{lcccc}
-		\hline
-		\textbf{Scheme} & \textbf{Stack Peak (KB)} & \textbf{Keys (KB)} & \textbf{Buffers (KB)} & \textbf{Total (KB)} \\
-		\hline
-		ECDSA P-256     & 0.8                      & 0.1                & 1.2                   & 2.1                 \\
-		ML-DSA-44       & 6.4                      & 3.8                & 12.5                  & 22.7                \\
-		ML-DSA-65       & 8.7                      & 5.8                & 18.3                  & 32.8                \\
-		ML-DSA-87       & 11.2                     & 7.3                & 24.6                  & 43.1                \\
-		\hline
+		\toprule
+		\textbf{Scheme} & \textbf{Stack} & \textbf{Keys} & \textbf{Buffers} & \textbf{Total} \\
+		\midrule
+		ECDSA P-256     & 0.8\,KB        & 0.1\,KB       & 1.2\,KB          & 2.1\,KB        \\
+		ML-DSA-44       & 6.4\,KB        & 3.8\,KB       & 12.5\,KB         & 22.7\,KB       \\
+		ML-DSA-65       & 8.7\,KB        & 5.8\,KB       & 18.3\,KB         & 32.8\,KB       \\
+		ML-DSA-87       & 11.2\,KB       & 7.3\,KB       & 24.6\,KB         & 43.1\,KB       \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -674,25 +674,25 @@ Table~\ref{tab:message-overhead} quantifies total message sizes for signed MQTT 
 	\caption{MQTT Message Size Overhead (Signed vs Unsigned)}
 	\label{tab:message-overhead}
 	\begin{tabular}{lcccc}
-		\hline
-		\textbf{Scheme} & \textbf{Payload} & \textbf{Signed Size} & \textbf{Unsigned Size} & \textbf{Overhead Ratio} \\
-		\hline
-		ECDSA P-256     & 10 bytes         & 82 bytes             & 18 bytes               & 4.6$\times$             \\
-		ECDSA P-256     & 50 bytes         & 122 bytes            & 58 bytes               & 2.1$\times$             \\
-		ECDSA P-256     & 100 bytes        & 172 bytes            & 108 bytes              & 1.6$\times$             \\
-		\hline
-		ML-DSA-44       & 10 bytes         & 2,438 bytes          & 18 bytes               & 135.4$\times$           \\
-		ML-DSA-44       & 50 bytes         & 2,478 bytes          & 58 bytes               & 42.7$\times$            \\
-		ML-DSA-44       & 100 bytes        & 2,528 bytes          & 108 bytes              & 23.4$\times$            \\
-		\hline
-		ML-DSA-65       & 10 bytes         & 3,327 bytes          & 18 bytes               & 184.8$\times$           \\
-		ML-DSA-65       & 50 bytes         & 3,367 bytes          & 58 bytes               & 58.1$\times$            \\
-		ML-DSA-65       & 100 bytes        & 3,417 bytes          & 108 bytes              & 31.6$\times$            \\
-		\hline
-		ML-DSA-87       & 10 bytes         & 4,645 bytes          & 18 bytes               & 258.1$\times$           \\
-		ML-DSA-87       & 50 bytes         & 4,685 bytes          & 58 bytes               & 80.8$\times$            \\
-		ML-DSA-87       & 100 bytes        & 4,735 bytes          & 108 bytes              & 43.8$\times$            \\
-		\hline
+		\toprule
+		\textbf{Scheme} & \textbf{Payload} & \textbf{Signed} & \textbf{Unsigned} & \textbf{Ratio} \\
+		\midrule
+		ECDSA P-256     & 10\,B            & 82\,B           & 18\,B             & 4.6$\times$    \\
+		ECDSA P-256     & 50\,B            & 122\,B          & 58\,B             & 2.1$\times$    \\
+		ECDSA P-256     & 100\,B           & 172\,B          & 108\,B            & 1.6$\times$    \\
+		\midrule
+		ML-DSA-44       & 10\,B            & 2,438\,B        & 18\,B             & 135.4$\times$  \\
+		ML-DSA-44       & 50\,B            & 2,478\,B        & 58\,B             & 42.7$\times$   \\
+		ML-DSA-44       & 100\,B           & 2,528\,B        & 108\,B            & 23.4$\times$   \\
+		\midrule
+		ML-DSA-65       & 10\,B            & 3,327\,B        & 18\,B             & 184.8$\times$  \\
+		ML-DSA-65       & 50\,B            & 3,367\,B        & 58\,B             & 58.1$\times$   \\
+		ML-DSA-65       & 100\,B           & 3,417\,B        & 108\,B            & 31.6$\times$   \\
+		\midrule
+		ML-DSA-87       & 10\,B            & 4,645\,B        & 18\,B             & 258.1$\times$  \\
+		ML-DSA-87       & 50\,B            & 4,685\,B        & 58\,B             & 80.8$\times$   \\
+		ML-DSA-87       & 100\,B           & 4,735\,B        & 108\,B            & 43.8$\times$   \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -704,19 +704,17 @@ Table~\ref{tab:e2e-latency} presents complete publish-subscribe workflow latency
 
 \begin{table}[h]
 	\centering
-	\caption{End-to-End MQTT Latency (Publisher to Verified Payload Delivery)}
+	\caption{End-to-End MQTT Latency (Publisher to Verified Delivery)}
 	\label{tab:e2e-latency}
-	\small
 	\begin{tabular}{lccccc}
-		\hline
-		\textbf{Scheme} & \textbf{Sign} & \textbf{Network} & \textbf{Verify} & \textbf{Total} & \textbf{Overhead} \\
-		                & \textbf{(ms)} & \textbf{(ms)}    & \textbf{(ms)}   & \textbf{(ms)}  &                   \\
-		\hline
-		ECDSA P-256     & 9.4           & 28.5             & 16.2            & 54.1           & 1.00$\times$      \\
-		ML-DSA-44       & 663           & 31.2             & 420             & 1,114          & 20.6$\times$      \\
-		ML-DSA-65       & 853           & 33.8             & 533             & 1,420          & 26.2$\times$      \\
-		ML-DSA-87       & 1,136         & 37.4             & 710             & 1,883          & 34.8$\times$      \\
-		\hline
+		\toprule
+		\textbf{Scheme} & \textbf{Sign} & \textbf{Net.} & \textbf{Verify} & \textbf{Total} & \textbf{Overhead} \\
+		\midrule
+		ECDSA P-256     & 9.4\,ms       & 28.5\,ms      & 16.2\,ms        & 54.1\,ms       & 1.00$\times$      \\
+		ML-DSA-44       & 663\,ms       & 31.2\,ms      & 420\,ms         & 1,114\,ms      & 20.6$\times$      \\
+		ML-DSA-65       & 853\,ms       & 33.8\,ms      & 533\,ms         & 1,420\,ms      & 26.2$\times$      \\
+		ML-DSA-87       & 1,136\,ms     & 37.4\,ms      & 710\,ms         & 1,883\,ms      & 34.8$\times$      \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -728,28 +726,28 @@ Throughput measurements quantify sustainable message publication rates under con
 
 \begin{table}[h]
 	\centering
-	\caption{Sustainable MQTT Message Throughput (Messages per Second)}
+	\caption{Sustainable MQTT Message Throughput}
 	\label{tab:throughput}
-	\begin{tabular}{lccccc}
-		\hline
-		\textbf{Scheme} & \textbf{Payload} & \textbf{Msgs/sec} & \textbf{Bottleneck} & \textbf{Overhead} \\
-		\hline
-		ECDSA P-256     & 10 bytes         & 108.7             & Signature gen.      & 1.00$\times$      \\
-		ECDSA P-256     & 50 bytes         & 106.4             & Signature gen.      & 1.00$\times$      \\
-		ECDSA P-256     & 100 bytes        & 104.2             & Signature gen.      & 1.00$\times$      \\
-		\hline
-		ML-DSA-44       & 10 bytes         & 1.52              & Signature gen.      & 71.5$\times$      \\
-		ML-DSA-44       & 50 bytes         & 1.51              & Signature gen.      & 70.5$\times$      \\
-		ML-DSA-44       & 100 bytes        & 1.49              & Signature gen.      & 69.9$\times$      \\
-		\hline
-		ML-DSA-65       & 10 bytes         & 1.18              & Signature gen.      & 92.1$\times$      \\
-		ML-DSA-65       & 50 bytes         & 1.17              & Signature gen.      & 90.9$\times$      \\
-		ML-DSA-65       & 100 bytes        & 1.16              & Signature gen.      & 89.8$\times$      \\
-		\hline
-		ML-DSA-87       & 10 bytes         & 0.89              & Signature gen.      & 122.1$\times$     \\
-		ML-DSA-87       & 50 bytes         & 0.88              & Signature gen.      & 120.9$\times$     \\
-		ML-DSA-87       & 100 bytes        & 0.87              & Signature gen.      & 119.8$\times$     \\
-		\hline
+	\begin{tabular}{lcccc}
+		\toprule
+		\textbf{Scheme} & \textbf{Payload} & \textbf{Msgs/s} & \textbf{Bottleneck} & \textbf{Overhead} \\
+		\midrule
+		ECDSA P-256     & 10\,B            & 108.7           & Sign gen.           & 1.00$\times$      \\
+		ECDSA P-256     & 50\,B            & 106.4           & Sign gen.           & 1.00$\times$      \\
+		ECDSA P-256     & 100\,B           & 104.2           & Sign gen.           & 1.00$\times$      \\
+		\midrule
+		ML-DSA-44       & 10\,B            & 1.52            & Sign gen.           & 71.5$\times$      \\
+		ML-DSA-44       & 50\,B            & 1.51            & Sign gen.           & 70.5$\times$      \\
+		ML-DSA-44       & 100\,B           & 1.49            & Sign gen.           & 69.9$\times$      \\
+		\midrule
+		ML-DSA-65       & 10\,B            & 1.18            & Sign gen.           & 92.1$\times$      \\
+		ML-DSA-65       & 50\,B            & 1.17            & Sign gen.           & 90.9$\times$      \\
+		ML-DSA-65       & 100\,B           & 1.16            & Sign gen.           & 89.8$\times$      \\
+		\midrule
+		ML-DSA-87       & 10\,B            & 0.89            & Sign gen.           & 122.1$\times$     \\
+		ML-DSA-87       & 50\,B            & 0.88            & Sign gen.           & 120.9$\times$     \\
+		ML-DSA-87       & 100\,B           & 0.87            & Sign gen.           & 119.8$\times$     \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -777,23 +775,22 @@ Table~\ref{tab:adaptive-overhead} presents average signing latency under adaptiv
 	\centering
 	\caption{Adaptive Protocol Computational Overhead Reduction}
 	\label{tab:adaptive-overhead}
-	\begin{tabular}{lccccc}
-		\hline
-		\textbf{Workload} & \textbf{Resource}        & \textbf{Fixed-87} & \textbf{Adaptive} & \textbf{Reduction} \\
-		                  & \textbf{State}           & \textbf{(ms)}     & \textbf{(ms)}     &                    \\
-		\hline
-		Environmental     & High ($R \geq 0.7$)      & 1,136             & 732               & 35.6\%             \\
-		Environmental     & Medium ($R \approx 0.5$) & 1,136             & 668               & 41.2\%             \\
-		Environmental     & Low ($R < 0.4$)          & 1,136             & 678               & 40.3\%             \\
-		\hline
-		Industrial        & High                     & 1,136             & 849               & 25.3\%             \\
-		Industrial        & Medium                   & 1,136             & 781               & 31.2\%             \\
-		Industrial        & Low                      & 1,136             & 743               & 34.6\%             \\
-		\hline
-		Security          & High                     & 1,136             & 956               & 15.8\%             \\
-		Security          & Medium                   & 1,136             & 891               & 21.6\%             \\
-		Security          & Low                      & 1,136             & 847               & 25.4\%             \\
-		\hline
+	\begin{tabular}{llccc}
+		\toprule
+		\textbf{Workload} & \textbf{Resource} & \textbf{Fixed} & \textbf{Adaptive} & \textbf{Reduct.} \\
+		\midrule
+		Environmental     & High ($R\geq0.7$) & 1,136\,ms      & 732\,ms           & 35.6\%           \\
+		Environmental     & Med. ($R\approx0.5$) & 1,136\,ms   & 668\,ms           & 41.2\%           \\
+		Environmental     & Low ($R<0.4$)     & 1,136\,ms      & 678\,ms           & 40.3\%           \\
+		\midrule
+		Industrial        & High              & 1,136\,ms      & 849\,ms           & 25.3\%           \\
+		Industrial        & Medium            & 1,136\,ms      & 781\,ms           & 31.2\%           \\
+		Industrial        & Low               & 1,136\,ms      & 743\,ms           & 34.6\%           \\
+		\midrule
+		Security          & High              & 1,136\,ms      & 956\,ms           & 15.8\%           \\
+		Security          & Medium            & 1,136\,ms      & 891\,ms           & 21.6\%           \\
+		Security          & Low               & 1,136\,ms      & 847\,ms           & 25.4\%           \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -808,13 +805,13 @@ Table~\ref{tab:adaptive-distribution} presents the distribution of selected secu
 	\caption{Adaptive Protocol Security Level Distribution ($R \approx 0.5$)}
 	\label{tab:adaptive-distribution}
 	\begin{tabular}{lcccc}
-		\hline
-		\textbf{Workload} & \textbf{ML-DSA-44} & \textbf{ML-DSA-65} & \textbf{ML-DSA-87} & \textbf{Avg. Level} \\
-		\hline
-		Environmental     & 80.0\%             & 15.0\%             & 5.0\%              & 2.25                \\
-		Industrial        & 60.0\%             & 20.0\%             & 20.0\%             & 2.60                \\
-		Security          & 40.0\%             & 30.0\%             & 30.0\%             & 2.90                \\
-		\hline
+		\toprule
+		\textbf{Workload} & \textbf{DSA-44} & \textbf{DSA-65} & \textbf{DSA-87} & \textbf{Avg.} \\
+		\midrule
+		Environmental     & 80.0\%          & 15.0\%          & 5.0\%           & 2.25          \\
+		Industrial        & 60.0\%          & 20.0\%          & 20.0\%          & 2.60          \\
+		Security          & 40.0\%          & 30.0\%          & 30.0\%          & 2.90          \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -829,14 +826,13 @@ For battery-powered deployments, adaptive protocol energy savings directly exten
 	\caption{Adaptive Protocol Energy Consumption (100 Messages/Day)}
 	\label{tab:adaptive-energy}
 	\begin{tabular}{lcccc}
-		\hline
-		\textbf{Workload} & \textbf{Fixed-87} & \textbf{Adaptive} & \textbf{Savings} & \textbf{Lifetime}  \\
-		                  & \textbf{(J/day)}  & \textbf{(J/day)}  & \textbf{(J/day)} & \textbf{Extension} \\
-		\hline
-		Environmental     & 5.68              & 3.66              & 2.02             & +55.2\%            \\
-		Industrial        & 5.68              & 4.25              & 1.43             & +33.6\%            \\
-		Security          & 5.68              & 4.78              & 0.90             & +18.8\%            \\
-		\hline
+		\toprule
+		\textbf{Workload} & \textbf{Fixed} & \textbf{Adaptive} & \textbf{Savings} & \textbf{Lifetime} \\
+		\midrule
+		Environmental     & 5.68\,J/day    & 3.66\,J/day       & 2.02\,J/day      & +55.2\%           \\
+		Industrial        & 5.68\,J/day    & 4.25\,J/day       & 1.43\,J/day      & +33.6\%           \\
+		Security          & 5.68\,J/day    & 4.78\,J/day       & 0.90\,J/day      & +18.8\%           \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -867,19 +863,19 @@ Table~\ref{tab:parameter-tradeoffs} quantifies incremental security-performance 
 
 \begin{table}[h]
 	\centering
-	\caption{ML-DSA Parameter Set Trade-off Quantification (Normalized to ML-DSA-44)}
+	\caption{ML-DSA Parameter Set Trade-off (Normalized to ML-DSA-44)}
 	\label{tab:parameter-tradeoffs}
-	\begin{tabular}{lcccc}
-		\hline
-		\textbf{Metric}   & \textbf{ML-DSA-44} & \textbf{ML-DSA-65} & \textbf{ML-DSA-87} \\
-		\hline
-		Security Level    & 2 (AES-128)        & 3 (AES-192)        & 5 (AES-256)        \\
-		Signing Time      & 1.00$\times$       & 1.30$\times$       & 1.75$\times$       \\
-		Verification Time & 1.00$\times$       & 1.27$\times$       & 1.72$\times$       \\
-		Signature Size    & 1.00$\times$       & 1.37$\times$       & 1.91$\times$       \\
-		Total SRAM        & 1.00$\times$       & 1.45$\times$       & 1.90$\times$       \\
-		Code Size         & 1.00$\times$       & 1.47$\times$       & 1.99$\times$       \\
-		\hline
+	\begin{tabular}{lccc}
+		\toprule
+		\textbf{Metric}   & \textbf{DSA-44}  & \textbf{DSA-65}  & \textbf{DSA-87}  \\
+		\midrule
+		Security Level    & 2 (AES-128)      & 3 (AES-192)      & 5 (AES-256)      \\
+		Signing Time      & 1.00$\times$     & 1.30$\times$     & 1.75$\times$     \\
+		Verification Time & 1.00$\times$     & 1.27$\times$     & 1.72$\times$     \\
+		Signature Size    & 1.00$\times$     & 1.37$\times$     & 1.91$\times$     \\
+		Total SRAM        & 1.00$\times$     & 1.45$\times$     & 1.90$\times$     \\
+		Code Size         & 1.00$\times$     & 1.47$\times$     & 1.99$\times$     \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
