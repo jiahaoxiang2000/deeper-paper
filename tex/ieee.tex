@@ -1,0 +1,175 @@
+% The most recent version of IEEEtran.cls is v1.8b, released on August 26, 2015.
+%% http://www.michaelshell.org  https://ctan.org/pkg/ieeetran
+% https://www.computer.org/csdl/journal/tc/write-for-us/15066?title=Author%20Information&periodical=IEEE%20Transactions%20on%20Computers
+\documentclass[final, twoside]{IEEEtran} % regular paper
+%\documentclass[journal]{IEEEtran}
+%\documentclass[journal, draftcls, onecolumn, 11pt]{IEEEtran} % for review
+\setlength\columnwidth{0.5\textwidth} % this must be set in one-column mode
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amssymb, amsmath, amsthm, bm}
+\usepackage{enumitem}
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+\makeatletter
+\newcommand{\tpmod}[1]{{\@displayfalse\pmod{#1}}}
+\makeatother
+\newcommand{\var}[1]{\mathit{#1}}
+\newcommand{\iu}{{i\mkern1mu}}
+% \renewcommand{\arraystretch}{0.6} because \baselinestretch is 1.6667
+\usepackage{graphicx, color}
+\graphicspath{{figures-pdf/}}
+\usepackage{cite}
+\usepackage{url}
+\usepackage{diagbox}
+\usepackage[aboveskip=1pt]{subcaption}
+\usepackage{pbox}
+%\usepackage[retainorgcmds]{IEEEtrantools}
+\usepackage[mathlines]{lineno}
+\linenumbers\setlength\linenumbersep{0.03in}
+\usepackage{enumitem}
+%\usepackage{algorithm}
+%\usepackage[ruled,linesnumbered]{algorithm2e} 
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\SetAlFnt{\small}
+\SetAlCapFnt{\small}
+\SetAlCapNameFnt{\small}
+
+\usepackage{algpseudocode}
+\usepackage{multirow, bigstrut}
+\usepackage{tabularx}
+\usepackage{arydshln}
+\usepackage{empheq}
+\usepackage{threeparttable}
+
+%\usepackage{dblfloatfix}
+%\usepackage{datetime}
+\newlength\OneImW
+\setlength\OneImW{0.38\columnwidth}
+
+\newlength\BigOneImW
+\setlength\BigOneImW{0.85\columnwidth}
+
+\newlength\twofigwidth
+\setlength\twofigwidth{0.46\columnwidth}
+
+\newlength\ThreeImW
+\setlength\ThreeImW{0.31\columnwidth}
+
+\newlength\sfigwidth
+\setlength\sfigwidth{0.3\columnwidth}
+
+\newlength\vfigskip
+\setlength\vfigskip{4em}
+
+\newcommand\mymatrix[1]{\bm{\mathrm{#1}}}
+\newcommand{\sign}[1]{\mathrm{sgn}{#1}} 
+
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+\newlength\figsep
+\setlength\figsep{1.5em}
+
+\usepackage{stfloats} 
+
+\newtheorem{Proposition}{Proposition}
+\newtheorem{Definition}{Definition}
+\newtheorem{Corollary}{Corollary}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+%\def\stackrel#1#2{\mathrel{\mathop{#2}\limits^{#1}}}
+
+\DeclareMathOperator*{\lcm}{lcm}
+%%% Vector and matrix operators
+\newcommand{\x}[0]{{\bf x}}
+\newcommand{\vct}[1]{\bm{#1}}
+\newcommand{\mtx}[1]{\bm{#1}}
+
+%%% Constants, vectors, and matrices with names
+\newcommand{\atom}{\vct{\phi}}
+\newcommand{\Fee}{\mtx{\Phi}}
+
+%\iffalse
+%---------------------------------------
+\usepackage[bookmarks=false]{hyperref}
+\hypersetup{
+ linktocpage=true, pdfborderstyle={/S/S/W 1}, hyperindex=true, bookmarks=true, bookmarksopen=true, bookmarksnumbered=true 
+}
+%\fi
+%\renewcommand\baselinestretch{1}
+%------------------------------------------------------------
+%\usepackage{setspace}
+%\setstretch{1.1}
+% The setspace package changes only the spacing of the body text and the bibliography.
+
+\begin{document}
+
+\title{}
+
+\author{ Jiahao Xiang, Lang Li and Jingya Feng
+
+	\thanks{This research is supported by the Open Fund of Hunan Engineering Research Center for Cyberspace Security Technology and Application at Hengyang Normal University（2025HSKFJJ031), “the 14th Five-Year Plan” Key Disciplines and Application-oriented Special Disciplines of Hunan Province(Xiangjiaotong [2022] 351)，the Science and Technology Innovation Program of Hunan Province（2016TP1020）. \textit{(Corresponding
+			author: Lang Li.)}}
+
+	\thanks{The authors are with the Hunan Provincial Key Laboratory of Intelligent Information Processing and Application, the Hunan Engineering Research Center of Cyberspace Security Technology and Applications, and the College of Computer Science and Technology, Hengyang Normal University, Hengyang 421002, China (e-mail: jiahaoxiang2000@gmail.com; lilang911@126.com; fengjyk@126.com).}
+
+}
+
+% The paper headers
+\markboth{IEEE Transactions}{Yang \MakeLowercase{et al.}}
+
+\maketitle
+
+\begin{abstract}
+\end{abstract}
+
+\begin{IEEEkeywords}
+	Low latency, Pseudorandom Function (PRF), ....
+\end{IEEEkeywords}
+
+\section{Introduction}
+
+\IEEEPARstart{M}{emory}
+
+\IEEEpubidadjcol % must call \IEEEpubidadjcol in the second column for its text to clear the %IEEEpubid mark. 
+
+The main contributions of this paper are as follows:
+\begin{enumerate}[label=\arabic*)]
+
+	\item \textbf{A latency-optimized S-box design methodology is developed, integrating a weighted depth model with recursive and genetic search to identify high-performance 4-bit S-boxes.}
+
+\end{enumerate}
+
+
+\section{Related work}
+\label{sec:Related work}
+
+
+\section{Conclusion}
+
+In
+
+% \bibliographystyle{Bibliography/IEEEtranTIE}
+\bibliographystyle{IEEEtran_doi}
+\bibliography{ biblio.bib }
+
+%\vspace{-1.2cm}
+\begin{IEEEbiographynophoto}{Jiahao Xiang}
+	is pursuing a Master's degree in Electronic Information at Hengyang Normal University, China. His research focuses on cryptographic engineering and efficient implementations of block ciphers on resource-constrained devices. Publications include works on lightweight cryptography optimization and contributions to open-source cryptographic projects.
+\end{IEEEbiographynophoto}
+
+\vskip -2\baselineskip plus -1fil
+
+\begin{IEEEbiographynophoto}{Lang Li}
+	received his Ph.D. and Master's degrees in computer science from Hunan University, Changsha, China, in 2010 and 2006, respectively, and earned his B.S. degree in circuits and systems from Hunan Normal University in 1996. Since 2011, he has been working as a professor in the College of Computer Science and Technology at the Hengyang Normal University, Hengyang, China. He has research interests in embedded system and information security.
+\end{IEEEbiographynophoto}
+
+\vskip -2\baselineskip plus -1fil
+
+\begin{IEEEbiographynophoto} {Jingya Feng}
+	received the M.S. degree from Hunan Normal University, Changsha, China, in 2021, and the Ph.D. degree from Guilin University of Electronic Science and Technology, Guilin, China, in 2025. She Joined the School of Computer Science and Technology, Hengyang Normal University in July 2025. Her main research interests include cryptology, with particular focus on the design and optimized implementation of symmetric encryption schemes.
+\end{IEEEbiographynophoto}
+
+%\vskip -2\baselineskip plus -1fil
+
+\end{document}
