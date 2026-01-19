@@ -1,12 +1,4 @@
-# CLAUDE.md
-
-This file provides guidance to Claude Code when working with academic paper writing in this directory.
-
-## Paper Context
-
-This directory contains the LaTeX source files for a research paper on post-quantum cryptography implementation, specifically focusing on ML-DSA (Module-Lattice-Based Digital Signature Algorithm) integration in IoT MQTT environments.
-
-## Academic Paper Writing Assistant
+# Academic Paper Writing Assistant
 
 Assist with writing academic papers following rigorous academic standards and conventions.
 
@@ -57,7 +49,7 @@ When assisting with academic writing:
 
 ### LaTeX Specific Guidelines
 
-- Use proper BibTeX citations from biblio.bib and abbrev3.bib
+- Use proper BibTeX citations from biblio.bib
 - Follow the structure conventions for cryptographic papers
 - Use appropriate mathematical notation and environments
 - Ensure cross-references and labels are properly formatted
