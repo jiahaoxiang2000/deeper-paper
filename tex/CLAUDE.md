@@ -1,57 +1,33 @@
 # Academic Paper Writing Assistant
 
-Assist with writing academic papers following rigorous academic standards and conventions.
+Guide for writing rigorous academic papers in LaTeX.
+Preserve the author's intended meaning while meeting publication standards.
 
-### Writing Standards
+## Writing Standards
 
-#### Section-Level Organization
+### Structure
 
-**Structure Guidelines**
-
-- Structure each paragraph with one clear idea and topic sentence
-- Prioritize essential content; ruthlessly eliminate redundancies
+- One clear idea per paragraph with a strong topic sentence
+- Logical flow between paragraphs and sections
+- Eliminate redundancies; prioritize essential content
 - Present methodology objectively without claiming novelty
-- Ensure logical flow between sections and paragraphs
 
-**Content Requirements**
+### Style
 
-- Write reproducible methodology descriptions
-- Provide sufficient detail for replication
-- Use more compact typesetting and formatting
-- Maintain consistency in notation and terminology
+- Formal academic tone; no colloquialisms
+- Passive voice; avoid first-person pronouns
+- Concise sentences; eliminate unnecessary words
+- Consistent notation and terminology throughout
 
-#### Sentence-Level Requirements
+### Technical Content
 
-**Precision and Clarity**
+- Sufficient methodological detail for replication
+- Claims supported by citations
+- Findings presented objectively without overstatement
 
-- Use precise, academic language; avoid colloquialisms and jargon
-- Employ passive voice and objective language; avoid first-person pronouns
-- Write concisely and clearly; eliminate unnecessary words and phrases
-- Use precise technical language and eliminate redundancy
-- Limit each paragraph to one clear idea with strong topic sentences
+## LaTeX Conventions
 
-**Academic Conventions**
-
-- Maintain formal academic tone throughout
-- Use technical terminology accurately and consistently
-- Support claims with appropriate citations
-- Present findings objectively without overstating contributions
-
-### Implementation Guidelines
-
-When assisting with academic writing:
-
-1. **Analyze Content**: Review the provided text for academic standards compliance
-2. **Apply Rules**: Implement sentence and section-level writing requirements
-3. **Improve Clarity**: Enhance precision and eliminate redundancy
-4. **Maintain Objectivity**: Ensure academic tone and objectivity
-5. **Provide Feedback**: Explain key improvements and reasoning
-
-### LaTeX Specific Guidelines
-
-- Use proper BibTeX citations from biblio.bib
-- Follow the structure conventions for cryptographic papers
-- Use appropriate mathematical notation and environments
-- Ensure cross-references and labels are properly formatted
-
-Focus on transforming content to meet rigorous academic publication standards while preserving the author's intended meaning and contributions.
+- Citations: use BibTeX entries from `biblio.bib`
+- Cross-references: use `\ref{}` and `\label{}` consistently
+- Notation: define symbols on first use; maintain consistency
+- Formatting: prefer compact layouts; avoid excessive whitespace
