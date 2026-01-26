@@ -1,44 +1,18 @@
-\documentclass[final, twoside]{IEEEtran} % regular paper
-%\documentclass[journal]{IEEEtran}
-%\documentclass[journal, draftcls, onecolumn, 11pt]{IEEEtran} % for review
-\setlength\columnwidth{0.5\textwidth} % this must be set in one-column mode
-\usepackage{booktabs}
-\usepackage{graphicx}
-\usepackage{float}
-\usepackage{amssymb, amsmath, amsthm, bm}
-\usepackage{enumitem}
-\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
-\makeatletter
-\newcommand{\tpmod}[1]{{\@displayfalse\pmod{#1}}}
-\makeatother
-\newcommand{\var}[1]{\mathit{#1}}
-\newcommand{\iu}{{i\mkern1mu}}
-% \renewcommand{\arraystretch}{0.6} because \baselinestretch is 1.6667
-\usepackage{graphicx, color}
-\graphicspath{{figures-pdf/}}
-\usepackage{cite}
-\usepackage{url}
-\usepackage{diagbox}
-\usepackage[aboveskip=1pt]{subcaption}
-\usepackage{pbox}
-%\usepackage[retainorgcmds]{IEEEtrantools}
-%\usepackage[mathlines]{lineno}
-%\linenumbers
-%\setlength\linenumbersep{0.03in}
-\usepackage{enumitem}
-%\usepackage{algorithm}
-%\usepackage[ruled,linesnumbered]{algorithm2e} 
-\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
-\SetAlFnt{\small}
-\SetAlCapFnt{\small}
-\SetAlCapNameFnt{\small}
+%%%% IACR Transactions TEMPLATE %%%%
+% This file shows how to use the iacrtrans class to write a paper.
+% Written by Gaetan Leurent gaetan.leurent@inria.fr (2020)
+% Public Domain (CC0)
 
-\usepackage{algpseudocode}
-\usepackage{multirow, bigstrut}
-\usepackage{tabularx}
-\usepackage{arydshln}
-\usepackage{empheq}
-\usepackage{threeparttable}
+%%%% 1. DOCUMENTCLASS %%%%
+\documentclass[journal=tches,final]{iacrtrans}
+%%%% NOTES:
+% - Change "journal=tosc" to "journal=tches" if needed
+% - Change "submission" to "final" for final version
+% - Add "spthm" for LNCS-like theorems
+
+%%%% 2. ALGORITHM PACKAGES %%%%
+\usepackage{algorithm}
+\usepackage{algorithmic}
 
 %%%% TIKZ PACKAGES FOR FIGURES %%%%
 \usepackage{tikz}
@@ -53,112 +27,69 @@
 %%%% COLOR PACKAGE FOR HIGHLIGHTING %%%%
 \usepackage{xcolor}
 \usepackage[normalem]{ulem}  % For wavy underline
+% \newcommand{\bluet}[1]{\textcolor{blue}{\uwave{#1}}}
 \newcommand{\bluet}[1]{\textcolor{blue}{#1}}
 
-%\usepackage{dblfloatfix}
-%\usepackage{datetime}
-\newlength\OneImW
-\setlength\OneImW{0.38\columnwidth}
+%%%% ALGORITHM GLOBAL SETTINGS %%%%
+% Custom commands for consistent Input/Output formatting
+\newcommand{\Input}[1]{\STATE \textbf{Input:} #1}
+\newcommand{\Output}[1]{\STATE \textbf{Output:} #1}
 
-\newlength\BigOneImW
-\setlength\BigOneImW{0.85\columnwidth}
+% Optional: Customize algorithm appearance
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
 
-\newlength\twofigwidth
-\setlength\twofigwidth{0.46\columnwidth}
-
-\newlength\ThreeImW
-\setlength\ThreeImW{0.31\columnwidth}
-
-\newlength\sfigwidth
-\setlength\sfigwidth{0.3\columnwidth}
-
-\newlength\vfigskip
-\setlength\vfigskip{4em}
-
-\newcommand\mymatrix[1]{\bm{\mathrm{#1}}}
-\newcommand{\sign}[1]{\mathrm{sgn}{#1}} 
-
-\hyphenation{op-tical net-works semi-conduc-tor}
-
-\newlength\figsep
-\setlength\figsep{1.5em}
-
-\usepackage{stfloats} 
-
-\newtheorem{Proposition}{Proposition}
-\newtheorem{Definition}{Definition}
-\newtheorem{Corollary}{Corollary}
-\newtheorem{theorem}{Theorem}
-\newtheorem{lemma}{Lemma}
-%\def\stackrel#1#2{\mathrel{\mathop{#2}\limits^{#1}}}
-
-\DeclareMathOperator*{\lcm}{lcm}
-%%% Vector and matrix operators
-\newcommand{\x}[0]{{\bf x}}
-\newcommand{\vct}[1]{\bm{#1}}
-\newcommand{\mtx}[1]{\bm{#1}}
-
-%%% Constants, vectors, and matrices with names
-\newcommand{\atom}{\vct{\phi}}
-\newcommand{\Fee}{\mtx{\Phi}}
-
-\usepackage[bookmarks=false]{hyperref}
-\hypersetup{
- linktocpage=true, pdfborderstyle={/S/S/W 1}, hyperindex=true, bookmarks=true, bookmarksopen=true, bookmarksnumbered=true
+%%%% 3. AUTHOR, INSTITUTE %%%%
+\author{Jiahao Xiang\inst{1} \and Lang Li\inst{1}}
+\institute{
+  Hengyang Normal University,  Hengyang, China
+  % \and
+  % Institute B, City, Country, \email{john@institute}
 }
-%\renewcommand\baselinestretch{1}
-%------------------------------------------------------------
-%\usepackage{setspace}
-%\setstretch{1.1}
-% The setspace package changes only the spacing of the body text and the bibliography.
+%%%% NOTES:
+% - We need a city name for indexation purpose, even if it is redundant
+%   (eg: University of Atlantis, Atlantis, Atlantis)
+% - \inst{} can be omitted if there is a single institute,
+%   or exactly one institute per author
+
+%%%% 4. TITLE %%%%
+\title[ML-DSA Digital Signatures in Resource-Constrained MQTT Environments]{ML-DSA Digital Signatures in Resource-Constrained MQTT Environments}
+%%%% NOTES:
+% - If the title is too long, or includes special macro, please
+%   provide a "running title" as optional argument: \title[Short]{Long}
+% - You can provide an optional subtitle with \subtitle.
 
 \begin{document}
 
-\title{ML-DSA Digital Signatures in Resource-Constrained MQTT Environments}
-
-\author{ Jiahao Xiang, Lang Li  and Jingya Feng
-
-	\thanks{This research is supported by the Open Fund of Hunan Engineering Research Center for Cyberspace Security Technology and Application at Hengyang Normal University (2025HSKFJJ031), "the 14th Five-Year Plan" Key Disciplines and Application-oriented Special Disciplines of Hunan Province (Xiangjiaotong [2022] 351), the Science and Technology Innovation Program of Hunan Province (2016TP1020). \textit{(Corresponding
-			author: Lang Li.)}}
-
-	\thanks{The authors are with the Hunan Provincial Key Laboratory of Intelligent Information Processing and Application, the Hunan Engineering Research Center of Cyberspace Security Technology and Applications, and the College of Computer Science and Technology, Hengyang Normal University, Hengyang 421002, China (e-mail: jiahaoxiang2000@gmail.com; lilang911@126.com; fengjyk@126.com).}
-
-}
-
-% The paper headers
-\markboth{IEEE Transactions}{Xiang \MakeLowercase{et al.}}
-
 \maketitle
 
+%%%% 5. KEYWORDS %%%%
+\keywords{Post-Quantum Cryptography \and ML-DSA \and MQTT Protocol \and IoT Security \and Resource-Constrained Devices}
+
+%%%% 6. ABSTRACT %%%%
 \begin{abstract}
 	Large-scale quantum computers necessitate migration of Internet of Things (IoT) systems to post-quantum cryptographic standards. While NIST has standardized ML-DSA (Module-Lattice-Based Digital Signature Algorithm) for digital signatures, practical deployment of post-quantum authentication in resource-constrained IoT environments remains inadequately characterized. This work evaluates ML-DSA integration within MQTT-based IoT systems through comprehensive performance analysis on ARM Cortex-M4 microcontrollers and proposes an adaptive security level selection protocol that dynamically selects ML-DSA parameter sets based on message criticality and device resource state. The methodology encompasses signature generation and verification benchmarking, memory utilization analysis, and protocol overhead assessment under realistic IoT constraints. Performance measurements quantify 70--122$\times$ computational overhead relative to ECDSA, with signature generation latencies of 657--1,150\,ms across parameter sets. The proposed adaptive protocol reduces average signing overhead by 15.8--41.2\% compared to fixed highest-security configurations while maintaining minimum security guarantees per message class, extending battery lifetime by 18.8--55.2\% for energy-constrained deployments. These findings reveal fundamental trade-offs between post-quantum security and IoT performance requirements, providing both characterization data and an adaptive optimization mechanism for practical deployment in resource-limited environments.
 \end{abstract}
 
-\begin{IEEEkeywords}
-	Post-Quantum Cryptography, ML-DSA, MQTT Protocol, IoT Security, Resource-Constrained Devices
-\end{IEEEkeywords}
-
+%%%% 7. PAPER CONTENT %%%%
 \section{Introduction}
 
-\IEEEPARstart{T}{he} emergence of quantum computing fundamentally undermines current cryptographic infrastructures, necessitating systematic migration to post-quantum cryptographic standards across all computing domains~\cite{Khalid2019}. The National Institute of Standards and Technology (NIST) has formalized ML-DSA (Module-Lattice-Based Digital Signature Algorithm) within FIPS 204~\cite{NIST-FIPS-204}, establishing this CRYSTALS-Dilithium-based scheme as the primary standard for post-quantum digital signatures.
+The emergence of quantum computing fundamentally undermines current cryptographic infrastructures, necessitating systematic migration to post-quantum cryptographic standards across all computing domains~\cite{Khalid2019}. The National Institute of Standards and Technology (NIST) has formalized ML-DSA (Module-Lattice-Based Digital Signature Algorithm) within FIPS 204~\cite{NIST-FIPS-204}, establishing this CRYSTALS-Dilithium-based scheme as the primary standard for post-quantum digital signatures.
 
-\IEEEpubidadjcol % must call \IEEEpubidadjcol in the second column for its text to clear the %IEEEpubid mark. 
-
-The transition from theoretical post-quantum standardization to practical deployment has revealed fundamental implementation challenges extending beyond algorithmic considerations~\cite{MLDSAHardware2024}. Post-quantum signature schemes impose substantial computational and storage overhead compared to classical alternatives. ML-DSA signatures span 2,420-4,627 bytes across security levels, representing 30-70$\times$ size increases relative to 64-byte ECDSA signatures. These expanded signature sizes, combined with elevated computational demands, substantially exceed the computational and memory capabilities of resource-constrained devices~\cite{HwangKim2024}.
+The transition from theoretical post-quantum standardization to practical deployment has revealed fundamental implementation challenges extending beyond algorithmic considerations~\cite{MLDSAHardware2024}. Post-quantum signature schemes impose substantial computational and storage overhead compared to classical alternatives. ML-DSA signatures span 2,420-4,627 bytes across security levels, representing 30-70× size increases relative to 64-byte ECDSA signatures. These expanded signature sizes, combined with elevated computational demands, substantially exceed the computational and memory capabilities of resource-constrained devices~\cite{HwangKim2024}.
 
 Internet of Things (IoT) systems exemplify these deployment challenges, where computational, memory, and energy limitations constrain cryptographic implementation choices~\cite{Ghosh2019}. Despite performance overhead, signature-based authentication remains essential for applications requiring cryptographic non-repudiation, audit trails, and public key infrastructure compatibility. The MQTT protocol, widely adopted for IoT messaging due to its lightweight design, experiences performance degradation when post-quantum signatures introduce overhead on resource-constrained devices. This disparity between standardization progress and deployment feasibility motivates systematic performance characterization.
 
 This work addresses ML-DSA integration within MQTT-based IoT systems through performance analysis on ARM Cortex-M4 microcontrollers and proposes an adaptive security level selection protocol optimizing resource utilization. Four contributions advance post-quantum IoT deployment:
 
-\begin{enumerate}[label=\arabic*)]
-
+\begin{itemize}
 	\item \textbf{Adaptive Security Level Selection Protocol}: A novel protocol dynamically selecting ML-DSA parameter sets based on device resource state, message criticality, and operational context. The protocol reduces average computational overhead by 23--31\% compared to fixed highest-security configurations while maintaining security guarantees appropriate to message sensitivity.
 
 	\item \textbf{Computational Performance Benchmarking}: Cycle-accurate measurements of ML-DSA signature operations on ARM Cortex-M4 microcontrollers at 168 MHz, quantifying execution latency and throughput across all three standardized parameter sets.
 
 
 	\item \textbf{Protocol-Level MQTT Integration Assessment}: End-to-end latency and message size overhead evaluation within MQTT publish-subscribe workflows, comparing ML-DSA against ECDSA P-256 baseline.
-\end{enumerate}
+\end{itemize}
 
 These contributions quantify trade-offs between post-quantum security levels and IoT performance requirements, and provide an adaptive mechanism for optimizing resource utilization in heterogeneous IoT deployments.
 
@@ -208,13 +139,141 @@ The ML-DSA signing procedure constitutes the primary computational bottleneck in
 
 \subsubsection{Signing Procedure Overview}
 
-The signing wrapper processes context strings and generates randomness before invoking the internal signing routine. Context string validation ensures the optional application context does not exceed 255 bytes. Randomness generation produces 32 bytes of cryptographic random data; deterministic variants substitute zeros for reproducible signatures.
+Algorithm~\ref{alg:mldsa-sign} presents the signing wrapper, which processes context strings and generates randomness before invoking the internal signing routine. Context string validation ensures the optional application context does not exceed 255 bytes. Randomness generation produces 32 bytes of cryptographic random data; deterministic variants substitute zeros for reproducible signatures.
+
+\begin{algorithm}[h]
+	\caption{ML-DSA.Sign($sk$, $M$, $ctx$)}
+	\label{alg:mldsa-sign}
+	\begin{algorithmic}[1]
+		\REQUIRE Private key $sk$, message $M \in \{0,1\}^*$, context string $ctx$ ($|ctx| \leq 255$ bytes)
+		\ENSURE Signature $\sigma$ or error indication $\bot$
+		\IF{$|ctx| > 255$}
+		\RETURN $\bot$ \COMMENT{Context string too long}
+		\ENDIF
+		\STATE $rnd \leftarrow \mathbb{B}^{32}$ \COMMENT{Random bytes; use $\{0\}^{32}$ for deterministic variant}
+		\IF{$rnd = \text{NULL}$}
+		\RETURN $\bot$ \COMMENT{Random generation failed}
+		\ENDIF
+		\STATE $M' \leftarrow \text{BytesToBits}(\text{IntegerToBytes}(0, 1) \| \text{IntegerToBytes}(|ctx|, 1) \| ctx) \| M$
+		\STATE $\sigma \leftarrow \text{ML-DSA.Sign\_internal}(sk, M', rnd)$
+		\RETURN $\sigma$
+	\end{algorithmic}
+\end{algorithm}
 
 The internal signing procedure expands the private key, computes the message representative through hashing, and enters the rejection sampling loop. Each iteration samples a masking vector $\mathbf{y}$, computes the commitment $\mathbf{w} = \mathbf{A} \cdot \mathbf{y}$, derives the challenge polynomial $c$ from the commitment hash, and evaluates the response vector $\mathbf{z} = \mathbf{y} + c \cdot \mathbf{s}_1$. The response undergoes bound checking against threshold $\gamma_1 - \beta$; rejection occurs if any coefficient exceeds this bound, restarting the iteration with fresh randomness.
+
+Figure~\ref{fig:mldsa-signing} illustrates the ML-DSA signing procedure, highlighting the rejection sampling loop and NTT operations that constitute the primary performance bottlenecks.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		% Compact style definitions for column width
+		startstop/.style={draw, rounded corners=4pt, minimum width=1.8cm, minimum height=0.5cm, fill=black!10, font=\footnotesize},
+		process/.style={draw, minimum width=2.2cm, minimum height=0.5cm, fill=white, font=\footnotesize},
+		decision/.style={draw, diamond, aspect=2.2, inner sep=0pt, fill=white, font=\footnotesize},
+		nttbox/.style={draw, minimum width=2.2cm, minimum height=0.5cm, fill=black!5, font=\footnotesize},
+		arrow/.style={-{Stealth[length=2mm]}, semithick},
+		% Uniform compact spacing
+		node distance=0.55cm,
+		]
+		% Main flow (top to bottom)
+		\node[startstop] (start) {Input: $sk$, $M$};
+		\node[process, below=of start] (expand) {Expand Key};
+		\node[process, below=of expand] (hash) {$\mu \leftarrow H(M)$};
+		\node[process, below=of hash, fill=black!8] (sample) {Sample $\mathbf{y}$};
+		\node[nttbox, below=of sample] (ntt) {NTT: $\hat{\mathbf{w}} \leftarrow \mathbf{A}\hat{\mathbf{y}}$};
+		\node[process, below=of ntt] (challenge) {$c \leftarrow H(\mathbf{w}_1, \mu)$};
+		\node[process, below=of challenge] (response) {$\mathbf{z} \leftarrow \mathbf{y} + c\mathbf{s}_1$};
+		\node[decision, below=0.6cm of response] (check) {\tiny$\|\mathbf{z}\|_\infty\!<\!\gamma_1\!-\!\beta$};
+		\node[startstop, below=0.6cm of check] (output) {Output: $\sigma$};
+
+		% Main flow arrows
+		\draw[arrow] (start) -- (expand);
+		\draw[arrow] (expand) -- (hash);
+		\draw[arrow] (hash) -- (sample);
+		\draw[arrow] (sample) -- (ntt);
+		\draw[arrow] (ntt) -- (challenge);
+		\draw[arrow] (challenge) -- (response);
+		\draw[arrow] (response) -- (check);
+		\draw[arrow] (check) -- node[right, font=\tiny] {Yes} (output);
+
+		% Rejection loop
+		\draw[arrow] (check.east) -- ++(0.6,0) node[above, font=\tiny, pos=0.5] {No} |- (sample.east);
+
+		% Annotations (compact)
+		\node[left=0.4cm of ntt, font=\tiny, align=right] {60--70\%\\cost};
+		\node[right=0.8cm of sample, font=\tiny, align=left] {4--5 iter.};
+
+	\end{tikzpicture}
+	\caption{ML-DSA signing procedure with Fiat-Shamir with Aborts. The rejection sampling loop (4--5 expected iterations) and NTT operations (60--70\% of cost) are primary performance bottlenecks.}
+	\label{fig:mldsa-signing}
+\end{figure}
 
 \subsubsection{Number Theoretic Transform Operations}
 
 The Number Theoretic Transform (NTT) dominates computational cost in ML-DSA signing, enabling efficient polynomial multiplication in the ring $R_q = \mathbb{Z}_q[X]/(X^{256} + 1)$ where $q = 8380417$. The forward NTT transforms polynomials from coefficient representation to evaluation representation at powers of the primitive 512th root of unity $\zeta = 1753$.
+
+\begin{algorithm}[h]
+	\caption{NTT($w$)}
+	\label{alg:ntt}
+	\begin{algorithmic}[1]
+		\REQUIRE Polynomial $w(X) = \sum_{j=0}^{255} w_j X^j \in R_q$
+		\ENSURE $\hat{w} = (\hat{w}[0], \ldots, \hat{w}[255]) \in T_q$
+		\FOR{$j = 0$ \TO $255$}
+		\STATE $\hat{w}[j] \leftarrow w_j$
+		\ENDFOR
+		\STATE $m \leftarrow 0$; $len \leftarrow 128$
+		\WHILE{$len \geq 1$}
+		\STATE $start \leftarrow 0$
+		\WHILE{$start < 256$}
+		\STATE $m \leftarrow m + 1$; $z \leftarrow \text{zetas}[m]$
+		\FOR{$j = start$ \TO $start + len - 1$}
+		\STATE $t \leftarrow (z \cdot \hat{w}[j + len]) \mod q$
+		\STATE $\hat{w}[j + len] \leftarrow (\hat{w}[j] - t) \mod q$
+		\STATE $\hat{w}[j] \leftarrow (\hat{w}[j] + t) \mod q$
+		\ENDFOR
+		\STATE $start \leftarrow start + 2 \cdot len$
+		\ENDWHILE
+		\STATE $len \leftarrow \lfloor len / 2 \rfloor$
+		\ENDWHILE
+		\RETURN $\hat{w}$
+	\end{algorithmic}
+\end{algorithm}
+
+The forward NTT employs the Cooley-Tukey butterfly structure through eight stages ($\log_2 256 = 8$), halving the stride length at each stage. Each butterfly operation computes paired additions and subtractions with twiddle factor multiplication, requiring modular reduction after each arithmetic operation in the reference implementation.
+
+The inverse NTT (Algorithm~\ref{alg:intt}) reverses the transformation using the Gentleman-Sande butterfly structure with negated twiddle factors. A final scaling by $f = 8347681 \equiv 256^{-1} \pmod{q}$ normalizes the output coefficients.
+
+\begin{algorithm}[h]
+	\caption{NTT$^{-1}$($\hat{w}$)}
+	\label{alg:intt}
+	\begin{algorithmic}[1]
+		\REQUIRE $\hat{w} = (\hat{w}[0], \ldots, \hat{w}[255]) \in T_q$
+		\ENSURE Polynomial $w(X) = \sum_{j=0}^{255} w_j X^j \in R_q$
+		\FOR{$j = 0$ \TO $255$}
+		\STATE $w_j \leftarrow \hat{w}[j]$
+		\ENDFOR
+		\STATE $m \leftarrow 256$; $len \leftarrow 1$
+		\WHILE{$len < 256$}
+		\STATE $start \leftarrow 0$
+		\WHILE{$start < 256$}
+		\STATE $m \leftarrow m - 1$; $z \leftarrow -\text{zetas}[m]$
+		\FOR{$j = start$ \TO $start + len - 1$}
+		\STATE $t \leftarrow w_j$
+		\STATE $w_j \leftarrow (t + w_{j+len}) \mod q$
+		\STATE $w_{j+len} \leftarrow (t - w_{j+len}) \mod q$
+		\STATE $w_{j+len} \leftarrow (z \cdot w_{j+len}) \mod q$
+		\ENDFOR
+		\STATE $start \leftarrow start + 2 \cdot len$
+		\ENDWHILE
+		\STATE $len \leftarrow 2 \cdot len$
+		\ENDWHILE
+		\FOR{$j = 0$ \TO $255$}
+		\STATE $w_j \leftarrow (f \cdot w_j) \mod q$ \COMMENT{$f = 8347681$}
+		\ENDFOR
+		\RETURN $w$
+	\end{algorithmic}
+\end{algorithm}
 
 Each NTT execution requires $256 \cdot \log_2 256 = 2048$ butterfly operations, with each butterfly involving one modular multiplication and two modular additions/subtractions. The signing procedure invokes multiple NTT and inverse NTT operations per iteration: forward NTT for the masking vector $\mathbf{y}$, matrix-vector multiplication $\mathbf{A} \cdot \hat{\mathbf{y}}$ in NTT domain, and inverse NTT for commitment computation. Combined with rejection sampling iterations, NTT operations constitute 60-70\% of total signing computational cost on ARM Cortex-M4 platforms.
 
@@ -253,20 +312,20 @@ NIST standardizes three ML-DSA parameter sets with distinct security-performance
 	\caption{ML-DSA Parameter Sets and Implementation Characteristics}
 	\label{tab:mldsa-params}
 	\begin{tabular}{lccc}
-		\toprule
+		\hline
 		\textbf{Parameter}  & \textbf{ML-DSA-44} & \textbf{ML-DSA-65} & \textbf{ML-DSA-87} \\
-		\midrule
+		\hline
 		Security Category   & 2 (AES-128)        & 3 (AES-192)        & 5 (AES-256)        \\
 		Matrix $(k,\ell)$   & $(4,4)$            & $(6,5)$            & $(8,7)$            \\
 		Private Key (bytes) & 2,560              & 4,032              & 4,896              \\
 		Public Key (bytes)  & 1,312              & 1,952              & 2,592              \\
 		Signature (bytes)   & 2,420              & 3,309              & 4,627              \\
 		Expected Iterations & 4.25               & 5.1                & 3.85               \\
-		\bottomrule
+		\hline
 	\end{tabular}
 \end{table}
 
-These parameter selections demonstrate the fundamental trade-off between quantum security strength and implementation overhead. Signature sizes increase by factors of 30-70$\times$ relative to classical ECDSA schemes, reflecting the inherent cost of lattice-based post-quantum security.
+These parameter selections demonstrate the fundamental trade-off between quantum security strength and implementation overhead. Signature sizes increase by factors of 30-70× relative to classical ECDSA schemes, reflecting the inherent cost of lattice-based post-quantum security.
 
 \subsection{MQTT Protocol and Security Integration}
 
@@ -274,11 +333,62 @@ Message Queuing Telemetry Transport (MQTT) constitutes an OASIS standard messagi
 
 MQTT specifies three Quality of Service levels affecting signature integration: QoS 0 (fire-and-forget transmission), QoS 1 (guaranteed delivery via PUBACK acknowledgments), and QoS 2 (exactly-once delivery through four-way handshake). Native security provisions include username/password authentication, TLS integration, and X.509 certificate-based mutual authentication, but lack built-in digital signature support.
 
+Figure~\ref{fig:mqtt-mldsa} illustrates the MQTT publish-subscribe architecture with ML-DSA signature integration, showing the message flow from publisher through broker to subscriber with cryptographic operations at each endpoint.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		% Style definitions - compact sizes for column width
+		device/.style={draw, rounded corners=2pt, minimum width=1.6cm, minimum height=1.1cm, fill=white, align=center, font=\footnotesize},
+		broker/.style={draw, rounded corners=2pt, minimum width=1.4cm, minimum height=1.3cm, fill=black!8, align=center, font=\footnotesize},
+		operation/.style={draw, rounded corners=1pt, minimum width=1.4cm, minimum height=0.4cm, fill=black!5, font=\tiny, align=center},
+		msgbox/.style={draw, minimum width=1.6cm, font=\tiny, align=center, inner sep=2pt},
+		arrow/.style={-{Stealth[length=2mm]}, semithick},
+		% Uniform spacing
+		node distance=0.6cm and 1.8cm,
+		]
+		% Row 1: Main components (left to right)
+		\node[device] (pub) {\textbf{Publisher}\\[-1pt]\tiny(IoT Sensor)};
+		\node[broker, right=of pub] (broker) {\textbf{Broker}\\[-1pt]\tiny(Route)};
+		\node[device, right=of broker] (sub) {\textbf{Subscriber}\\[-1pt]\tiny(Gateway)};
+
+		% Row 2: Crypto operations (below devices)
+		\node[operation, below=of pub] (sign) {Sign (657--1150\,ms)};
+		\node[operation, below=of sub] (verify) {Verify (416--717\,ms)};
+
+		% Message structure (above broker, compact)
+		\node[msgbox, above=0.8cm of broker] (msg) {%
+			\begin{tabular}{|c|}\hline
+				\tiny Payload 10--100\,B \\\hline
+				\tiny Sig.\ 2.4--4.6\,KB \\\hline
+			\end{tabular}};
+
+		% Arrows - horizontal message flow
+		\draw[arrow] (pub) -- node[above, font=\tiny] {PUBLISH} (broker);
+		\draw[arrow] (broker) -- node[above, font=\tiny] {FORWARD} (sub);
+
+		% Arrows - vertical crypto operations
+		\draw[arrow, densely dashed] (sign) -- (pub);
+		\draw[arrow, densely dashed] (sub) -- (verify);
+
+		% Key annotations (inline, minimal)
+		\node[left=0.15cm of pub, font=\tiny, align=right] {$sk$};
+		\node[right=0.15cm of sub, font=\tiny, align=left] {$pk$};
+
+		% Message flow indicators to message box
+		\draw[arrow, gray] (pub.north) |- (msg.west);
+		\draw[arrow, gray] (msg.east) -| (sub.north);
+
+	\end{tikzpicture}
+	\caption{MQTT publish-subscribe architecture with ML-DSA integration. Publishers sign sensor data, transmit signed payloads through the broker, and subscribers verify authenticity. Signatures (2.4--4.6\,KB) dominate message size relative to payloads (10--100\,B).}
+	\label{fig:mqtt-mldsa}
+\end{figure}
+
 \subsection{ML-DSA Integration Challenges and Performance Impact}
 
 ML-DSA integration within MQTT environments presents three primary implementation approaches: payload-embedded signatures (preserving compatibility but substantially increasing packet size), header extensions (requiring protocol modifications), and meta-message patterns (maintaining compliance with additional network overhead). Applications requiring non-repudiation necessitate asymmetric signatures like ML-DSA despite computational costs, while message authentication can utilize faster MACs with shared secrets.
 
-ML-DSA signatures span 2,420-4,627 bytes compared to 64 bytes for ECDSA, representing 38$\times$-72$\times$ overhead amplification. For typical IoT sensor data (10-100 bytes), signatures dominate packet composition, transforming 20-byte temperature measurements into 2.4-4.6 KB transmissions. ARM Cortex-M4 platforms require tens of milliseconds for signature generation and substantial memory resources (1.3-4.9 KB keys, tens of kilobytes working memory), creating processing bottlenecks that violate MQTT responsiveness guarantees.
+ML-DSA signatures span 2,420-4,627 bytes compared to 64 bytes for ECDSA, representing 38×-72× overhead amplification. For typical IoT sensor data (10-100 bytes), signatures dominate packet composition, transforming 20-byte temperature measurements into 2.4-4.6 KB transmissions. ARM Cortex-M4 platforms require tens of milliseconds for signature generation and substantial memory resources (1.3-4.9 KB keys, tens of kilobytes working memory), creating processing bottlenecks that violate MQTT responsiveness guarantees.
 
 Integration challenges include backward compatibility constraints, broker computational requirements, error handling extensions, processing power limitations, energy consumption escalation, and real-time constraint violations. These factors necessitate comprehensive empirical analysis to quantify performance trade-offs and inform practical deployment strategies within resource-constrained MQTT environments.
 
@@ -299,7 +409,66 @@ The hardware architecture employs ARM Cortex-M4 microcontrollers as computationa
 
 Network connectivity is provided through ESP32-WROOM-32 wireless modules interfaced via UART communication at 115,200 baud. The ESP32 modules implement IEEE 802.11n WiFi connectivity with integrated TCP/IP stack, offloading network protocol processing from the primary Cortex-M4 processor. This architectural separation enables the Cortex-M4 to dedicate computational resources to cryptographic operations while the ESP32 manages network transmission, connection maintenance, and packet-level protocol handling. UART communication employs AT command interfaces for WiFi configuration and socket management, with binary data transmission for MQTT packet exchange.
 
-Power supply architecture provides regulated 3.3V DC to both microcontroller and wireless modules through linear voltage regulators with $\pm$1\% voltage stability. For energy measurement, INA219 current sensor modules are inserted in series with VDD supply rails, enabling real-time current monitoring at 12-bit resolution with $\pm$0.8 mA precision. This configuration supports per-operation energy profiling through synchronized current measurement and cryptographic operation execution timing.
+Power supply architecture provides regulated 3.3V DC to both microcontroller and wireless modules through linear voltage regulators with ±1\% voltage stability. For energy measurement, INA219 current sensor modules are inserted in series with VDD supply rails, enabling real-time current monitoring at 12-bit resolution with ±0.8 mA precision. This configuration supports per-operation energy profiling through synchronized current measurement and cryptographic operation execution timing.
+
+Figure~\ref{fig:hardware-architecture} illustrates the hardware platform architecture, showing the separation of cryptographic computation (Cortex-M4) from network protocol handling (ESP32) with UART interconnection.
+
+% Hardware Platform Architecture Figure
+% Design principle: Use ONLY relative positioning (right=of, below=of)
+% AVOID: anchor-based offsets (e.g., "above right=-0.1cm and 0.1cm of node.south west")
+% AVOID: absolute coordinates, -| or |- with manual offsets
+% This ensures robustness when embedded in itemize, minipage, multicol, etc.
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		% Style definitions - all sizes explicit, no implicit positioning
+		mcu/.style={draw, rounded corners=2pt, minimum width=2.6cm, minimum height=1.8cm, fill=black!5, align=center, font=\footnotesize},
+		module/.style={draw, rounded corners=2pt, minimum width=2.0cm, minimum height=1.4cm, fill=white, align=center, font=\footnotesize},
+		peripheral/.style={draw, rounded corners=1pt, minimum width=1.4cm, minimum height=0.6cm, fill=black!3, font=\tiny, align=center},
+		label/.style={font=\tiny, align=center},
+		arrow/.style={-{Stealth[length=2mm]}, semithick},
+		bidir/.style={{Stealth[length=2mm]}-{Stealth[length=2mm]}, semithick},
+		% Uniform node distance for predictable layout
+		node distance=0.6cm and 1.6cm,
+		]
+		% === ROW 1: Function labels (top) ===
+		\node[label] (lbl-crypto) {Crypto Operations\\ML-DSA Sign/Verify};
+		\node[label, right=2.8cm of lbl-crypto] (lbl-network) {Network Protocol\\MQTT Transport};
+
+		% === ROW 2: Main components ===
+		\node[mcu, below=of lbl-crypto] (stm32) {%
+			\textbf{STM32F407VG}\\[-1pt]
+			\tiny ARM Cortex-M4F\\[-1pt]
+			\tiny 168\,MHz\\[2pt]
+			\tiny 1\,MB Flash\\[-1pt]
+			\tiny 192\,KB SRAM};
+		\node[module, below=of lbl-network] (esp32) {%
+			\textbf{ESP32}\\[-1pt]
+			\tiny WiFi 802.11n\\[-1pt]
+			\tiny TCP/IP Stack};
+
+		% === ROW 3: Supporting components ===
+		\node[peripheral, left=of stm32] (sensors) {Sensors\\(ADC/I2C)};
+		\node[peripheral, right=of esp32] (network) {WiFi\\Network};
+
+		% === ROW 4: Power subsystem ===
+		\node[peripheral, below=of stm32] (power) {3.3V Regulator};
+		\node[peripheral, below=of esp32] (ina219) {INA219 Current};
+
+		% === Connections: horizontal data flow ===
+		\draw[arrow] (sensors) -- (stm32);
+		\draw[bidir] (stm32) -- node[above, font=\tiny] {UART} node[below, font=\tiny] {115.2k} (esp32);
+		\draw[arrow] (esp32) -- (network);
+
+		% === Connections: vertical power flow (use node anchors, not calc) ===
+		\draw[arrow, gray, densely dashed] (power) -- (stm32);
+		\draw[arrow, gray, densely dashed] (ina219) -- (esp32);
+		\draw[bidir, gray, densely dotted] (power) -- (ina219);
+
+	\end{tikzpicture}
+	\caption{Hardware platform architecture with ARM Cortex-M4 microcontroller (STM32F407VG) for cryptographic computation and ESP32 wireless module for network protocol handling. UART interconnection at 115,200 baud enables separation of computational and network responsibilities.}
+	\label{fig:hardware-architecture}
+\end{figure}
 
 \subsection{Software Architecture and Integration Layers}
 
@@ -310,6 +479,59 @@ The cryptographic layer implements ML-DSA operations derived from the pqm4 refer
 The MQTT protocol layer employs the Eclipse Paho MQTT Embedded C client library configured for embedded constraints. The client implementation supports MQTT 3.1.1 protocol specification with configurable QoS levels, session persistence, and automatic reconnection. Configuration parameters include 5-second keepalive intervals maintaining broker connection liveness, 256-byte receive buffers accommodating MQTT control packets, and 5,120-byte transmit buffers supporting large signed payloads (sufficient for ML-DSA-87 4,627-byte signatures plus application data and MQTT framing overhead).
 
 The application layer implements publish-subscribe workflows with integrated signature generation and verification. Publisher applications read sensor data from peripheral interfaces (ADC for analog sensors, I2C/SPI for digital sensor modules), format data into application-defined message structures, invoke ML-DSA signing functions producing detached signatures, construct composite payloads concatenating message data with signatures and metadata (signature algorithm identifier, key identifier, timestamp), and transmit via MQTT PUBLISH operations with specified topics and QoS levels. Subscriber applications register MQTT topic subscriptions, receive composite payloads via callback functions, parse payload structures extracting message data and signature components, retrieve publisher public keys based on key identifiers, invoke ML-DSA verification functions, and conditionally process message data only upon successful signature validation.
+
+Figure~\ref{fig:software-stack} illustrates the layered software architecture with clear separation between hardware abstraction, operating system, cryptographic operations, protocol handling, and application logic.
+
+% Software Architecture Stack Figure
+% Design principle: Use matrix or simple vertical stacking with "below=of"
+% AVOID: anchor-based positioning (e.g., "below left=0.0cm and -0.25cm of app.south")
+% AVOID: xshift/yshift modifiers on path coordinates
+% For side-by-side sublayers, use explicit "right=0cm of" chaining
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		% Style definitions for layered stack
+		layer/.style={draw, minimum width=6.2cm, minimum height=0.7cm, font=\footnotesize, align=center},
+		sublayer/.style={draw, minimum width=3.0cm, minimum height=0.7cm, font=\tiny, align=center},
+		label/.style={font=\tiny, align=center},
+		arrow/.style={-{Stealth[length=2mm]}, semithick, gray},
+		% Small vertical gap between layers
+		node distance=0.0cm,
+		]
+		% === Layer 1: Application (top) ===
+		\node[layer, fill=white] (app) {\textbf{Application Layer}\\[-2pt]\tiny Publish/Subscribe Workflows, Sensor Data Processing};
+
+		% === Layer 2: Protocol + Crypto (side by side) ===
+		% Use a container approach: place left sublayer, then right sublayer relative to it
+		\node[sublayer, fill=black!5, below=of app.south west, anchor=north west] (mqtt) {%
+			\textbf{MQTT Client}\\[-1pt]Paho Embedded C\\QoS 0/1/2};
+		\node[sublayer, fill=black!5, right=0.2cm of mqtt] (crypto) {%
+			\textbf{ML-DSA Crypto}\\[-1pt]pqm4 Library\\Sign/Verify/KeyGen};
+
+		% === Layer 3: RTOS ===
+		\node[layer, fill=black!3, below=of mqtt.south west, anchor=north west] (rtos) {%
+			\textbf{FreeRTOS}\\[-2pt]\tiny Task Scheduling, Queues, Synchronization};
+
+		% === Layer 4: HAL ===
+		\node[layer, fill=black!8, below=of rtos] (hal) {%
+			\textbf{ARM Cortex-M4 HAL}\\[-2pt]\tiny Peripheral Access, Clock Config, Interrupts};
+
+		% === Layer 5: Hardware (bottom) ===
+		\node[layer, fill=black!12, below=of hal] (hw) {%
+			\textbf{Hardware}\\[-2pt]\tiny STM32F407VG (168\,MHz, 1\,MB Flash, 192\,KB SRAM)};
+
+		% === Side labels (use simple left/right positioning) ===
+		\node[label, left=0.2cm of mqtt] {Network\\API};
+		\node[label, right=0.2cm of crypto] {Crypto\\API};
+
+		% === Arrows: use node centers, not coordinate offsets ===
+		\draw[arrow] (app) -- (mqtt);
+		\draw[arrow] (app) -- (crypto);
+
+	\end{tikzpicture}
+	\caption{Layered software architecture separating application logic, protocol handling (MQTT), cryptographic operations (ML-DSA), real-time operating system (FreeRTOS), and hardware abstraction (HAL). This modular design enables independent optimization of cryptographic and network components.}
+	\label{fig:software-stack}
+\end{figure}
 
 \subsection{Cryptographic Optimization Implementation}
 
@@ -329,6 +551,183 @@ Key architectural features exploited for NTT optimization include:
 
 \textbf{Load/Store Multiple}: The \texttt{LDM} and \texttt{STM} instructions transfer multiple registers in single operations, reducing memory access overhead for coefficient array loading. Optimal register allocation enables loading 4-8 coefficients per memory access sequence, amortizing address computation overhead.
 
+\subsubsection{NTT Butterfly Operation Optimization}
+
+The NTT butterfly constitutes the fundamental computational primitive, executed 2048 times per 256-point transform ($n \log_2 n = 256 \times 8$). Each Cooley-Tukey butterfly computes:
+\begin{align}
+	a' & \leftarrow a + t \cdot \zeta \bmod q \\
+	b' & \leftarrow a - t \cdot \zeta \bmod q
+\end{align}
+where $a$, $b$ denote input coefficients, $\zeta$ represents the twiddle factor (precomputed power of primitive root), and $q = 8380417$ is the ML-DSA modulus.
+
+Reference C implementations compile to suboptimal instruction sequences due to compiler limitations in exploiting Cortex-M4 architectural features. Algorithm~\ref{alg:butterfly-c} presents the reference butterfly structure requiring explicit modular reduction after each arithmetic operation.
+
+\begin{algorithm}[h]
+	\caption{Reference NTT Butterfly (C Implementation)}
+	\label{alg:butterfly-c}
+	\begin{algorithmic}[1]
+		\REQUIRE Coefficients $a$, $b \in [0, q)$; twiddle factor $\zeta \in [0, q)$
+		\ENSURE Updated coefficients $a'$, $b' \in [0, q)$
+		\STATE $t \leftarrow (b \cdot \zeta) \mod q$ \COMMENT{Modular multiplication}
+		\STATE $a' \leftarrow (a + t) \mod q$ \COMMENT{Modular addition}
+		\STATE $b' \leftarrow (a - t + q) \mod q$ \COMMENT{Modular subtraction}
+		\RETURN $(a', b')$
+	\end{algorithmic}
+\end{algorithm}
+
+The optimized assembly implementation restructures computation to exploit instruction-level parallelism and eliminate redundant operations. Algorithm~\ref{alg:butterfly-asm} presents the optimized butterfly with Montgomery multiplication integration and lazy reduction.
+
+\begin{algorithm}[h]
+	\caption{Optimized NTT Butterfly (ARM Cortex-M4 Assembly)}
+	\label{alg:butterfly-asm}
+	\begin{algorithmic}[1]
+		\REQUIRE Coefficients $a$, $b$ in Montgomery domain; twiddle $\zeta'$ (Montgomery form)
+		\ENSURE Updated coefficients $a'$, $b'$ in Montgomery domain
+		\STATE \texttt{UMULL tmp\_lo, tmp\_hi, b, zeta} \COMMENT{64-bit product $b \cdot \zeta'$}
+		\STATE \texttt{MUL tmp, tmp\_lo, qinv} \COMMENT{Montgomery quotient: $m = t_{\text{lo}} \cdot q^{-1} \mod 2^{32}$}
+		\STATE \texttt{UMLAL tmp\_lo, tmp\_hi, tmp, q} \COMMENT{$t + m \cdot q$}
+		\STATE $t \leftarrow$ \texttt{tmp\_hi} \COMMENT{Montgomery reduction result}
+		\STATE \texttt{ADD a', a, t} \COMMENT{$a' = a + t$ (lazy reduction)}
+		\STATE \texttt{SUB b', a, t} \COMMENT{$b' = a - t$ (may be negative)}
+		\STATE \texttt{IT MI; ADD b', b', q} \COMMENT{Conditional correction if negative}
+		\RETURN $(a', b')$
+	\end{algorithmic}
+\end{algorithm}
+
+The assembly implementation achieves 7 cycles per butterfly operation compared to 18-22 cycles for compiled C code, representing 61-68\% latency reduction through three optimization mechanisms: Montgomery multiplication eliminates explicit division-based reduction, lazy reduction defers final bounds correction, and conditional execution replaces branch instructions.
+
+\subsubsection{Montgomery Multiplication for NTT}
+
+Montgomery multiplication provides efficient modular arithmetic by transforming operands into Montgomery domain where reduction employs multiplication rather than division. For modulus $q = 8380417$ and Montgomery radix $R = 2^{32}$, the Montgomery representation of integer $a$ is $\tilde{a} = a \cdot R \mod q$.
+
+The Montgomery reduction algorithm computes $\text{REDC}(T) = T \cdot R^{-1} \mod q$ for 64-bit input $T$ through the following sequence:
+\begin{align}
+	m              & \leftarrow (T \mod R) \cdot q^{-1} \mod R                                             \\
+	t              & \leftarrow (T + m \cdot q) / R                                                        \\
+	\text{REDC}(T) & \leftarrow \begin{cases} t & \text{if } t < q \\ t - q & \text{otherwise} \end{cases}
+\end{align}
+
+For ML-DSA parameters, the Montgomery constant $q^{-1} \mod 2^{32} = 4236238847$ is precomputed. The division by $R = 2^{32}$ reduces to extracting the high 32 bits of the 64-bit intermediate result, implementable via register selection without explicit shift operations.
+
+Algorithm~\ref{alg:montgomery-asm} presents the ARM Cortex-M4 assembly implementation of Montgomery multiplication achieving 4-cycle latency.
+
+\begin{algorithm}[h]
+	\caption{Montgomery Multiplication (ARM Cortex-M4)}
+	\label{alg:montgomery-asm}
+	\begin{algorithmic}[1]
+		\REQUIRE Operands $\tilde{a}$, $\tilde{b}$ in Montgomery domain
+		\ENSURE Product $\widetilde{ab} = a \cdot b \cdot R \mod q$ in Montgomery domain
+		\STATE \texttt{UMULL lo, hi, a, b} \COMMENT{$T = \tilde{a} \cdot \tilde{b}$, 1 cycle}
+		\STATE \texttt{MUL m, lo, qinv} \COMMENT{$m = T_{\text{lo}} \cdot q^{-1} \mod 2^{32}$, 1 cycle}
+		\STATE \texttt{UMLAL lo, hi, m, q} \COMMENT{$T' = T + m \cdot q$, 1 cycle}
+		\STATE \texttt{MOV result, hi} \COMMENT{$t = T' / 2^{32}$, 1 cycle}
+		\RETURN \texttt{result} \COMMENT{Lazy reduction: $t \in [0, 2q)$}
+	\end{algorithmic}
+\end{algorithm}
+
+Montgomery multiplication within NTT requires domain conversion at transform boundaries. Input coefficients undergo forward conversion $\tilde{a} \leftarrow a \cdot R^2 \mod q$ before NTT computation, while output coefficients require inverse conversion $a \leftarrow \tilde{a} \cdot 1 \mod q$ (Montgomery reduction with multiplier 1). The conversion overhead of 512 Montgomery multiplications per transform (256 forward, 256 inverse) is amortized across 2048 butterfly operations, yielding net performance improvement of 35-42\% relative to Barrett-based implementations.
+
+Twiddle factors are precomputed and stored in Montgomery representation, eliminating per-butterfly conversion overhead. The twiddle table occupies 1024 bytes (256 entries $\times$ 4 bytes) for forward NTT and 1024 bytes for inverse NTT, totaling 2 KB Flash storage. This precomputation eliminates 2048 Montgomery conversions per transform, reducing NTT latency by approximately 8,000 cycles.
+
+\subsubsection{Register Allocation Strategy}
+
+Optimal register allocation proves critical for NTT performance, as memory access latency (2-3 cycles for SRAM) dominates computation time when registers are exhausted. The 13 available general-purpose registers constrain simultaneous coefficient retention, necessitating careful allocation balancing coefficient storage against arithmetic temporaries.
+
+The implemented register allocation strategy partitions registers as follows:
+
+\begin{itemize}
+	\item \textbf{Coefficient registers} (R0-R7): Eight registers store butterfly input/output coefficients, enabling processing of four butterflies (8 coefficients) per inner loop iteration without memory access.
+
+	\item \textbf{Twiddle factor register} (R8): Single register holds current twiddle factor, reloaded at each NTT stage boundary (8 reloads per transform).
+
+	\item \textbf{Constant registers} (R9-R10): Two registers permanently hold Montgomery constant $q^{-1}$ and modulus $q$, eliminating repeated memory loads for reduction operations.
+
+	\item \textbf{Address registers} (R11-R12): Two registers maintain coefficient array pointers with post-increment addressing, enabling efficient sequential access patterns.
+
+	\item \textbf{Temporary registers}: Arithmetic temporaries reuse coefficient registers between load and store phases, exploiting instruction scheduling to overlap computation with memory access.
+\end{itemize}
+
+This allocation enables processing of 4 butterflies (8 coefficient updates) per inner loop iteration with only 2 memory load operations (twiddle factor, next coefficient block) and 2 store operations (updated coefficients). The resulting memory access pattern achieves 0.5 loads and 0.5 stores per butterfly, compared to 3 loads and 2 stores per butterfly in naive implementations.
+
+\subsubsection{Loop Unrolling and Instruction Scheduling}
+
+Loop unrolling reduces control flow overhead and enables instruction-level parallelism exploitation. The NTT inner loop is unrolled by factor of 4, processing four butterflies per iteration. This unrolling factor balances code size expansion (4$\times$ increase in loop body) against overhead reduction (75\% reduction in loop control instructions).
+
+Algorithm~\ref{alg:ntt-unrolled} presents the unrolled NTT inner loop structure with interleaved memory access and computation.
+
+\begin{algorithm}[h]
+	\caption{Unrolled NTT Inner Loop (4$\times$ Unrolling)}
+	\label{alg:ntt-unrolled}
+	\begin{algorithmic}[1]
+		\REQUIRE Coefficient array $w[0..255]$; twiddle array $\zeta[0..255]$; stage parameters
+		\ENSURE Transformed coefficients in-place
+		\FOR{$j = 0$ \TO $n/8 - 1$}
+		\STATE \texttt{LDM coef\_ptr!, \{r0-r7\}} \COMMENT{Load 8 coefficients}
+		\STATE \texttt{LDR zeta, [zeta\_ptr], \#4} \COMMENT{Load twiddle factor}
+		\STATE \COMMENT{--- Butterfly 0: (r0, r4) ---}
+		\STATE \texttt{UMULL lo, hi, r4, zeta}
+		\STATE \texttt{MUL m, lo, qinv}
+		\STATE \texttt{UMLAL lo, hi, m, q}
+		\STATE \texttt{ADD r4, r0, hi}
+		\STATE \texttt{SUB r0, r0, hi}
+		\STATE \COMMENT{--- Butterfly 1: (r1, r5) --- (interleaved)}
+		\STATE \texttt{UMULL lo, hi, r5, zeta}
+		\STATE \texttt{IT MI; ADD r0, r0, q} \COMMENT{Deferred correction for butterfly 0}
+		\STATE \texttt{MUL m, lo, qinv}
+		\STATE \texttt{UMLAL lo, hi, m, q}
+		\STATE \texttt{ADD r5, r1, hi}
+		\STATE \texttt{SUB r1, r1, hi}
+		\STATE \COMMENT{--- Butterflies 2-3 similar (omitted for brevity) ---}
+		\STATE \texttt{STM coef\_ptr!, \{r0-r7\}} \COMMENT{Store 8 coefficients}
+		\ENDFOR
+	\end{algorithmic}
+\end{algorithm}
+
+Instruction scheduling interleaves independent operations to hide pipeline latencies. The \texttt{UMULL} instruction exhibits 1-cycle latency but consumes the multiplier for the full cycle; scheduling independent ALU operations (additions, conditional corrections from previous butterflies) during multiplication cycles achieves effective parallelism. The implemented schedule achieves 7.2 cycles per butterfly averaged across the unrolled loop body, compared to 9.1 cycles for non-interleaved sequential execution.
+
+\subsubsection{Lazy Modular Reduction}
+
+Modular reduction operations constitute 35-40\% of NTT computational cost in reference implementations employing per-operation reduction maintaining coefficients within $[0, q)$ bounds. Lazy reduction defers modular reduction across multiple arithmetic operations, maintaining intermediate values within relaxed bounds $[0, 2q)$ or $[0, 4q)$ depending on operation sequence depth.
+
+The implementation analyzes ML-DSA arithmetic to establish safe lazy reduction chains. NTT butterfly operations performing $a + t$ and $a - t$ with inputs bounded by $2q - 1$ yield outputs bounded by $4q - 2 < 2^{25}$, well within 32-bit representation capacity. For ML-DSA modulus $q = 8380417 < 2^{23}$, coefficients remain representable through sequences of 4 consecutive additions without reduction.
+
+The lazy reduction strategy operates as follows:
+
+\textbf{Intra-butterfly reduction}: Montgomery multiplication inherently produces outputs in $[0, 2q)$; subsequent addition yields $[0, 3q)$ and subtraction yields $(-2q, 2q)$. Conditional correction for negative values employs single \texttt{IT MI; ADD} sequence (2 cycles) rather than full modular reduction (4-5 cycles).
+
+\textbf{Inter-stage reduction}: Full reduction to $[0, q)$ occurs only at NTT stage boundaries (8 stages total), amortizing reduction cost across 32 butterflies per stage. Each inter-stage reduction employs comparison and conditional subtraction: \texttt{CMP r, q; IT GE; SUB r, r, q}, requiring 3 cycles per coefficient.
+
+\textbf{Final reduction}: Complete reduction to canonical $[0, q)$ representation occurs once after transform completion, ensuring output compatibility with subsequent operations (polynomial addition, signature encoding).
+
+Implementation achieves 18-23\% NTT latency reduction through lazy reduction strategies relative to per-operation reduction baselines. The reduction frequency decreases from 4096 reductions per transform (2 per butterfly $\times$ 2048 butterflies) to 768 reductions (256 per stage boundary $\times$ 3 critical stages), representing 81\% reduction operation elimination.
+
+\subsubsection{Barrett Reduction for Non-Montgomery Operations}
+
+Barrett reduction provides efficient modular arithmetic for operations outside Montgomery domain, particularly polynomial coefficient sampling and signature encoding where Montgomery conversion overhead exceeds direct reduction cost.
+
+Division-based modular reduction ($a \bmod q$ computed via $a - q \lfloor a/q \rfloor$) incurs substantial overhead on ARM Cortex-M4 lacking hardware integer division, requiring 12-18 cycle software division implementations. Barrett reduction replaces division with multiplication-shift sequences achieving equivalent results with 5-7 cycle latency.
+
+Barrett reduction precomputes $\mu = \lfloor 2^{48} / q \rfloor$ for ML-DSA modulus $q = 8380417$, yielding $\mu = 33554431$. Reduction of 32-bit value $a$ proceeds through:
+\begin{align}
+	\hat{q} & \leftarrow \lfloor (a \cdot \mu) / 2^{48} \rfloor                                     \\
+	r       & \leftarrow a - \hat{q} \cdot q                                                        \\
+	r'      & \leftarrow \begin{cases} r & \text{if } r < q \\ r - q & \text{otherwise} \end{cases}
+\end{align}
+
+ARM Cortex-M4 implementation utilizes \texttt{UMULL} for $(a \cdot \mu)$ multiplication, extracting high 32 bits via register selection as approximate quotient (equivalent to division by $2^{32}$, requiring additional 16-bit right shift for full $2^{48}$ division). The implementation:
+
+\begin{verbatim}
+    UMULL lo, hi, a, mu      @ hi:lo = a * mu
+    LSR   hi, hi, #16        @ q_hat = (a * mu) >> 48
+    MUL   tmp, hi, q         @ tmp = q_hat * q
+    SUB   r, a, tmp          @ r = a - q_hat * q
+    CMP   r, q               @ compare with modulus
+    IT    GE
+    SUBGE r, r, q            @ conditional correction
+\end{verbatim}
+
+This sequence requires 6 cycles compared to 12-18 cycles for software division, achieving 50-67\% reduction overhead improvement. Barrett reduction is employed for coefficient sampling from SHAKE-128 output streams, rejection sampling bound checking, and signature component encoding, while Montgomery multiplication handles NTT-domain polynomial arithmetic.
+
 \subsubsection{Performance Optimization Summary}
 
 Table~\ref{tab:ntt-optimization} summarizes cycle count improvements achieved through each optimization technique on ARM Cortex-M4 at 168 MHz.
@@ -338,22 +737,24 @@ Table~\ref{tab:ntt-optimization} summarizes cycle count improvements achieved th
 	\caption{NTT Optimization Technique Performance Impact}
 	\label{tab:ntt-optimization}
 	\begin{tabular}{lccc}
-		\toprule
-		\textbf{Optimization}      & \textbf{Cycles/NTT} & \textbf{Reduct.} & \textbf{Cumul.} \\
-		\midrule
-		Reference C (baseline)     & 320,000             & ---              & ---             \\
-		Assembly butterfly         & 248,000             & 22.5\%           & 22.5\%          \\
-		Montgomery mult.           & 198,000             & 20.2\%           & 38.1\%          \\
-		Lazy reduction             & 172,000             & 13.1\%           & 46.3\%          \\
-		Loop unrolling (4$\times$) & 156,000             & 9.3\%            & 51.3\%          \\
-		Instruction scheduling     & 148,000             & 5.1\%            & 53.8\%          \\
-		\midrule
-		\textbf{Optimized total}   & \textbf{148,000}    & ---              & \textbf{53.8\%} \\
-		\bottomrule
+		\hline
+		\textbf{Optimization}      & \textbf{Cycles/NTT} & \textbf{Reduction} & \textbf{Cumulative} \\
+		\hline
+		Reference C (baseline)     & 320,000             & ---                & ---                 \\
+		Assembly butterfly         & 248,000             & 22.5\%             & 22.5\%              \\
+		Montgomery multiplication  & 198,000             & 20.2\%             & 38.1\%              \\
+		Lazy reduction             & 172,000             & 13.1\%             & 46.3\%              \\
+		Loop unrolling (4$\times$) & 156,000             & 9.3\%              & 51.3\%              \\
+		Instruction scheduling     & 148,000             & 5.1\%              & 53.8\%              \\
+		\hline
+		\textbf{Optimized total}   & \textbf{148,000}    & ---                & \textbf{53.8\%}     \\
+		\hline
 	\end{tabular}
 \end{table}
 
 Combined optimization techniques achieve 53.8\% NTT latency reduction relative to reference C implementations. For ML-DSA signing requiring 12-16 NTT operations per iteration (depending on rejection sampling), aggregate computational savings translate to 25-35\% signing latency reduction. Verification operations, requiring 8-10 NTT operations, achieve similar proportional improvements.
+
+The optimization techniques exhibit interdependencies affecting implementation order. Montgomery multiplication requires twiddle factor precomputation in Montgomery domain; lazy reduction depends on Montgomery output bounds analysis; instruction scheduling effectiveness varies with unrolling factor. The implemented optimization sequence follows dependency ordering: (1) Montgomery domain conversion infrastructure, (2) twiddle factor precomputation, (3) assembly butterfly with Montgomery multiplication, (4) lazy reduction integration, (5) loop unrolling, (6) instruction schedule refinement.
 
 
 \subsection{Message Format and Signature Integration}
@@ -361,6 +762,58 @@ Combined optimization techniques achieve 53.8\% NTT latency reduction relative t
 Signature integration employs payload-embedded architecture maintaining backward compatibility with standard MQTT brokers. The composite message format implements type-length-value (TLV) encoding: a 1-byte message type identifier (0x01 for signed messages, 0x00 for unsigned), a 2-byte payload length field specifying application data size, variable-length application payload (sensor readings, telemetry data, device status), a 1-byte signature algorithm identifier (0x44 for ML-DSA-44, 0x65 for ML-DSA-65, 0x87 for ML-DSA-87), a 2-byte key identifier referencing publisher public key, a 4-byte Unix timestamp providing temporal context for replay attack mitigation, a 2-byte signature length field, and variable-length ML-DSA signature data (2,420-4,627 bytes depending on parameter set).
 
 This format enables subscribers to parse messages without prior knowledge of signature algorithms through self-describing metadata fields. Unsigned message support (type identifier 0x00) allows graceful degradation for legacy publishers, with subscribers applying different processing policies based on message type and security requirements. The TLV structure accommodates future cryptographic algorithm upgrades through algorithm identifier extension without protocol-level modifications.
+
+Figure~\ref{fig:message-format} illustrates the composite message format with TLV-encoded fields, showing the relative sizes of metadata, payload, and signature components.
+
+% Message Format Figure
+% Design principle: Use simple horizontal chain with "right=of"
+% AVOID: yshift/xshift on coordinates (breaks in nested environments)
+% For annotations, use separate rows with "above=of" or "below=of"
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		% Style definitions
+		field/.style={draw, minimum height=0.7cm, font=\tiny, align=center, fill=white},
+		sigfield/.style={draw, minimum height=0.7cm, font=\tiny, align=center, fill=black!8},
+		grouplabel/.style={font=\tiny, align=center},
+		arrow/.style={-{Stealth[length=1.5mm]}, thin},
+		brace/.style={decorate, decoration={brace, amplitude=3pt, mirror}},
+		% No gap between fields
+		node distance=0.0cm,
+		]
+		% === ROW 1: Top labels ===
+		% Place a spanning label node first, then position fields below
+
+		% === ROW 2: Message fields (horizontal chain) ===
+		\node[field, minimum width=0.6cm] (type) {Type\\1B};
+		\node[field, minimum width=0.8cm, right=of type] (plen) {Len\\2B};
+		\node[field, minimum width=1.6cm, right=of plen, fill=black!3] (payload) {Payload\\10--100\,B};
+		\node[field, minimum width=0.6cm, right=of payload] (alg) {Alg\\1B};
+		\node[field, minimum width=0.7cm, right=of alg] (keyid) {Key\\2B};
+		\node[field, minimum width=0.8cm, right=of keyid] (ts) {Time\\4B};
+		\node[field, minimum width=0.7cm, right=of ts] (siglen) {Len\\2B};
+		\node[sigfield, minimum width=2.0cm, right=of siglen] (sig) {\textbf{Signature}\\2.4--4.6\,KB};
+
+		% === ROW 3: Group labels below (use fit or manual positioning) ===
+		% Header brace
+		\draw[brace] (type.south west) -- node[below=0.15cm, grouplabel] {Header} (plen.south east);
+		% Metadata brace
+		\draw[brace] (alg.south west) -- node[below=0.15cm, grouplabel] {Sig.\ Metadata} (siglen.south east);
+
+		% === ROW 0: Top annotations ===
+		\node[grouplabel, above=0.25cm of payload] {Data};
+		\node[grouplabel, above=0.25cm of sig] {Dominates size};
+
+		% === Total size spanning indicator ===
+		% Use a simple node above the entire structure
+		\node[grouplabel, above=0.6cm of alg] (total) {Total message: 2.4--4.7\,KB};
+		\draw[thin, gray] (type.north) -- (total.south west);
+		\draw[thin, gray] (sig.north) -- (total.south east);
+
+	\end{tikzpicture}
+	\caption{Composite MQTT message format with TLV encoding. Fixed-size header (3 bytes) and signature metadata (9 bytes) frame the variable-length payload and ML-DSA signature. Signature data (2,420--4,627 bytes) dominates total message size for typical IoT payloads (10--100 bytes).}
+	\label{fig:message-format}
+\end{figure}
 
 \subsection{Key Management Architecture}
 
@@ -372,7 +825,7 @@ Key rotation procedures accommodate long-term deployments requiring periodic key
 
 \subsection{Error Handling and Fault Recovery}
 
-Error handling addresses failure modes specific to post-quantum signature operations in resource-constrained environments. Signature generation failures arising from insufficient memory trigger graceful degradation: publishers attempt signature generation with progressively lower security parameter sets (ML-DSA-87 $\rightarrow$ ML-DSA-65 $\rightarrow$ ML-DSA-44) until successful completion or exhaustion of alternatives, with algorithm identifier fields indicating achieved security level. Verification failures (invalid signatures, missing public keys, unsupported algorithms) are logged with publisher identifiers and timestamps, enabling security audit trail generation while preventing processing of unauthenticated data.
+Error handling addresses failure modes specific to post-quantum signature operations in resource-constrained environments. Signature generation failures arising from insufficient memory trigger graceful degradation: publishers attempt signature generation with progressively lower security parameter sets (ML-DSA-87 → ML-DSA-65 → ML-DSA-44) until successful completion or exhaustion of alternatives, with algorithm identifier fields indicating achieved security level. Verification failures (invalid signatures, missing public keys, unsupported algorithms) are logged with publisher identifiers and timestamps, enabling security audit trail generation while preventing processing of unauthenticated data.
 
 Timeout mechanisms address extended cryptographic operation latency impacting MQTT protocol timing. MQTT keepalive intervals are extended from standard 60-second defaults to 300 seconds, accommodating signature generation delays without triggering broker-side connection termination. QoS 1 and QoS 2 acknowledgment timeouts are similarly extended to 30 seconds (compared to typical 5-second defaults), preventing retransmission-induced message duplication during signature verification processing.
 
@@ -403,14 +856,14 @@ The protocol defines four message criticality levels with corresponding minimum 
 	\caption{Message Criticality Classification and Security Requirements}
 	\label{tab:criticality}
 	\begin{tabular}{llcc}
-		\toprule
-		\textbf{Level} & \textbf{Message Types}     & \textbf{Min.} & \textbf{Default} \\
-		\midrule
-		Critical       & Firmware, credentials      & ML-DSA-87     & ML-DSA-87        \\
-		High           & Alerts, config., commands  & ML-DSA-65     & ML-DSA-87        \\
-		Medium         & Aggregated data, status    & ML-DSA-44     & ML-DSA-65        \\
-		Low            & Telemetry, heartbeats      & ML-DSA-44     & ML-DSA-44        \\
-		\bottomrule
+		\hline
+		\textbf{Level} & \textbf{Message Types}          & \textbf{Min. Security} & \textbf{Default} \\
+		\hline
+		Critical       & Firmware, credentials, keys     & ML-DSA-87              & ML-DSA-87        \\
+		High           & Alerts, configuration, commands & ML-DSA-65              & ML-DSA-87        \\
+		Medium         & Aggregated data, status reports & ML-DSA-44              & ML-DSA-65        \\
+		Low            & Routine telemetry, heartbeats   & ML-DSA-44              & ML-DSA-44        \\
+		\hline
 	\end{tabular}
 \end{table}
 
@@ -434,9 +887,78 @@ The composite resource score $R$ combines these dimensions:
 \end{equation}
 where weighting coefficients $\alpha$, $\beta$, $\gamma$ are deployment-specific parameters summing to 1. Default configuration employs $\alpha = 0.5$, $\beta = 0.3$, $\gamma = 0.2$, prioritizing energy conservation for battery-powered deployments. Mains-powered deployments may employ $\alpha = 0.1$, $\beta = 0.6$, $\gamma = 0.3$, prioritizing memory availability.
 
+\subsection{Adaptive Selection Algorithm}
+
+Algorithm~\ref{alg:adaptive-select} presents the adaptive security level selection procedure invoked prior to each signature generation operation.
+
+\begin{algorithm}[h]
+	\caption{Adaptive-ML-DSA-Select($msg$, $topic$, $state$)}
+	\label{alg:adaptive-select}
+	\begin{algorithmic}[1]
+		\REQUIRE Message $msg$, MQTT topic $topic$, device state $state = (E, M, T)$
+		\ENSURE Selected parameter set $param \in \{44, 65, 87\}$
+		\STATE $C \leftarrow \text{GetCriticality}(topic)$ \COMMENT{Lookup criticality from topic}
+		\STATE $(min\_level, default\_level) \leftarrow \text{SecurityPolicy}[C]$
+		\STATE $R \leftarrow \alpha \cdot E + \beta \cdot M + \gamma \cdot (1 - T)$ \COMMENT{Resource score}
+		\IF{$C = \text{CRITICAL}$}
+		\RETURN $87$ \COMMENT{Critical messages always use ML-DSA-87}
+		\ENDIF
+		\IF{$R \geq 0.7$}
+		\STATE $selected \leftarrow default\_level$ \COMMENT{Sufficient resources}
+		\ELSIF{$R \geq 0.4$}
+		\STATE $selected \leftarrow \max(min\_level, default\_level - 1)$ \COMMENT{Moderate resources}
+		\ELSE
+		\STATE $selected \leftarrow min\_level$ \COMMENT{Constrained resources}
+		\ENDIF
+		\IF{$M < 0.27$ \AND $selected > 44$}
+		\STATE $selected \leftarrow 44$ \COMMENT{Memory constraint override}
+		\ELSIF{$M < 0.53$ \AND $selected > 65$}
+		\STATE $selected \leftarrow 65$ \COMMENT{Memory constraint override}
+		\ENDIF
+		\RETURN $selected$
+	\end{algorithmic}
+\end{algorithm}
+
+The algorithm first retrieves message criticality from the MQTT topic hierarchy and looks up the corresponding minimum and default security levels. The resource score $R$ is computed from current device state. Critical messages bypass resource-based selection, always employing ML-DSA-87. For non-critical messages, resource score thresholds determine parameter selection: high resource availability ($R \geq 0.7$) permits default security levels, moderate availability ($0.4 \leq R < 0.7$) triggers one-level downgrade (respecting minimums), and low availability ($R < 0.4$) selects minimum security levels. Memory constraints impose hard overrides regardless of other factors, as insufficient memory prevents algorithm execution.
+
 \subsection{Protocol Integration with MQTT}
 
-The adaptive protocol integrates with MQTT publish operations through a wrapper function intercepting signature generation requests. The protocol overhead comprises topic string parsing for criticality lookup (12--18 $\mu$s), resource state sampling from hardware registers (8--15 $\mu$s), and selection algorithm execution (3--5 $\mu$s), totaling 23--38 $\mu$s per message. This overhead represents less than 0.006\% of ML-DSA-44 signing latency (657 ms), rendering protocol overhead negligible relative to cryptographic operation costs.
+The adaptive protocol integrates with MQTT publish operations through a wrapper function intercepting signature generation requests. Figure~\ref{fig:adaptive-flow} illustrates the integration architecture.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		box/.style={draw, rounded corners=2pt, minimum width=2.2cm, minimum height=0.8cm, font=\footnotesize, align=center},
+		decision/.style={draw, diamond, aspect=2.5, inner sep=1pt, font=\footnotesize},
+		arrow/.style={-{Stealth[length=2mm]}, semithick},
+		node distance=0.7cm,
+		]
+		% Flow nodes
+		\node[box] (app) {Application\\PUBLISH};
+		\node[box, below=of app] (classify) {Classify\\Message};
+		\node[box, below=of classify] (assess) {Assess\\Resources};
+		\node[box, below=of assess] (select) {Select\\Parameter};
+		\node[box, below=of select] (sign) {ML-DSA\\Sign};
+		\node[box, below=of sign] (send) {MQTT\\Transmit};
+
+		% Arrows
+		\draw[arrow] (app) -- (classify);
+		\draw[arrow] (classify) -- (assess);
+		\draw[arrow] (assess) -- (select);
+		\draw[arrow] (select) -- (sign);
+		\draw[arrow] (sign) -- (send);
+
+		% Side annotations
+		\node[right=0.8cm of classify, font=\tiny, align=left] {Topic $\rightarrow$ Criticality};
+		\node[right=0.8cm of assess, font=\tiny, align=left] {$E$, $M$, $T$ $\rightarrow$ $R$};
+		\node[right=0.8cm of select, font=\tiny, align=left] {Alg.~\ref{alg:adaptive-select}};
+		\node[right=0.8cm of sign, font=\tiny, align=left] {44/65/87};
+	\end{tikzpicture}
+	\caption{Adaptive protocol integration with MQTT publish workflow. Message classification and resource assessment precede parameter selection, with selected security level passed to ML-DSA signing operation.}
+	\label{fig:adaptive-flow}
+\end{figure}
+
+The protocol overhead comprises topic string parsing for criticality lookup (12--18 $\mu$s), resource state sampling from hardware registers (8--15 $\mu$s), and selection algorithm execution (3--5 $\mu$s), totaling 23--38 $\mu$s per message. This overhead represents less than 0.006\% of ML-DSA-44 signing latency (657 ms), rendering protocol overhead negligible relative to cryptographic operation costs.
 
 \subsection{Security Analysis}
 
@@ -474,7 +996,7 @@ The experimental platform employs ARM Cortex-M4 microcontrollers representative 
 
 The software environment employs ARM GCC toolchain version 10.3.1 with \texttt{-O3} aggressive optimization. Compiler optimization employed \texttt{-O3} configuration following comparative analysis: preliminary testing revealed \texttt{-O3} achieved 18-23\% performance improvement over \texttt{-O2} with 12-15\% code size increase. For resource-constrained deployments prioritizing memory conservation, \texttt{-Os} optimization reduced code size by 28\% relative to \texttt{-O3} but incurred 41-47\% execution time penalty. The \texttt{-O3} configuration establishes performance upper bounds; production deployments may employ \texttt{-O2} or \texttt{-Os} based on memory constraints. ML-DSA implementations employ the pqm4 reference library~\cite{pqm4-benchmarks} optimized for ARM Cortex-M4 processors, providing all three standardized parameter sets (ML-DSA-44, ML-DSA-65, ML-DSA-87) with verified NIST test vector compliance. For comparative baseline measurements, the micro-ecc library implementing ECDSA with NIST P-256 curves is employed, compiled with identical optimization settings.
 
-MQTT protocol integration utilizes the Eclipse Paho MQTT Embedded C client library configured for QoS 1 operation with 5-second keepalive intervals, communicating with a Mosquitto MQTT broker (version 2.0.15) deployed on dedicated server infrastructure. Network infrastructure employs IEEE 802.11n (2.4 GHz band) configured for 20 MHz channel bandwidth with DSSS modulation. Controlled testing environment maintains signal strength at -45 to -52 dBm with $<$0.1\% packet loss. Network latency baseline measurements (ICMP echo request) establish 2.8-4.2 ms round-trip times between publisher/subscriber devices and MQTT broker. To isolate cryptographic overhead from network variability, all end-to-end measurements were repeated until coefficient of variation fell below 5\%.
+MQTT protocol integration utilizes the Eclipse Paho MQTT Embedded C client library configured for QoS 1 operation with 5-second keepalive intervals, communicating with a Mosquitto MQTT broker (version 2.0.15) deployed on dedicated server infrastructure. Network infrastructure employs IEEE 802.11n (2.4 GHz band) configured for 20 MHz channel bandwidth with DSSS modulation. Controlled testing environment maintains signal strength at -45 to -52 dBm with <0.1\% packet loss. Network latency baseline measurements (ICMP echo request) establish 2.8-4.2 ms round-trip times between publisher/subscriber devices and MQTT broker. To isolate cryptographic overhead from network variability, all end-to-end measurements were repeated until coefficient of variation fell below 5\%.
 
 \subsection{Performance Measurement Framework}
 
@@ -486,7 +1008,7 @@ Energy consumption assessment employs INA219 current sensor modules measuring su
 
 \subsection{Benchmark Design}
 
-Benchmark methodology evaluates all ML-DSA cryptographic operations across standardized parameter sets. All measurements were conducted under temperature-controlled conditions (25$^\circ$C $\pm$2$^\circ$C) with device voltage stabilized at 3.3V $\pm$1\%. A 5-minute thermal stabilization period preceded each measurement batch. System clock configuration employed the internal high-speed oscillator (HSI) with phase-locked loop (PLL) multiplication to achieve 168 MHz, verified via MCO (Microcontroller Clock Output) monitoring. Key generation benchmarking measures public-private keypair generation encompassing random seed generation, matrix expansion, and polynomial sampling. Signature generation benchmarking quantifies signing latency for message hashing, rejection sampling iterations, and signature encoding, with statistical analysis accounting for variable iteration counts. Verification benchmarking measures signature validation computational cost including signature decoding, polynomial reconstruction, and validity checking.
+Benchmark methodology evaluates all ML-DSA cryptographic operations across standardized parameter sets. All measurements were conducted under temperature-controlled conditions (25°C $\pm$2°C) with device voltage stabilized at 3.3V $\pm$1\%. A 5-minute thermal stabilization period preceded each measurement batch. System clock configuration employed the internal high-speed oscillator (HSI) with phase-locked loop (PLL) multiplication to achieve 168 MHz, verified via MCO (Microcontroller Clock Output) monitoring. Key generation benchmarking measures public-private keypair generation encompassing random seed generation, matrix expansion, and polynomial sampling. Signature generation benchmarking quantifies signing latency for message hashing, rejection sampling iterations, and signature encoding, with statistical analysis accounting for variable iteration counts. Verification benchmarking measures signature validation computational cost including signature decoding, polynomial reconstruction, and validity checking.
 
 Each parameter set (ML-DSA-44, ML-DSA-65, ML-DSA-87) undergoes evaluation across representative IoT message payloads. Payload size selection derived from empirical analysis of production IoT deployments: 10-byte payloads represent 23\% of observed traffic (single-sensor readings), 50-byte payloads constitute 51\% (multi-parameter telemetry), and 100-byte payloads account for 18\% (diagnostic reports with metadata). This distribution covers 92\% of observed message traffic in surveyed deployments.
 
@@ -533,14 +1055,14 @@ Table~\ref{tab:keygen-performance} presents key generation performance across ML
 	\caption{Key Generation Performance on ARM Cortex-M4 (168 MHz)}
 	\label{tab:keygen-performance}
 	\begin{tabular}{lcccc}
-		\toprule
-		\textbf{Scheme} & \textbf{Cycles} & \textbf{Time} & \textbf{Ops/s} & \textbf{Overhead} \\
-		\midrule
-		ECDSA P-256     & 252,000         & 1.50\,ms      & 666.7          & 1.00$\times$      \\
-		ML-DSA-44       & 25,368,000      & 151\,ms       & 6.6            & 100.7$\times$     \\
-		ML-DSA-65       & 41,832,000      & 249\,ms       & 4.0            & 166.0$\times$     \\
-		ML-DSA-87       & 59,976,000      & 357\,ms       & 2.8            & 238.0$\times$     \\
-		\bottomrule
+		\hline
+		\textbf{Scheme} & \textbf{Cycles} & \textbf{Time (ms)} & \textbf{Ops/sec} & \textbf{Overhead} \\
+		\hline
+		ECDSA P-256     & 252,000         & 1.50               & 666.7            & 1.00×             \\
+		ML-DSA-44       & 25,368,000      & 151.0              & 6.6              & 100.7×            \\
+		ML-DSA-65       & 41,832,000      & 249.0              & 4.0              & 166.0×            \\
+		ML-DSA-87       & 59,976,000      & 357.0              & 2.8              & 238.0×            \\
+		\hline
 	\end{tabular}
 \end{table}
 
@@ -554,26 +1076,26 @@ Signature generation represents the primary performance bottleneck for publisher
 	\centering
 	\caption{Signature Generation Performance on ARM Cortex-M4 (168 MHz)}
 	\label{tab:sign-performance}
-	\begin{tabular}{lcccc}
-		\toprule
-		\textbf{Scheme} & \textbf{Payload} & \textbf{Time} & \textbf{Ops/s} & \textbf{Overhead} \\
-		\midrule
-		ECDSA P-256     & 10\,B            & 9.19\,ms      & 108.8          & 1.00$\times$      \\
-		ECDSA P-256     & 50\,B            & 9.39\,ms      & 106.5          & 1.00$\times$      \\
-		ECDSA P-256     & 100\,B           & 9.59\,ms      & 104.3          & 1.00$\times$      \\
-		\midrule
-		ML-DSA-44       & 10\,B            & 657\,ms       & 1.52           & 71.5$\times$      \\
-		ML-DSA-44       & 50\,B            & 663\,ms       & 1.51           & 70.6$\times$      \\
-		ML-DSA-44       & 100\,B           & 669\,ms       & 1.49           & 69.8$\times$      \\
-		\midrule
-		ML-DSA-65       & 10\,B            & 842\,ms       & 1.19           & 91.6$\times$      \\
-		ML-DSA-65       & 50\,B            & 853\,ms       & 1.17           & 90.8$\times$      \\
-		ML-DSA-65       & 100\,B           & 864\,ms       & 1.16           & 90.1$\times$      \\
-		\midrule
-		ML-DSA-87       & 10\,B            & 1,122\,ms     & 0.89           & 122.1$\times$     \\
-		ML-DSA-87       & 50\,B            & 1,136\,ms     & 0.88           & 121.0$\times$     \\
-		ML-DSA-87       & 100\,B           & 1,150\,ms     & 0.87           & 119.9$\times$     \\
-		\bottomrule
+	\begin{tabular}{lccccc}
+		\hline
+		\textbf{Scheme} & \textbf{Payload} & \textbf{Cycles} & \textbf{Time (ms)} & \textbf{Ops/sec} & \textbf{Overhead} \\
+		\hline
+		ECDSA P-256     & 10 bytes         & 1,544,400       & 9.19               & 108.8            & 1.00×             \\
+		ECDSA P-256     & 50 bytes         & 1,577,280       & 9.39               & 106.5            & 1.00×             \\
+		ECDSA P-256     & 100 bytes        & 1,610,160       & 9.59               & 104.3            & 1.00×             \\
+		\hline
+		ML-DSA-44       & 10 bytes         & 110,376,000     & 657.0              & 1.52             & 71.5×             \\
+		ML-DSA-44       & 50 bytes         & 111,384,000     & 663.0              & 1.51             & 70.6×             \\
+		ML-DSA-44       & 100 bytes        & 112,392,000     & 669.0              & 1.49             & 69.8×             \\
+		\hline
+		ML-DSA-65       & 10 bytes         & 141,456,000     & 842.0              & 1.19             & 91.6×             \\
+		ML-DSA-65       & 50 bytes         & 143,304,000     & 853.0              & 1.17             & 90.8×             \\
+		ML-DSA-65       & 100 bytes        & 145,152,000     & 864.0              & 1.16             & 90.1×             \\
+		\hline
+		ML-DSA-87       & 10 bytes         & 188,496,000     & 1,122.0            & 0.89             & 122.1×            \\
+		ML-DSA-87       & 50 bytes         & 190,848,000     & 1,136.0            & 0.88             & 121.0×            \\
+		ML-DSA-87       & 100 bytes        & 193,200,000     & 1,150.0            & 0.87             & 119.9×            \\
+		\hline
 	\end{tabular}
 \end{table}
 
@@ -587,30 +1109,32 @@ Verification performance impacts subscriber device responsiveness and sustainabl
 	\centering
 	\caption{Signature Verification Performance on ARM Cortex-M4 (168 MHz)}
 	\label{tab:verify-performance}
-	\begin{tabular}{lcccc}
-		\toprule
-		\textbf{Scheme} & \textbf{Payload} & \textbf{Time} & \textbf{Ops/s} & \textbf{Overhead} \\
-		\midrule
-		ECDSA P-256     & 10\,B            & 16.0\,ms      & 62.5           & 1.00$\times$      \\
-		ECDSA P-256     & 50\,B            & 16.2\,ms      & 61.7           & 1.00$\times$      \\
-		ECDSA P-256     & 100\,B           & 16.4\,ms      & 61.0           & 1.00$\times$      \\
-		\midrule
-		ML-DSA-44       & 10\,B            & 416\,ms       & 2.40           & 26.0$\times$      \\
-		ML-DSA-44       & 50\,B            & 420\,ms       & 2.38           & 25.9$\times$      \\
-		ML-DSA-44       & 100\,B           & 424\,ms       & 2.36           & 25.9$\times$      \\
-		\midrule
-		ML-DSA-65       & 10\,B            & 528\,ms       & 1.89           & 33.0$\times$      \\
-		ML-DSA-65       & 50\,B            & 533\,ms       & 1.88           & 32.9$\times$      \\
-		ML-DSA-65       & 100\,B           & 538\,ms       & 1.86           & 32.8$\times$      \\
-		\midrule
-		ML-DSA-87       & 10\,B            & 703\,ms       & 1.42           & 43.9$\times$      \\
-		ML-DSA-87       & 50\,B            & 710\,ms       & 1.41           & 43.8$\times$      \\
-		ML-DSA-87       & 100\,B           & 717\,ms       & 1.39           & 43.7$\times$      \\
-		\bottomrule
+	\begin{tabular}{lccccc}
+		\hline
+		\textbf{Scheme} & \textbf{Payload} & \textbf{Cycles} & \textbf{Time (ms)} & \textbf{Ops/sec} & \textbf{Overhead} \\
+		\hline
+		ECDSA P-256     & 10 bytes         & 2,688,000       & 16.00              & 62.5             & 1.00×             \\
+		ECDSA P-256     & 50 bytes         & 2,721,600       & 16.20              & 61.7             & 1.00×             \\
+		ECDSA P-256     & 100 bytes        & 2,755,200       & 16.40              & 61.0             & 1.00×             \\
+		\hline
+		ML-DSA-44       & 10 bytes         & 69,888,000      & 416.0              & 2.40             & 26.0×             \\
+		ML-DSA-44       & 50 bytes         & 70,560,000      & 420.0              & 2.38             & 25.9×             \\
+		ML-DSA-44       & 100 bytes        & 71,232,000      & 424.0              & 2.36             & 25.9×             \\
+		\hline
+		ML-DSA-65       & 10 bytes         & 88,704,000      & 528.0              & 1.89             & 33.0×             \\
+		ML-DSA-65       & 50 bytes         & 89,544,000      & 533.0              & 1.88             & 32.9×             \\
+		ML-DSA-65       & 100 bytes        & 90,384,000      & 538.0              & 1.86             & 32.8×             \\
+		\hline
+		ML-DSA-87       & 10 bytes         & 118,104,000     & 703.0              & 1.42             & 43.9×             \\
+		ML-DSA-87       & 50 bytes         & 119,280,000     & 710.0              & 1.41             & 43.8×             \\
+		ML-DSA-87       & 100 bytes        & 120,456,000     & 717.0              & 1.39             & 43.7×             \\
+		\hline
 	\end{tabular}
 \end{table}
 
 Unlike signature generation, verification executes deterministically without rejection sampling, yielding predictable latency characteristics for real-time constraint analysis. Verification operations benefit from precomputed twiddle factors and optimized NTT implementations, achieving 26--44$\times$ overhead relative to ECDSA compared to 71--122$\times$ overhead for signature generation. Absolute verification latencies of 416--717\,ms exceed sub-second bounds for interactive IoT applications across all parameter sets, necessitating architectural accommodations for post-quantum authenticated messaging in latency-sensitive deployments.
+
+\color{black}
 
 \subsection{Memory Utilization Analysis}
 
@@ -625,15 +1149,15 @@ Table~\ref{tab:static-memory} presents code size and initialized data requiremen
 	\caption{Static Memory Footprint (Flash Memory Requirements)}
 	\label{tab:static-memory}
 	\begin{tabular}{lccc}
-		\toprule
-		\textbf{Implementation} & \textbf{Code} & \textbf{Data} & \textbf{Total} \\
-		\midrule
-		ECDSA P-256             & 8.2\,KB       & 1.5\,KB       & 9.7\,KB        \\
-		ML-DSA-44 only          & 32.4\,KB      & 4.8\,KB       & 37.2\,KB       \\
-		ML-DSA-65 only          & 48.6\,KB      & 6.2\,KB       & 54.8\,KB       \\
-		ML-DSA-87 only          & 65.8\,KB      & 8.1\,KB       & 73.9\,KB       \\
-		ML-DSA All Sets         & 98.5\,KB      & 14.2\,KB      & 112.7\,KB      \\
-		\bottomrule
+		\hline
+		\textbf{Implementation} & \textbf{Code (KB)} & \textbf{Data (KB)} & \textbf{Total (KB)} \\
+		\hline
+		ECDSA P-256             & 8.2                & 1.5                & 9.7                 \\
+		ML-DSA-44 only          & 32.4               & 4.8                & 37.2                \\
+		ML-DSA-65 only          & 48.6               & 6.2                & 54.8                \\
+		ML-DSA-87 only          & 65.8               & 8.1                & 73.9                \\
+		ML-DSA All Sets         & 98.5               & 14.2               & 112.7               \\
+		\hline
 	\end{tabular}
 \end{table}
 
@@ -648,14 +1172,14 @@ Table~\ref{tab:dynamic-memory} quantifies runtime memory consumption including s
 	\caption{Dynamic Memory Requirements (SRAM Utilization)}
 	\label{tab:dynamic-memory}
 	\begin{tabular}{lcccc}
-		\toprule
-		\textbf{Scheme} & \textbf{Stack} & \textbf{Keys} & \textbf{Buffers} & \textbf{Total} \\
-		\midrule
-		ECDSA P-256     & 0.8\,KB        & 0.1\,KB       & 1.2\,KB          & 2.1\,KB        \\
-		ML-DSA-44       & 6.4\,KB        & 3.8\,KB       & 12.5\,KB         & 22.7\,KB       \\
-		ML-DSA-65       & 8.7\,KB        & 5.8\,KB       & 18.3\,KB         & 32.8\,KB       \\
-		ML-DSA-87       & 11.2\,KB       & 7.3\,KB       & 24.6\,KB         & 43.1\,KB       \\
-		\bottomrule
+		\hline
+		\textbf{Scheme} & \textbf{Stack Peak (KB)} & \textbf{Keys (KB)} & \textbf{Buffers (KB)} & \textbf{Total (KB)} \\
+		\hline
+		ECDSA P-256     & 0.8                      & 0.1                & 1.2                   & 2.1                 \\
+		ML-DSA-44       & 6.4                      & 3.8                & 12.5                  & 22.7                \\
+		ML-DSA-65       & 8.7                      & 5.8                & 18.3                  & 32.8                \\
+		ML-DSA-87       & 11.2                     & 7.3                & 24.6                  & 43.1                \\
+		\hline
 	\end{tabular}
 \end{table}
 
@@ -674,25 +1198,25 @@ Table~\ref{tab:message-overhead} quantifies total message sizes for signed MQTT 
 	\caption{MQTT Message Size Overhead (Signed vs Unsigned)}
 	\label{tab:message-overhead}
 	\begin{tabular}{lcccc}
-		\toprule
-		\textbf{Scheme} & \textbf{Payload} & \textbf{Signed} & \textbf{Unsigned} & \textbf{Ratio} \\
-		\midrule
-		ECDSA P-256     & 10\,B            & 82\,B           & 18\,B             & 4.6$\times$    \\
-		ECDSA P-256     & 50\,B            & 122\,B          & 58\,B             & 2.1$\times$    \\
-		ECDSA P-256     & 100\,B           & 172\,B          & 108\,B            & 1.6$\times$    \\
-		\midrule
-		ML-DSA-44       & 10\,B            & 2,438\,B        & 18\,B             & 135.4$\times$  \\
-		ML-DSA-44       & 50\,B            & 2,478\,B        & 58\,B             & 42.7$\times$   \\
-		ML-DSA-44       & 100\,B           & 2,528\,B        & 108\,B            & 23.4$\times$   \\
-		\midrule
-		ML-DSA-65       & 10\,B            & 3,327\,B        & 18\,B             & 184.8$\times$  \\
-		ML-DSA-65       & 50\,B            & 3,367\,B        & 58\,B             & 58.1$\times$   \\
-		ML-DSA-65       & 100\,B           & 3,417\,B        & 108\,B            & 31.6$\times$   \\
-		\midrule
-		ML-DSA-87       & 10\,B            & 4,645\,B        & 18\,B             & 258.1$\times$  \\
-		ML-DSA-87       & 50\,B            & 4,685\,B        & 58\,B             & 80.8$\times$   \\
-		ML-DSA-87       & 100\,B           & 4,735\,B        & 108\,B            & 43.8$\times$   \\
-		\bottomrule
+		\hline
+		\textbf{Scheme} & \textbf{Payload} & \textbf{Signed Size} & \textbf{Unsigned Size} & \textbf{Overhead Ratio} \\
+		\hline
+		ECDSA P-256     & 10 bytes         & 82 bytes             & 18 bytes               & 4.6×                    \\
+		ECDSA P-256     & 50 bytes         & 122 bytes            & 58 bytes               & 2.1×                    \\
+		ECDSA P-256     & 100 bytes        & 172 bytes            & 108 bytes              & 1.6×                    \\
+		\hline
+		ML-DSA-44       & 10 bytes         & 2,438 bytes          & 18 bytes               & 135.4×                  \\
+		ML-DSA-44       & 50 bytes         & 2,478 bytes          & 58 bytes               & 42.7×                   \\
+		ML-DSA-44       & 100 bytes        & 2,528 bytes          & 108 bytes              & 23.4×                   \\
+		\hline
+		ML-DSA-65       & 10 bytes         & 3,327 bytes          & 18 bytes               & 184.8×                  \\
+		ML-DSA-65       & 50 bytes         & 3,367 bytes          & 58 bytes               & 58.1×                   \\
+		ML-DSA-65       & 100 bytes        & 3,417 bytes          & 108 bytes              & 31.6×                   \\
+		\hline
+		ML-DSA-87       & 10 bytes         & 4,645 bytes          & 18 bytes               & 258.1×                  \\
+		ML-DSA-87       & 50 bytes         & 4,685 bytes          & 58 bytes               & 80.8×                   \\
+		ML-DSA-87       & 100 bytes        & 4,735 bytes          & 108 bytes              & 43.8×                   \\
+		\hline
 	\end{tabular}
 \end{table}
 
@@ -704,17 +1228,19 @@ Table~\ref{tab:e2e-latency} presents complete publish-subscribe workflow latency
 
 \begin{table}[h]
 	\centering
-	\caption{End-to-End MQTT Latency (Publisher to Verified Delivery)}
+	\caption{End-to-End MQTT Latency (Publisher to Verified Payload Delivery)}
 	\label{tab:e2e-latency}
+	\small
 	\begin{tabular}{lccccc}
-		\toprule
-		\textbf{Scheme} & \textbf{Sign} & \textbf{Net.} & \textbf{Verify} & \textbf{Total} & \textbf{Overhead} \\
-		\midrule
-		ECDSA P-256     & 9.4\,ms       & 28.5\,ms      & 16.2\,ms        & 54.1\,ms       & 1.00$\times$      \\
-		ML-DSA-44       & 663\,ms       & 31.2\,ms      & 420\,ms         & 1,114\,ms      & 20.6$\times$      \\
-		ML-DSA-65       & 853\,ms       & 33.8\,ms      & 533\,ms         & 1,420\,ms      & 26.2$\times$      \\
-		ML-DSA-87       & 1,136\,ms     & 37.4\,ms      & 710\,ms         & 1,883\,ms      & 34.8$\times$      \\
-		\bottomrule
+		\hline
+		\textbf{Scheme} & \textbf{Sign} & \textbf{Network} & \textbf{Verify} & \textbf{Total} & \textbf{Overhead} \\
+		                & \textbf{(ms)} & \textbf{(ms)}    & \textbf{(ms)}   & \textbf{(ms)}  &                   \\
+		\hline
+		ECDSA P-256     & 9.4           & 28.5             & 16.2            & 54.1           & 1.00$\times$      \\
+		ML-DSA-44       & 663           & 31.2             & 420             & 1,114          & 20.6$\times$      \\
+		ML-DSA-65       & 853           & 33.8             & 533             & 1,420          & 26.2$\times$      \\
+		ML-DSA-87       & 1,136         & 37.4             & 710             & 1,883          & 34.8$\times$      \\
+		\hline
 	\end{tabular}
 \end{table}
 
@@ -726,28 +1252,28 @@ Throughput measurements quantify sustainable message publication rates under con
 
 \begin{table}[h]
 	\centering
-	\caption{Sustainable MQTT Message Throughput}
+	\caption{Sustainable MQTT Message Throughput (Messages per Second)}
 	\label{tab:throughput}
-	\begin{tabular}{lcccc}
-		\toprule
-		\textbf{Scheme} & \textbf{Payload} & \textbf{Msgs/s} & \textbf{Bottleneck} & \textbf{Overhead} \\
-		\midrule
-		ECDSA P-256     & 10\,B            & 108.7           & Sign gen.           & 1.00$\times$      \\
-		ECDSA P-256     & 50\,B            & 106.4           & Sign gen.           & 1.00$\times$      \\
-		ECDSA P-256     & 100\,B           & 104.2           & Sign gen.           & 1.00$\times$      \\
-		\midrule
-		ML-DSA-44       & 10\,B            & 1.52            & Sign gen.           & 71.5$\times$      \\
-		ML-DSA-44       & 50\,B            & 1.51            & Sign gen.           & 70.5$\times$      \\
-		ML-DSA-44       & 100\,B           & 1.49            & Sign gen.           & 69.9$\times$      \\
-		\midrule
-		ML-DSA-65       & 10\,B            & 1.18            & Sign gen.           & 92.1$\times$      \\
-		ML-DSA-65       & 50\,B            & 1.17            & Sign gen.           & 90.9$\times$      \\
-		ML-DSA-65       & 100\,B           & 1.16            & Sign gen.           & 89.8$\times$      \\
-		\midrule
-		ML-DSA-87       & 10\,B            & 0.89            & Sign gen.           & 122.1$\times$     \\
-		ML-DSA-87       & 50\,B            & 0.88            & Sign gen.           & 120.9$\times$     \\
-		ML-DSA-87       & 100\,B           & 0.87            & Sign gen.           & 119.8$\times$     \\
-		\bottomrule
+	\begin{tabular}{lccccc}
+		\hline
+		\textbf{Scheme} & \textbf{Payload} & \textbf{Msgs/sec} & \textbf{Bottleneck} & \textbf{Overhead} \\
+		\hline
+		ECDSA P-256     & 10 bytes         & 108.7             & Signature gen.      & 1.00×             \\
+		ECDSA P-256     & 50 bytes         & 106.4             & Signature gen.      & 1.00×             \\
+		ECDSA P-256     & 100 bytes        & 104.2             & Signature gen.      & 1.00×             \\
+		\hline
+		ML-DSA-44       & 10 bytes         & 1.52              & Signature gen.      & 71.5×             \\
+		ML-DSA-44       & 50 bytes         & 1.51              & Signature gen.      & 70.5×             \\
+		ML-DSA-44       & 100 bytes        & 1.49              & Signature gen.      & 69.9×             \\
+		\hline
+		ML-DSA-65       & 10 bytes         & 1.18              & Signature gen.      & 92.1×             \\
+		ML-DSA-65       & 50 bytes         & 1.17              & Signature gen.      & 90.9×             \\
+		ML-DSA-65       & 100 bytes        & 1.16              & Signature gen.      & 89.8×             \\
+		\hline
+		ML-DSA-87       & 10 bytes         & 0.89              & Signature gen.      & 122.1×            \\
+		ML-DSA-87       & 50 bytes         & 0.88              & Signature gen.      & 120.9×            \\
+		ML-DSA-87       & 100 bytes        & 0.87              & Signature gen.      & 119.8×            \\
+		\hline
 	\end{tabular}
 \end{table}
 
@@ -775,22 +1301,23 @@ Table~\ref{tab:adaptive-overhead} presents average signing latency under adaptiv
 	\centering
 	\caption{Adaptive Protocol Computational Overhead Reduction}
 	\label{tab:adaptive-overhead}
-	\begin{tabular}{llccc}
-		\toprule
-		\textbf{Workload} & \textbf{Resource} & \textbf{Fixed} & \textbf{Adaptive} & \textbf{Reduct.} \\
-		\midrule
-		Environmental     & High ($R\geq0.7$) & 1,136\,ms      & 732\,ms           & 35.6\%           \\
-		Environmental     & Med. ($R\approx0.5$) & 1,136\,ms   & 668\,ms           & 41.2\%           \\
-		Environmental     & Low ($R<0.4$)     & 1,136\,ms      & 678\,ms           & 40.3\%           \\
-		\midrule
-		Industrial        & High              & 1,136\,ms      & 849\,ms           & 25.3\%           \\
-		Industrial        & Medium            & 1,136\,ms      & 781\,ms           & 31.2\%           \\
-		Industrial        & Low               & 1,136\,ms      & 743\,ms           & 34.6\%           \\
-		\midrule
-		Security          & High              & 1,136\,ms      & 956\,ms           & 15.8\%           \\
-		Security          & Medium            & 1,136\,ms      & 891\,ms           & 21.6\%           \\
-		Security          & Low               & 1,136\,ms      & 847\,ms           & 25.4\%           \\
-		\bottomrule
+	\begin{tabular}{lccccc}
+		\hline
+		\textbf{Workload} & \textbf{Resource}        & \textbf{Fixed-87} & \textbf{Adaptive} & \textbf{Reduction} \\
+		                  & \textbf{State}           & \textbf{(ms)}     & \textbf{(ms)}     &                    \\
+		\hline
+		Environmental     & High ($R \geq 0.7$)      & 1,136             & 732               & 35.6\%             \\
+		Environmental     & Medium ($R \approx 0.5$) & 1,136             & 668               & 41.2\%             \\
+		Environmental     & Low ($R < 0.4$)          & 1,136             & 678               & 40.3\%             \\
+		\hline
+		Industrial        & High                     & 1,136             & 849               & 25.3\%             \\
+		Industrial        & Medium                   & 1,136             & 781               & 31.2\%             \\
+		Industrial        & Low                      & 1,136             & 743               & 34.6\%             \\
+		\hline
+		Security          & High                     & 1,136             & 956               & 15.8\%             \\
+		Security          & Medium                   & 1,136             & 891               & 21.6\%             \\
+		Security          & Low                      & 1,136             & 847               & 25.4\%             \\
+		\hline
 	\end{tabular}
 \end{table}
 
@@ -805,13 +1332,13 @@ Table~\ref{tab:adaptive-distribution} presents the distribution of selected secu
 	\caption{Adaptive Protocol Security Level Distribution ($R \approx 0.5$)}
 	\label{tab:adaptive-distribution}
 	\begin{tabular}{lcccc}
-		\toprule
-		\textbf{Workload} & \textbf{DSA-44} & \textbf{DSA-65} & \textbf{DSA-87} & \textbf{Avg.} \\
-		\midrule
-		Environmental     & 80.0\%          & 15.0\%          & 5.0\%           & 2.25          \\
-		Industrial        & 60.0\%          & 20.0\%          & 20.0\%          & 2.60          \\
-		Security          & 40.0\%          & 30.0\%          & 30.0\%          & 2.90          \\
-		\bottomrule
+		\hline
+		\textbf{Workload} & \textbf{ML-DSA-44} & \textbf{ML-DSA-65} & \textbf{ML-DSA-87} & \textbf{Avg. Level} \\
+		\hline
+		Environmental     & 80.0\%             & 15.0\%             & 5.0\%              & 2.25                \\
+		Industrial        & 60.0\%             & 20.0\%             & 20.0\%             & 2.60                \\
+		Security          & 40.0\%             & 30.0\%             & 30.0\%             & 2.90                \\
+		\hline
 	\end{tabular}
 \end{table}
 
@@ -826,13 +1353,14 @@ For battery-powered deployments, adaptive protocol energy savings directly exten
 	\caption{Adaptive Protocol Energy Consumption (100 Messages/Day)}
 	\label{tab:adaptive-energy}
 	\begin{tabular}{lcccc}
-		\toprule
-		\textbf{Workload} & \textbf{Fixed} & \textbf{Adaptive} & \textbf{Savings} & \textbf{Lifetime} \\
-		\midrule
-		Environmental     & 5.68\,J/day    & 3.66\,J/day       & 2.02\,J/day      & +55.2\%           \\
-		Industrial        & 5.68\,J/day    & 4.25\,J/day       & 1.43\,J/day      & +33.6\%           \\
-		Security          & 5.68\,J/day    & 4.78\,J/day       & 0.90\,J/day      & +18.8\%           \\
-		\bottomrule
+		\hline
+		\textbf{Workload} & \textbf{Fixed-87} & \textbf{Adaptive} & \textbf{Savings} & \textbf{Lifetime}  \\
+		                  & \textbf{(J/day)}  & \textbf{(J/day)}  & \textbf{(J/day)} & \textbf{Extension} \\
+		\hline
+		Environmental     & 5.68              & 3.66              & 2.02             & +55.2\%            \\
+		Industrial        & 5.68              & 4.25              & 1.43             & +33.6\%            \\
+		Security          & 5.68              & 4.78              & 0.90             & +18.8\%            \\
+		\hline
 	\end{tabular}
 \end{table}
 
@@ -863,19 +1391,19 @@ Table~\ref{tab:parameter-tradeoffs} quantifies incremental security-performance 
 
 \begin{table}[h]
 	\centering
-	\caption{ML-DSA Parameter Set Trade-off (Normalized to ML-DSA-44)}
+	\caption{ML-DSA Parameter Set Trade-off Quantification (Normalized to ML-DSA-44)}
 	\label{tab:parameter-tradeoffs}
-	\begin{tabular}{lccc}
-		\toprule
-		\textbf{Metric}   & \textbf{DSA-44}  & \textbf{DSA-65}  & \textbf{DSA-87}  \\
-		\midrule
-		Security Level    & 2 (AES-128)      & 3 (AES-192)      & 5 (AES-256)      \\
-		Signing Time      & 1.00$\times$     & 1.30$\times$     & 1.75$\times$     \\
-		Verification Time & 1.00$\times$     & 1.27$\times$     & 1.72$\times$     \\
-		Signature Size    & 1.00$\times$     & 1.37$\times$     & 1.91$\times$     \\
-		Total SRAM        & 1.00$\times$     & 1.45$\times$     & 1.90$\times$     \\
-		Code Size         & 1.00$\times$     & 1.47$\times$     & 1.99$\times$     \\
-		\bottomrule
+	\begin{tabular}{lcccc}
+		\hline
+		\textbf{Metric}   & \textbf{ML-DSA-44} & \textbf{ML-DSA-65} & \textbf{ML-DSA-87} \\
+		\hline
+		Security Level    & 2 (AES-128)        & 3 (AES-192)        & 5 (AES-256)        \\
+		Signing Time      & 1.00×              & 1.30×              & 1.75×              \\
+		Verification Time & 1.00×              & 1.27×              & 1.72×              \\
+		Signature Size    & 1.00×              & 1.37×              & 1.91×              \\
+		Total SRAM        & 1.00×              & 1.45×              & 1.90×              \\
+		Code Size         & 1.00×              & 1.47×              & 1.99×              \\
+		\hline
 	\end{tabular}
 \end{table}
 
@@ -885,7 +1413,7 @@ For IoT deployments with 5--10 year operational lifetimes under current quantum 
 
 Deployment feasibility analysis evaluates ML-DSA applicability across representative IoT application categories based on measured performance characteristics.
 
-\textbf{High-throughput sensor networks} requiring frequent authenticated message publication encounter computational bottlenecks limiting sustainable publication rates to 0.87-1.52 messages per second across ML-DSA parameter sets, compared to 104-109 messages per second for ECDSA. Deployments requiring publication frequencies exceeding 1 message per second necessitate architectural mitigation strategies: message aggregation combining multiple sensor readings into single signed payloads (amortizing signature overhead across N measurements at cost of N$\times$sampling-interval latency increase), publisher-side caching reducing redundant signing of identical state values, or hybrid authentication employing ML-DSA signatures for security-critical messages (alerts, configuration changes) with MAC-based authentication for routine telemetry. For networks with 100 sensor nodes each publishing at 0.01 Hz, aggregate network throughput of 1 message/second remains within ML-DSA-44 computational capacity, establishing feasibility for moderate-scale deployments with low per-device publication frequencies.
+\textbf{High-throughput sensor networks} requiring frequent authenticated message publication encounter computational bottlenecks limiting sustainable publication rates to 0.87-1.52 messages per second across ML-DSA parameter sets, compared to 104-109 messages per second for ECDSA. Deployments requiring publication frequencies exceeding 1 message per second necessitate architectural mitigation strategies: message aggregation combining multiple sensor readings into single signed payloads (amortizing signature overhead across N measurements at cost of N×sampling-interval latency increase), publisher-side caching reducing redundant signing of identical state values, or hybrid authentication employing ML-DSA signatures for security-critical messages (alerts, configuration changes) with MAC-based authentication for routine telemetry. For networks with 100 sensor nodes each publishing at 0.01 Hz, aggregate network throughput of 1 message/second remains within ML-DSA-44 computational capacity, establishing feasibility for moderate-scale deployments with low per-device publication frequencies.
 
 \textbf{Battery-powered devices} operating under energy constraints require power consumption analysis of cryptographic operations impacting operational lifetime. Signature generation computational cost of 110.4 million cycles at 168 MHz consuming 657 milliseconds implies power draw of approximately 50 mW (assuming 3.3V supply at 15 mA typical active current for STM32F407VG). Energy per signature operation totals 32.9 mJ for ML-DSA-44. For devices transmitting 100 authenticated messages daily from 2,000 mAh batteries (3.3V nominal voltage, 23.8 kJ total energy), ML-DSA signature generation consumes 3.29 J daily (13.8\% of total energy budget), rising to 115 J annually (4.7\% of battery capacity assuming 50 mAh/year self-discharge). This analysis excludes network transmission energy (dominated by RF power amplifier rather than cryptographic computation) and verification overhead at subscriber devices. ML-DSA remains viable for battery-powered publishers with daily-scale message frequencies; higher publication rates require energy harvesting or mains power.
 
@@ -918,24 +1446,14 @@ These findings establish deployment feasibility boundaries for post-quantum auth
 
 Future research directions include hardware acceleration evaluation on emerging ARM Cortex-M processors with cryptographic extensions, batch signature verification schemes for gateway devices processing multiple authenticated streams, and formal security analysis of adaptive parameter selection under adversarial resource manipulation. As post-quantum cryptographic standards mature and hardware support expands, the adaptive protocol and performance characterization presented in this work will inform practical migration strategies for resource-constrained IoT systems transitioning to quantum-resistant authentication.
 
-\bibliographystyle{IEEEtran_doi}
-\bibliography{ biblio.bib }
+\newpage
 
-%\vspace{-1.2cm}
-\begin{IEEEbiographynophoto}{Jiahao Xiang}
-	is pursuing a Master's degree in Electronic Information at Hengyang Normal University, China. His research focuses on cryptographic engineering and efficient implementations of block ciphers on resource-constrained devices. Publications include works on lightweight cryptography optimization and contributions to open-source cryptographic projects.
-\end{IEEEbiographynophoto}
-
-\vskip -2\baselineskip plus -1fil
-
-\begin{IEEEbiographynophoto}{Lang Li}
-	received his Ph.D. and Master's degrees in computer science from Hunan University, Changsha, China, in 2010 and 2006, respectively, and earned his B.S. degree in circuits and systems from Hunan Normal University in 1996. Since 2011, he has been working as a professor in the College of Computer Science and Technology at the Hengyang Normal University, Hengyang, China. He has research interests in embedded system and information security.
-\end{IEEEbiographynophoto}
-
-\vskip -2\baselineskip plus -1fil
-
-\begin{IEEEbiographynophoto} {Jingya Feng}
-	received the M.S. degree from Hunan Normal University, Changsha, China, in 2021, and the Ph.D. degree from Guilin University of Electronic Science and Technology, Guilin, China, in 2025. She Joined the School of Computer Science and Technology, Hengyang Normal University in July 2025. Her main research interests include cryptology, with particular focus on the design and optimized implementation of symmetric encryption schemes.
-\end{IEEEbiographynophoto}
+%%%% 8. BIBLIOGRAPHY %%%%
+\bibliographystyle{alpha}
+\bibliography{abbrev3,biblio}
+%%%% NOTES
+% - Download abbrev3.bib and crypto.bib from https://cryptobib.di.ens.fr/
+% - Use biblio.bib for additional references not in the cryptobib database.
+%   If possible, take them from DBLP.
 
 \end{document}
