@@ -1,4 +1,14 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "mcp": {}
+  "mcp": {
+    "all-in-mcp": {
+      "type": "local",
+      "command": ["pipx", "run", "all-in-mcp"],
+      "enabled": true,
+      "environment": {
+        "APAPER": "true",
+        "GITHUB_REPO_MCP": "true"
+      }
+    }
+  }
 }
