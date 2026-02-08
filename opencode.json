@@ -3,11 +3,16 @@
   "mcp": {
     "all-in-mcp": {
       "type": "local",
-      "command": ["pipx", "run", "all-in-mcp"],
+      "command": [
+        "pipx",
+        "run",
+        "all-in-mcp==0.4.5"
+      ],
       "enabled": true,
       "environment": {
         "APAPER": "true",
-        "GITHUB_REPO_MCP": "true"
+        "GITHUB_REPO_MCP": "true",
+        "QWEN_SEARCH": "false"
       }
     }
   }
